@@ -596,7 +596,9 @@ function t(){ return T[lang]||T.et; }
 // ── Lang & Gender ──────────────────────────────────────────────────────────────
 function getLangFromPath() {
   const m = window.location.pathname.match(/\/(en|ru|fi)(\/|$)/);
-  return m ? m[1] : 'et';
+  if (m) return m[1];
+  if (window.location.hostname.endsWith('.fi')) return 'fi';
+  return 'et';
 }
 function setLang(l, pushState){
   lang = l;

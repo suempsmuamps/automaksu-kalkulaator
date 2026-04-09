@@ -22,9 +22,10 @@ Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>"
   git push alkoholi $(git subtree split --prefix=alkoholikalkulaator):main --force
 }
 
-# Deploy alkoholi to Cloudflare Pages
+# Deploy alkoholi to Cloudflare Pages (both .ee and .fi)
 export CLOUDFLARE_API_TOKEN=$(cat ~/.cloudflare-token)
 npx wrangler pages deploy alkoholikalkulaator --project-name=alkoholikalkulaator --branch=main --commit-dirty=true
+npx wrangler pages deploy alkoholikalkulaator --project-name=alkoholi-laskuri --branch=main --commit-dirty=true
 
 echo ""
 echo "✓ All live!"
