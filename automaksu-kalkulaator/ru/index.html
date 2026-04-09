@@ -134,7 +134,7 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
 /* ── Section cards ── */
 .section-card{background:var(--card);border:var(--card-border);border-radius:var(--radius);padding:20px;margin-bottom:24px}
 .section-full{background-color:var(--card);border:none;border-radius:0;width:100vw;margin-left:calc(-50vw + 50%);padding:40px calc(50vw - 50% + 16px);margin-bottom:24px;position:relative;overflow:hidden}
-.section-full::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:40px 40px;-webkit-mask-image:radial-gradient(ellipse at 50% 50%,#000 20%,transparent 70%);mask-image:radial-gradient(ellipse at 50% 50%,#000 20%,transparent 70%);pointer-events:none}
+.section-full::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:40px 40px;-webkit-mask-image:linear-gradient(to left,#000 0%,transparent 60%);mask-image:linear-gradient(to left,#000 0%,transparent 60%);pointer-events:none}
 .section-full>.section-title,.section-full>.how-steps,.section-full>.sources-list{max-width:968px;margin-left:auto;margin-right:auto;position:relative}
 :root[data-theme="light"] .section-full::before{background-image:linear-gradient(rgba(0,0,0,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.035) 1px,transparent 1px)}
 @media(prefers-color-scheme:light){:root:not([data-theme="dark"]) .section-full::before{background-image:linear-gradient(rgba(0,0,0,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.035) 1px,transparent 1px)}}
