@@ -109,17 +109,38 @@
     .mini-btn.active { background: var(--tint); color: #fff; }
     .mini-btn:active { opacity: .75; }
 
-    /* ── Grouped list ── */
-    .group { background: var(--card); border-radius: var(--r-card); overflow: hidden; }
-    .grow {
-      display: flex; align-items: center; min-height: 46px;
-      padding: 0 16px; gap: 10px; position: relative;
+    /* ── Form card ── */
+    .form-card {
+      background: var(--card); border-radius: var(--r-card); padding: 20px;
+      margin-bottom: 10px; display: flex; flex-direction: column; gap: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,.06);
     }
-    .grow + .grow::before {
-      content: ''; position: absolute; top: 0; left: 16px; right: 0;
-      height: .5px; background: var(--sep);
+    .form-sep { height: .5px; background: var(--sep); margin: 0 -4px; }
+
+    /* ── Grow (column: label above input) ── */
+    .grow { display: flex; flex-direction: column; gap: 7px; }
+    .grow > label {
+      font-size: .93rem; color: var(--label2); font-weight: 500;
+      display: flex; align-items: center; gap: 7px;
     }
-    .grow > label { font-size: .93rem; color: var(--label); flex-shrink: 0; display: flex; align-items: center; gap: 7px; }
+
+    /* ── Input wrap ── */
+    .input-wrap {
+      display: flex; align-items: center; background: var(--bg);
+      border-radius: 10px; overflow: hidden;
+    }
+    .input-wrap input[type="number"] {
+      flex: 1; border: none; background: none; padding: 10px 12px;
+      font-size: 1rem; font-family: var(--font); color: var(--label);
+      outline: none; -moz-appearance: textfield;
+    }
+    .input-wrap input::-webkit-inner-spin-button,
+    .input-wrap input::-webkit-outer-spin-button { -webkit-appearance: none; }
+    .input-wrap input::placeholder { color: var(--label3); }
+    .input-wrap input:disabled { opacity: .35; }
+    .input-wrap .unit { padding: 10px 12px 10px 0; font-size: .85rem; color: var(--label3); flex-shrink: 0; }
+
+    /* ── Req dot ── */
     .req-dot {
       width: 16px; height: 16px; border-radius: 50%; flex-shrink: 0;
       background: var(--label3); transition: background .2s;
@@ -128,23 +149,6 @@
     }
     .req-dot::after { content: '✓'; }
     .req-dot.ok { background: #34c759; color: #fff; }
-    .grow > input[type="number"] {
-      flex: 1; text-align: right; border: none; background: transparent;
-      font-family: var(--font); font-size: .93rem; color: var(--label);
-      outline: none; padding: 13px 0; -moz-appearance: textfield;
-    }
-    .grow > input::-webkit-inner-spin-button,
-    .grow > input::-webkit-outer-spin-button { -webkit-appearance: none; }
-    .grow > input::placeholder { color: var(--label3); }
-    .grow > input:disabled { opacity: .35; }
-    .grow select {
-      flex: 1; text-align: right; text-align-last: right; border: none;
-      background: transparent; font-family: var(--font); font-size: .93rem;
-      color: var(--label); outline: none; -webkit-appearance: none;
-      appearance: none; cursor: pointer; padding: 13px 0;
-    }
-    html.dark .grow select option { background: #1c1c1e; color: #fff; }
-    .grow .unit { font-size: .88rem; color: var(--label2); flex-shrink: 0; }
 
     /* ── Section footer ── */
     .sfooter { font-size: .74rem; color: var(--label2); padding: 6px 4px 0; line-height: 1.5; }
@@ -536,21 +540,23 @@
     </div>
   </header>
 
-  <!-- ══ APPLE FORM ══ -->
+  <!-- ══ FORM CARD ══ -->
+  <div class="form-card">
 
-  <!-- Fuel type -->
-  <div class="slabel" id="fuelLabel">Kütuse tüüp</div>
-  <div class="fuel-pills" id="fuelSeg">
-    <button class="fuel-btn active" data-fuel="ice"  id="fuelIce"  onclick="setFuel(this)">Bensiin / Diisel</button>
-    <button class="fuel-btn"        data-fuel="mhev" id="fuelMhev" onclick="setFuel(this)">Hübriid</button>
-    <button class="fuel-btn"        data-fuel="phev" id="fuelPhev" onclick="setFuel(this)">PHEV</button>
-    <button class="fuel-btn"        data-fuel="ev"   id="fuelEv"   onclick="setFuel(this)">⚡ Elekter</button>
-  </div>
+    <!-- Fuel type -->
+    <div class="grow">
+      <label id="fuelLabel">Kütuse tüüp</label>
+      <div class="fuel-pills" id="fuelSeg">
+        <button class="fuel-btn active" data-fuel="ice"  id="fuelIce"  onclick="setFuel(this)">Bensiin / Diisel</button>
+        <button class="fuel-btn"        data-fuel="mhev" id="fuelMhev" onclick="setFuel(this)">Hübriid</button>
+        <button class="fuel-btn"        data-fuel="phev" id="fuelPhev" onclick="setFuel(this)">PHEV</button>
+        <button class="fuel-btn"        data-fuel="ev"   id="fuelEv"   onclick="setFuel(this)">⚡ Elekter</button>
+      </div>
+    </div>
 
-  <!-- Emissions group -->
-  <div class="slabel mt20" id="emissionsLabel">Heitkogus</div>
-  <div class="group" id="emissionsGroup">
+    <div class="form-sep" id="emissionsLabel"></div>
 
+    <!-- Emissions -->
     <div class="grow" id="modeRow">
       <label id="sourceLabel">Andmete allikas</label>
       <div class="mini-seg" id="modeSeg">
@@ -560,38 +566,45 @@
     </div>
 
     <div class="grow" id="co2Row">
-      <label for="iCO2" id="co2Label">CO₂ heitkogus<span class="req-dot" id="dotCO2"></span></label>
-      <input type="number" id="iCO2" min="0" max="600" placeholder="130" oninput="calc()">
-      <span class="unit">g/km</span>
+      <label for="iCO2" id="co2Label">CO₂ heitkogus <span class="req-dot" id="dotCO2"></span></label>
+      <div class="input-wrap">
+        <input type="number" id="iCO2" min="0" max="600" placeholder="130" oninput="calc()">
+        <span class="unit">g/km</span>
+      </div>
     </div>
 
     <div class="grow" id="displRow" style="display:none">
-      <label for="iDispl" id="displLabel">Mootori töömaht<span class="req-dot" id="dotEng"></span></label>
-      <input type="number" id="iDispl" min="0" max="10000" placeholder="1598" oninput="calc()">
-      <span class="unit">cm³</span>
+      <label for="iDispl" id="displLabel">Mootori töömaht <span class="req-dot" id="dotEng"></span></label>
+      <div class="input-wrap">
+        <input type="number" id="iDispl" min="0" max="10000" placeholder="1598" oninput="calc()">
+        <span class="unit">cm³</span>
+      </div>
     </div>
 
     <div class="grow" id="powerRow" style="display:none">
-      <label for="iPower" id="powerLabel">Võimsus<span class="req-dot" id="dotPow"></span></label>
-      <input type="number" id="iPower" min="0" max="1500" placeholder="110" oninput="calc()">
-      <span class="unit">kW</span>
+      <label for="iPower" id="powerLabel">Võimsus <span class="req-dot" id="dotPow"></span></label>
+      <div class="input-wrap">
+        <input type="number" id="iPower" min="0" max="1500" placeholder="110" oninput="calc()">
+        <span class="unit">kW</span>
+      </div>
     </div>
 
-  </div>
+    <div class="form-sep" id="vehicleLabel"></div>
 
-  <!-- Vehicle data group -->
-  <div class="slabel mt20" id="vehicleLabel">Sõiduki andmed</div>
-  <div class="group">
-
+    <!-- Vehicle data -->
     <div class="grow">
-      <label for="iYear" id="yearLabel">Esmane registreerimine<span class="req-dot" id="dotYear"></span></label>
-      <input type="number" id="iYear" min="1950" max="2030" placeholder="2018" oninput="calc()">
+      <label for="iYear" id="yearLabel">Esmane registreerimine <span class="req-dot" id="dotYear"></span></label>
+      <div class="input-wrap">
+        <input type="number" id="iYear" min="1950" max="2030" placeholder="2018" oninput="calc()">
+      </div>
     </div>
 
     <div class="grow">
       <label for="iMass" id="massLabel">Mass</label>
-      <input type="number" id="iMass" min="400" max="6000" placeholder="1650" oninput="calc()">
-      <span class="unit">kg</span>
+      <div class="input-wrap">
+        <input type="number" id="iMass" min="400" max="6000" placeholder="1650" oninput="calc()">
+        <span class="unit">kg</span>
+      </div>
     </div>
 
   </div>
