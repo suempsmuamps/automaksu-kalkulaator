@@ -814,10 +814,10 @@ function updateDots(){
   set('stepBadge1', s2);
   set('stepBadge2', s3);
   set('stepBadge3', s1&&s2&&s3);
-  // Green connecting lines
+  // Green connecting lines — flow like water, only green if all previous are done
   const steps = document.querySelectorAll('.how-steps li');
-  const done = [s1, s2, s3, s1&&s2&&s3];
-  steps.forEach((li,i) => li.classList.toggle('step-done', !!done[i]));
+  const flow = [s1, s1&&s2, s1&&s2&&s3, s1&&s2&&s3];
+  steps.forEach((li,i) => li.classList.toggle('step-done', !!flow[i]));
 }
 
 // ── Clear ──────────────────────────────────────────────────────────────────────
