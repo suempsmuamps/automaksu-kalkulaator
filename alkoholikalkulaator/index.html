@@ -97,8 +97,8 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
 .drink-fields{display:flex;align-items:center;gap:7px}
 .drink-icon{font-size:1.1rem;flex-shrink:0}
 .drink-name{flex:1;font-size:.83rem;font-weight:500;color:var(--label);min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.drink-inp{width:52px;border:none;background:var(--card);border-radius:6px;padding:4px 6px;font-size:.83rem;font-family:var(--font);color:var(--label);text-align:center;outline:none}
-.drink-qty{width:36px;font-weight:600}
+.drink-inp{width:44px;border:none;background:var(--card);border-radius:6px;padding:4px 4px;font-size:.83rem;font-family:var(--font);color:var(--label);text-align:center;outline:none}
+.drink-qty{width:30px;font-weight:600}
 .drink-unit{font-size:.75rem;color:var(--label3);white-space:nowrap}
 .drink-grams{font-size:.75rem;color:var(--label2);white-space:nowrap;min-width:36px;text-align:right}
 .drink-rm{background:none;border:none;color:var(--label3);cursor:pointer;font-size:1.1rem;padding:2px 4px;line-height:1;transition:color .15s;-webkit-tap-highlight-color:transparent}
@@ -150,7 +150,7 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
 .section-bare{background:none;border:none;padding-left:0;padding-right:0;display:flex;align-items:flex-start;gap:32px;box-shadow:none}
 .section-bare .section-title{flex-shrink:0;max-width:160px;margin-bottom:0;line-height:1.15;font-size:1.35rem;letter-spacing:-.3px;font-weight:700}
 @media(max-width:700px){.section-bare{flex-direction:column;gap:20px}.section-bare .section-title{max-width:none}}
-.section-bare-bg{background:var(--card);border:none;border-radius:0;width:100vw;margin-left:calc(-50vw + 50%);padding:44px calc(50vw - 50% + 20px);box-shadow:none;position:relative;overflow:hidden;gap:60px}
+.section-bare-bg{background:var(--card);border:none;border-radius:0;width:100vw;margin-left:calc(-50vw + 50%);padding:44px calc(50vw - 50% + 20px);box-shadow:none;position:relative;overflow:hidden;gap:32px}
 @media(max-width:700px){.section-bare-bg{padding:28px 20px}}
 :root[data-theme="light"] .section-full::before{background-image:linear-gradient(rgba(0,0,0,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.035) 1px,transparent 1px)}
 @media(prefers-color-scheme:light){:root:not([data-theme="dark"]) .section-full::before{background-image:linear-gradient(rgba(0,0,0,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.035) 1px,transparent 1px)}}
@@ -164,7 +164,7 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
 .how-steps li.step-done:not(:last-child)::after{background:#22c55e}
 .step-badge{flex-shrink:0;width:22px;height:22px;border-radius:50%;background:var(--label2);color:var(--bg);display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:600;position:relative;z-index:1;transition:background .3s var(--ease),box-shadow .3s var(--ease)}
 .step-badge.ok{background:#22c55e;box-shadow:0 0 8px rgba(34,197,94,.3)}
-@media(max-width:700px){.how-steps{flex-direction:column;gap:0;overflow-x:visible;padding-bottom:0}.how-steps li{min-width:0;flex-direction:row;align-items:center;gap:12px;padding:10px 0}.how-steps li:not(:last-child)::after{top:auto;left:10px;width:1px;height:calc(100% - 22px);top:26px}}
+@media(max-width:700px){.how-steps{flex-direction:column;gap:0;overflow-x:visible;padding-bottom:0}.how-steps li{min-width:0;flex-direction:row;align-items:center;gap:12px;padding:12px 0}.how-steps li:not(:last-child)::after{left:10px;width:1px;height:100%;top:22px}}
 
 /* ── Video embed ── */
 .video-embed{position:relative;width:100%;padding-bottom:56.25%;margin-bottom:44px;border-radius:var(--radius);overflow:hidden}
