@@ -142,15 +142,24 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
 .section-card{background:var(--card);border:var(--card-border);border-radius:var(--radius);padding:24px;margin-bottom:44px;box-shadow:var(--glow)}
 .section-full{background-color:var(--card);border:none;border-radius:0;box-shadow:none;width:100vw;margin-left:calc(-50vw + 50%);padding:48px calc(50vw - 50% + 20px);margin-bottom:44px;position:relative;overflow:hidden}
 .section-full::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:40px 40px;-webkit-mask-image:linear-gradient(to left,#000 0%,transparent 60%);mask-image:linear-gradient(to left,#000 0%,transparent 60%);pointer-events:none}
-.section-full>.section-title,.section-full>.how-steps,.section-full>.sources-list{max-width:968px;margin-left:auto;margin-right:auto;position:relative}
+.section-full>.section-title,.section-full>.how-steps,.section-full>.sources-list,.section-full>.calc-content{max-width:940px;margin-left:auto;margin-right:auto;position:relative}
+@media(max-width:1032px){.section-full{padding-left:20px;padding-right:20px}}
+.section-bare{background:none;border:none;padding-left:0;padding-right:0;display:flex;align-items:flex-start;gap:32px;box-shadow:none}
+.section-bare .section-title{flex-shrink:0;max-width:160px;margin-bottom:0;line-height:1.1;font-size:1.6rem;letter-spacing:-.4px;font-weight:700}
+@media(max-width:700px){.section-bare{flex-direction:column;gap:20px}.section-bare .section-title{max-width:none;font-size:1.35rem}}
+.section-bare-bg{background:var(--card);border:none;border-radius:0;width:100vw;margin-left:calc(-50vw + 50%);padding:44px calc(50vw - 50% + 20px);box-shadow:none;position:relative;overflow:hidden;gap:60px}
+@media(max-width:700px){.section-bare-bg{padding:28px 20px}}
 :root[data-theme="light"] .section-full::before{background-image:linear-gradient(rgba(0,0,0,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.035) 1px,transparent 1px)}
 @media(prefers-color-scheme:light){:root:not([data-theme="dark"]) .section-full::before{background-image:linear-gradient(rgba(0,0,0,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.035) 1px,transparent 1px)}}
 .section-title{font-size:1.35rem;font-weight:700;letter-spacing:-.3px;margin-bottom:16px}
 
 /* ── How steps ── */
-.how-steps{list-style:none;display:flex;flex-direction:column;gap:12px}
-.how-steps li{display:flex;align-items:flex-start;gap:14px;font-size:.93rem;line-height:1.55;color:var(--label2)}
-.step-badge{flex-shrink:0;width:28px;height:28px;border-radius:50%;background:var(--label);color:var(--bg);display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;margin-top:1px}
+.how-steps{list-style:none;display:flex;gap:0;overflow-x:auto;padding-bottom:8px;scrollbar-width:none;-ms-overflow-style:none;position:relative}
+.how-steps::-webkit-scrollbar{display:none}
+.how-steps li{flex:1;min-width:150px;display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:8px;font-size:.8rem;line-height:1.55;color:var(--label3);padding:0 20px 0 0;position:relative}
+.how-steps li:not(:last-child)::after{content:'';position:absolute;top:10px;left:30px;width:calc(100% - 30px);height:1px;background:var(--sep)}
+.step-badge{flex-shrink:0;width:22px;height:22px;border-radius:50%;background:var(--label2);color:var(--bg);display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:600;position:relative;z-index:1}
+@media(max-width:700px){.how-steps{flex-wrap:nowrap}.how-steps li{min-width:130px}}
 
 /* ── Video embed ── */
 .video-embed{position:relative;width:100%;padding-bottom:56.25%;margin-bottom:44px;border-radius:var(--radius);overflow:hidden}
@@ -294,13 +303,13 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
   </div><!-- /main-grid -->
 
   <!-- How-to -->
-  <section class="section-card section-full">
+  <section class="section-card section-bare">
     <h2 class="section-title" id="howTitle">Kuidas kasutada?</h2>
     <ol class="how-steps" id="howSteps"></ol>
   </section>
 
   <!-- How calculated -->
-  <section class="section-card">
+  <section class="section-card section-full">
     <h2 class="section-title" id="calcTitle">Kuidas promillid arvutatakse?</h2>
     <div class="calc-content" id="calcContent"></div>
   </section>
@@ -317,7 +326,7 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
   </section>
 
   <!-- Sources -->
-  <section class="section-card section-full">
+  <section class="section-card section-bare section-bare-bg">
     <h2 class="section-title" id="sourcesTitle">Allikad</h2>
     <ul class="sources-list" id="sourcesList"></ul>
   </section>
