@@ -145,6 +145,10 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
 .how-steps li{display:flex;align-items:flex-start;gap:14px;font-size:.93rem;line-height:1.55;color:var(--label2)}
 .step-badge{flex-shrink:0;width:28px;height:28px;border-radius:50%;background:var(--label);color:var(--bg);display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;margin-top:1px}
 
+/* ── Video embed ── */
+.video-embed{position:relative;width:100%;padding-bottom:56.25%;margin-bottom:24px;border-radius:var(--radius);overflow:hidden}
+.video-embed iframe{position:absolute;inset:0;width:100%;height:100%}
+
 /* ── Calc content ── */
 .calc-content h3{font-size:1.05rem;font-weight:700;margin:14px 0 6px}
 .calc-content h3:first-child{margin-top:0}
@@ -287,6 +291,11 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
     <h2 class="section-title" id="calcTitle">Kuidas promillid arvutatakse?</h2>
     <div class="calc-content" id="calcContent"></div>
   </section>
+
+  <!-- Video -->
+  <div class="video-embed">
+    <iframe src="https://www.youtube.com/embed/DOB8DXty4GQ" title="Video" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>
+  </div>
 
   <!-- FAQ -->
   <section class="section-card">
