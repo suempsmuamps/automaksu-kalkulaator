@@ -721,7 +721,7 @@ const fmt = n => n.toFixed(2).replace('.',',');
 function isDark() {
   const saved = localStorage.getItem('theme');
   if (saved) return saved === 'dark';
-  return false;
+  return window.matchMedia('(prefers-color-scheme:dark)').matches;
 }
 function applyTheme(dark) {
   document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
