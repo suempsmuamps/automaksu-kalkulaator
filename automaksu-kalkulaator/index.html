@@ -10,23 +10,31 @@
 <meta property="og:title" content="Automaksu kalkulaator 2025">
 <meta property="og:description" content="Arvuta oma sõiduki mootorsõidukimaks Eestis. Tasuta, kohene tulemus.">
 <meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#f2f2f7;--card:#fff;--label:#1c1c1e;--label2:#48484a;--label3:#7c7c80;
-  --sep:rgba(60,60,67,.12);--tint:#007aff;--radius:16px;
-  --font:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Helvetica,sans-serif;
+  --bg:#000;--card:#111;--label:#fff;--label2:#999;--label3:#555;
+  --sep:rgba(255,255,255,.08);--tint:#fff;--radius:14px;
+  --card-border:1px solid rgba(255,255,255,.08);
+  --font:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
 }
-@media(prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){--bg:#1c1c1e;--card:#2c2c2e;--label:#fff;--label2:#aeaeb2;--label3:#636366;--sep:rgba(255,255,255,.1)}
+:root[data-theme="light"]{
+  --bg:#fff;--card:#f5f5f5;--label:#000;--label2:#555;--label3:#999;
+  --sep:rgba(0,0,0,.08);--tint:#000;--card-border:1px solid rgba(0,0,0,.06);
 }
-:root[data-theme="dark"]{--bg:#1c1c1e;--card:#2c2c2e;--label:#fff;--label2:#aeaeb2;--label3:#636366;--sep:rgba(255,255,255,.1)}
+@media(prefers-color-scheme:light){
+  :root:not([data-theme="dark"]){
+    --bg:#fff;--card:#f5f5f5;--label:#000;--label2:#555;--label3:#999;
+    --sep:rgba(0,0,0,.08);--tint:#000;--card-border:1px solid rgba(0,0,0,.06);
+  }
+}
 
 body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-font-smoothing:antialiased}
 .page{max-width:1000px;margin:0 auto;padding:20px 16px 60px}
 
 /* ── Main 2-col grid ── */
-.main-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;margin-bottom:12px}
+.main-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:start;margin-bottom:12px}
 .main-grid .form-card{margin-bottom:0}
 .main-grid .bento{margin-bottom:0}
 @media(max-width:680px){.main-grid{grid-template-columns:1fr}}
@@ -41,11 +49,11 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
 .header-controls{display:flex;align-items:center;gap:8px;flex-shrink:0}
 .lang-switcher{display:flex;background:var(--sep);border-radius:8px;padding:2px;gap:2px}
 .lang-btn{background:none;border:none;padding:4px 8px;border-radius:6px;font-size:.78rem;font-weight:600;color:var(--label2);cursor:pointer;font-family:var(--font);transition:.15s}
-.lang-btn.active{background:var(--card);color:var(--tint);box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.lang-btn.active{background:var(--card);color:var(--tint);box-shadow:0 1px 3px rgba(0,0,0,.15)}
 .theme-btn{background:var(--sep);border:none;width:32px;height:32px;border-radius:8px;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent}
 
 /* ── Form card ── */
-.form-card{background:var(--card);border-radius:var(--radius);padding:20px;margin-bottom:12px;display:flex;flex-direction:column;gap:20px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.form-card{background:var(--card);border:var(--card-border);border-radius:var(--radius);padding:20px;margin-bottom:12px;display:flex;flex-direction:column;gap:20px}
 .form-sep{height:.5px;background:var(--sep)}
 
 /* ── Grow ── */
@@ -60,12 +68,13 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
 .pill-group{display:inline-flex;flex-wrap:wrap;width:fit-content;background:var(--sep);border-radius:12px;padding:3px;gap:2px}
 .pill-group.wrap{flex-wrap:wrap}
 .pill{background:transparent;border:none;border-radius:9px;padding:7px 15px;font-family:var(--font);font-size:.88rem;font-weight:500;color:var(--label2);cursor:pointer;white-space:nowrap;transition:background .18s,color .18s,box-shadow .18s;-webkit-tap-highlight-color:transparent}
-.pill.active{background:var(--card);color:var(--label);box-shadow:0 1px 4px rgba(0,0,0,.15)}
+.pill.active{background:var(--label);color:var(--bg);font-weight:600}
 .pill:active{opacity:.75}
 .pill-sm{padding:5px 12px;font-size:.82rem}
 
 /* ── Input wrap ── */
-.input-wrap{display:flex;align-items:center;background:var(--bg);border-radius:10px;overflow:hidden}
+.input-wrap{display:flex;align-items:center;background:var(--bg);border-radius:10px;overflow:hidden;border:1px solid transparent;transition:border-color .2s}
+.input-wrap:focus-within{border-color:var(--label3)}
 .input-wrap input{flex:1;border:none;background:none;padding:10px 12px;font-size:1rem;font-family:var(--font);color:var(--label);outline:none;-moz-appearance:textfield}
 .input-wrap input::-webkit-inner-spin-button,.input-wrap input::-webkit-outer-spin-button{-webkit-appearance:none}
 .input-wrap input::placeholder{color:var(--label3)}
@@ -74,62 +83,59 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
 
 /* ── Select ── */
 .select-wrap{position:relative}
-.select-wrap select{width:100%;background:var(--bg);border:none;border-radius:10px;padding:10px 36px 10px 12px;font-size:.95rem;font-family:var(--font);color:var(--label);cursor:pointer;outline:none;appearance:none;-webkit-appearance:none}
+.select-wrap select{width:100%;background:var(--bg);border:1px solid transparent;border-radius:10px;padding:10px 36px 10px 12px;font-size:.95rem;font-family:var(--font);color:var(--label);cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;transition:border-color .2s}
+.select-wrap select:focus{border-color:var(--label3)}
 .select-wrap::after{content:'▾';position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--label3);pointer-events:none;font-size:.85rem}
 
 /* ── Req dot ── */
 .req-dot{width:16px;height:16px;border-radius:50%;flex-shrink:0;background:var(--label3);transition:background .2s;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:transparent;line-height:1}
 .req-dot::after{content:'✓'}
-.req-dot.ok{background:#34c759;color:#fff}
+.req-dot.ok{background:#22c55e;color:#fff}
 
 /* ── Bento ── */
 .bento{display:flex;flex-direction:column;gap:10px;margin-bottom:12px}
 
 .c-ann{
-  background:#000;
-  background-image:
-    radial-gradient(ellipse at 20% 80%,rgba(59,130,246,.18) 0%,transparent 55%),
-    radial-gradient(ellipse at 80% 10%,rgba(139,92,246,.12) 0%,transparent 50%);
-  border-radius:var(--radius);padding:24px;min-height:170px;
+  background:linear-gradient(135deg,#1a1a2e 0%,#16213e 40%,#0f3460 100%);
+  border-radius:var(--radius);padding:20px;
   display:flex;flex-direction:column;justify-content:flex-end;
 }
-.ann-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.ann-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
 .chip{background:rgba(255,255,255,.1);color:rgba(255,255,255,.75);padding:4px 10px;border-radius:20px;font-size:.78rem;font-weight:500;display:inline-flex;align-items:center;gap:5px}
-.ann-num{font-size:3.6rem;font-weight:700;color:#fff;letter-spacing:-1.5px;line-height:1}
-.ann-num.e{color:rgba(255,255,255,.15)}
-.ann-lbl{font-size:.82rem;color:rgba(255,255,255,.38);margin-top:4px;text-transform:uppercase;letter-spacing:.05em}
+.ann-num{font-size:3.2rem;font-weight:700;color:#fff;letter-spacing:-1.5px;line-height:1}
+.ann-num.e{color:rgba(255,255,255,.12)}
+.ann-lbl{font-size:.82rem;color:rgba(255,255,255,.4);margin-top:4px;text-transform:uppercase;letter-spacing:.06em}
 
 /* ── Reg fee card ── */
 .c-reg{
-  background:var(--card);border-radius:var(--radius);padding:20px;
-  box-shadow:0 1px 3px rgba(0,0,0,.06);
+  background:var(--card);border:var(--card-border);border-radius:var(--radius);padding:16px;
 }
-.reg-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.reg-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px}
 .reg-chip{background:var(--sep);color:var(--label2);padding:4px 10px;border-radius:20px;font-size:.78rem;font-weight:500}
-.reg-num{font-size:2.2rem;font-weight:700;color:var(--label);letter-spacing:-1px;line-height:1}
+.reg-num{font-size:1.8rem;font-weight:700;color:var(--label);letter-spacing:-1px;line-height:1}
 .reg-num.e{color:var(--label3)}
-.reg-lbl{font-size:.75rem;color:var(--label3);margin-top:4px;text-transform:uppercase;letter-spacing:.05em}
-.reg-note{font-size:.78rem;color:var(--label3);margin-top:10px;line-height:1.5;border-top:1px solid var(--sep);padding-top:10px}
+.reg-lbl{font-size:.75rem;color:var(--label3);margin-top:4px;text-transform:uppercase;letter-spacing:.06em}
+.reg-note{font-size:.75rem;color:var(--label3);margin-top:8px;line-height:1.45;border-top:1px solid var(--sep);padding-top:8px}
 
 /* ── Payment timeline ── */
-.c-tml{background:var(--card);border-radius:var(--radius);padding:20px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
-.tml-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;gap:12px;flex-wrap:wrap}
-.tml-lbl{font-size:.75rem;font-weight:600;color:var(--label3);text-transform:uppercase;letter-spacing:.05em}
-.tml-picks{display:flex;gap:8px}
-.tml-sel{background:var(--bg);border:none;border-radius:8px;padding:5px 8px;font-size:.82rem;font-family:var(--font);color:var(--label);cursor:pointer;outline:none}
+.c-tml{background:rgba(255,255,255,.04);border-radius:10px;padding:14px;margin-top:14px;border:1px solid rgba(248,248,248,.06)}
+.tml-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;gap:10px;flex-wrap:wrap}
+.tml-lbl{font-size:.75rem;font-weight:600;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.06em}
+.tml-picks{display:flex;gap:6px}
+.tml-sel{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:5px 8px;font-size:.82rem;font-family:var(--font);color:rgba(255,255,255,.85);cursor:pointer;outline:none}
 .pay-grid{display:flex;gap:16px}
-.pay-col{flex:1;display:flex;flex-direction:column;gap:4px}
-.pay-date{font-size:.78rem;color:var(--label3)}
-.pay-amt{font-size:1.4rem;font-weight:700;color:var(--label);font-variant-numeric:tabular-nums}
-.tml-note{font-size:.78rem;color:var(--label3);margin-top:12px;line-height:1.5}
+.pay-col{flex:1;display:flex;flex-direction:column;gap:3px}
+.pay-date{font-size:.78rem;color:rgba(255,255,255,.4)}
+.pay-amt{font-size:1.3rem;font-weight:700;color:#fff;font-variant-numeric:tabular-nums}
+.tml-note{font-size:.75rem;color:rgba(255,255,255,.35);margin-top:8px;line-height:1.45}
 
 /* ── Section cards ── */
-.section-card{background:var(--card);border-radius:var(--radius);padding:20px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.section-card{background:var(--card);border:var(--card-border);border-radius:var(--radius);padding:20px;margin-bottom:12px}
 .section-title{font-size:1.1rem;font-weight:700;margin-bottom:16px}
 
 .how-steps{list-style:none;display:flex;flex-direction:column;gap:12px}
 .how-steps li{display:flex;align-items:flex-start;gap:14px;font-size:.93rem;line-height:1.55;color:var(--label2)}
-.step-badge{flex-shrink:0;width:28px;height:28px;border-radius:50%;background:var(--tint);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;margin-top:1px}
+.step-badge{flex-shrink:0;width:28px;height:28px;border-radius:50%;background:var(--label);color:var(--bg);display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;margin-top:1px}
 
 .calc-content h3{font-size:.95rem;font-weight:700;margin:14px 0 6px}
 .calc-content h3:first-child{margin-top:0}
@@ -143,25 +149,35 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
 .faq-item:first-child{border-top:none}
 .faq-q{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 0;background:transparent;border:none;cursor:pointer;font-family:var(--font);font-size:.93rem;font-weight:600;color:var(--label);text-align:left;-webkit-tap-highlight-color:transparent}
 .faq-q:hover{opacity:.8}
-.faq-toggle{flex-shrink:0;width:22px;height:22px;border-radius:50%;background:rgba(0,122,255,.1);color:var(--tint);display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:600;line-height:1;padding-bottom:1px;transition:transform .2s,background .2s}
-.faq-item.open .faq-toggle{background:var(--tint);color:#fff;transform:rotate(45deg)}
+.faq-toggle{flex-shrink:0;width:22px;height:22px;border-radius:50%;background:var(--sep);color:var(--label2);display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:600;line-height:1;padding-bottom:1px;transition:transform .2s,background .2s}
+.faq-item.open .faq-toggle{background:var(--label);color:var(--bg);transform:rotate(45deg)}
 .faq-a{display:none;padding:0 0 14px;font-size:.88rem;line-height:1.65;color:var(--label2)}
 .faq-a p{margin-bottom:6px}
 .faq-item.open .faq-a{display:block}
 
 .sources-list{list-style:none;display:flex;flex-direction:column;gap:8px}
-.sources-list a{color:var(--tint);text-decoration:none;font-size:.88rem}
+.sources-list a{color:var(--label2);text-decoration:underline;text-underline-offset:2px;font-size:.88rem}
 .sources-list a:hover{text-decoration:underline}
 
 .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
 @media(max-width:480px){.info-grid{grid-template-columns:1fr}}
 .info-card{border-radius:var(--radius);padding:20px}
-.info-card--amber{background:#fef3c7;background-image:radial-gradient(ellipse at 95% 5%,rgba(251,191,36,.55) 0%,transparent 45%),radial-gradient(ellipse at 5% 95%,rgba(245,158,11,.25) 0%,transparent 40%)}
-.info-card--blue{background:#dbeafe;background-image:radial-gradient(ellipse at 95% 5%,rgba(147,197,253,.7) 0%,transparent 45%),radial-gradient(ellipse at 5% 95%,rgba(99,102,241,.18) 0%,transparent 40%)}
+.info-card--amber{background:linear-gradient(135deg,#3d2e00 0%,#4a3800 50%,#2a1f00 100%);border:1px solid rgba(251,191,36,.2)}
+.info-card--blue{background:linear-gradient(135deg,#0f1f3d 0%,#162d52 50%,#0f1f3d 100%);border:1px solid rgba(100,160,255,.15)}
+:root[data-theme="light"] .info-card--amber{background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%);border:none}
+:root[data-theme="light"] .info-card--blue{background:linear-gradient(135deg,#dbeafe 0%,#bfdbfe 100%);border:none}
+:root[data-theme="light"] .info-card-title{color:#000}
+:root[data-theme="light"] .info-card p{color:#374151}
+@media(prefers-color-scheme:light){
+  :root:not([data-theme="dark"]) .info-card--amber{background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%);border:none}
+  :root:not([data-theme="dark"]) .info-card--blue{background:linear-gradient(135deg,#dbeafe 0%,#bfdbfe 100%);border:none}
+  :root:not([data-theme="dark"]) .info-card-title{color:#000}
+  :root:not([data-theme="dark"]) .info-card p{color:#374151}
+}
 .info-icon{font-size:1.5rem;margin-bottom:8px}
-.info-card-title{font-size:.93rem;font-weight:700;color:#1c1c1e;margin-bottom:6px}
-.info-card p{font-size:.82rem;line-height:1.55;color:#374151}
-.contact-btn{display:inline-block;margin-top:10px;background:#1d4ed8;color:#fff;border-radius:8px;padding:7px 14px;font-size:.82rem;font-weight:600;text-decoration:none}
+.info-card-title{font-size:.93rem;font-weight:700;color:var(--label);margin-bottom:6px}
+.info-card p{font-size:.82rem;line-height:1.55;color:var(--label2)}
+.contact-btn{display:inline-block;margin-top:10px;background:#fff;color:#000;border-radius:8px;padding:7px 14px;font-size:.82rem;font-weight:600;text-decoration:none}
 </style>
 </head>
 <body>
@@ -279,6 +295,17 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
       <div class="ann-chips" id="annChips"></div>
       <div class="ann-num e" id="annNum">—</div>
       <div class="ann-lbl" id="annLbl">Aastamaks</div>
+      <div class="c-tml" id="tmlCard" style="display:none">
+        <div class="tml-top">
+          <span class="tml-lbl" id="tmlLbl">Maksegraafik</span>
+          <div class="tml-picks">
+            <select class="tml-sel" id="iRegYear" onchange="calc()"></select>
+            <select class="tml-sel" id="iMonth"   onchange="calc()"></select>
+          </div>
+        </div>
+        <div id="payContainer"></div>
+        <div class="tml-note" id="tmlNote"></div>
+      </div>
     </div>
 
     <!-- Registration fee card -->
@@ -287,18 +314,6 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
       <div class="reg-num e" id="regNum">—</div>
       <div class="reg-lbl" id="regLbl">REGISTREERIMISTASU</div>
       <div class="reg-note" id="regNote">Ühekordne tasu esmakordsel registreerimisel Eestis või esimesel omanikuvahetusel.</div>
-    </div>
-
-    <div class="c-tml" id="tmlCard" style="display:none">
-      <div class="tml-top">
-        <span class="tml-lbl" id="tmlLbl">Maksegraafik</span>
-        <div class="tml-picks">
-          <select class="tml-sel" id="iRegYear" onchange="calc()"></select>
-          <select class="tml-sel" id="iMonth"   onchange="calc()"></select>
-        </div>
-      </div>
-      <div id="payContainer"></div>
-      <div class="tml-note" id="tmlNote"></div>
     </div>
 
   </div><!-- /bento -->
