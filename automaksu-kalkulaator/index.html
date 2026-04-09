@@ -99,7 +99,9 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
   background:linear-gradient(135deg,#1a1a2e 0%,#16213e 40%,#0f3460 100%);
   border-radius:var(--radius);padding:20px;
   display:flex;flex-direction:column;justify-content:flex-end;
+  position:relative;overflow:hidden;
 }
+.c-ann::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.06) 1px,transparent 1px);background-size:20px 20px;-webkit-mask-image:radial-gradient(ellipse at 70% 30%,#000 10%,transparent 60%);mask-image:radial-gradient(ellipse at 70% 30%,#000 10%,transparent 60%);pointer-events:none}
 .ann-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
 .chip{background:rgba(255,255,255,.12);color:rgba(255,255,255,.9);padding:4px 10px;border-radius:20px;font-size:.78rem;font-weight:500;display:inline-flex;align-items:center;gap:5px}
 .ann-num{font-size:3.2rem;font-weight:700;color:#fff;letter-spacing:-1.5px;line-height:1}
