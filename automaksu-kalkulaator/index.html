@@ -23,7 +23,13 @@
 :root[data-theme="dark"]{--bg:#1c1c1e;--card:#2c2c2e;--label:#fff;--label2:#aeaeb2;--label3:#636366;--sep:rgba(255,255,255,.1)}
 
 body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-font-smoothing:antialiased}
-.page{max-width:600px;margin:0 auto;padding:20px 16px 60px}
+.page{max-width:1000px;margin:0 auto;padding:20px 16px 60px}
+
+/* ── Main 2-col grid ── */
+.main-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start}
+.main-grid .form-card{margin-bottom:0}
+.main-grid .bento{margin-bottom:0}
+@media(max-width:680px){.main-grid{grid-template-columns:1fr}}
 
 /* ── Header ── */
 .header{margin-bottom:24px}
@@ -46,6 +52,10 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
 .grow{display:flex;flex-direction:column;gap:7px}
 .grow>label{font-size:.93rem;color:var(--label2);font-weight:500;display:flex;align-items:center;gap:7px}
 
+/* ── Two-column row ── */
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:480px){.form-row{grid-template-columns:1fr}}
+
 /* ── Segmented control ── */
 .pill-group{display:inline-flex;flex-wrap:wrap;width:fit-content;background:var(--sep);border-radius:12px;padding:3px;gap:2px}
 .pill-group.wrap{flex-wrap:wrap}
@@ -62,13 +72,18 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
 .input-wrap input:disabled{opacity:.4}
 .unit{padding:10px 12px 10px 0;font-size:.85rem;color:var(--label3);flex-shrink:0}
 
+/* ── Select ── */
+.select-wrap{position:relative}
+.select-wrap select{width:100%;background:var(--bg);border:none;border-radius:10px;padding:10px 36px 10px 12px;font-size:.95rem;font-family:var(--font);color:var(--label);cursor:pointer;outline:none;appearance:none;-webkit-appearance:none}
+.select-wrap::after{content:'▾';position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--label3);pointer-events:none;font-size:.85rem}
+
 /* ── Req dot ── */
 .req-dot{width:16px;height:16px;border-radius:50%;flex-shrink:0;background:var(--label3);transition:background .2s;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:transparent;line-height:1}
 .req-dot::after{content:'✓'}
 .req-dot.ok{background:#34c759;color:#fff}
 
 /* ── Bento ── */
-.bento{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:12px}
+.bento{display:flex;flex-direction:column;gap:10px;margin-bottom:12px}
 
 .c-ann{
   background:#000;
@@ -161,8 +176,26 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
     </div>
   </header>
 
+  <!-- Main grid: form left, result right -->
+  <div class="main-grid">
+
   <!-- Form -->
   <div class="form-card">
+
+    <!-- Vehicle type -->
+    <div class="grow">
+      <label id="vtypeLbl">Sõiduki kategooria</label>
+      <div class="select-wrap">
+        <select id="iVtype" onchange="setVtype(this.value)">
+          <option value="m1">Sõiduauto (M1, M1G)</option>
+          <option value="n1">Väikeveok (N1, N1G)</option>
+          <option value="l">Mootorratas / ATV / Traktor (L, MS2, T)</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Category separator -->
+    <div class="form-sep"></div>
 
     <!-- Fuel type -->
     <div class="grow">
@@ -178,41 +211,50 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
     <!-- Emissions separator -->
     <div class="form-sep" id="sepEmissions"></div>
 
-    <!-- CO₂ input -->
-    <div class="grow" id="rowCO2">
-      <label for="iCO2"><span id="co2Lbl">CO₂ heide</span> <span class="req-dot" id="dotCO2"></span></label>
+    <!-- Displacement (L category only) -->
+    <div class="grow" id="rowDispl" style="display:none">
+      <label for="iDispl"><span id="displLbl">Mootori töömaht</span> <span class="req-dot" id="dotDispl"></span></label>
       <div class="input-wrap">
-        <input type="number" id="iCO2" min="0" max="600" placeholder="130" oninput="calc()">
-        <span class="unit">g/km</span>
+        <input type="number" id="iDispl" min="0" max="10000" placeholder="600" oninput="calc()">
+        <span class="unit">cm³</span>
       </div>
     </div>
 
-    <!-- Power input -->
-    <div class="grow" id="rowPower">
-      <label for="iPower"><span id="powerLbl">Mootori võimsus</span> <span class="req-dot" id="dotPower"></span></label>
-      <div class="input-wrap">
-        <input type="number" id="iPower" min="0" max="1500" placeholder="110" oninput="calc()">
-        <span class="unit">kW</span>
+    <!-- CO₂ + Power side by side -->
+    <div class="form-row" id="rowEmissions">
+      <div class="grow" id="rowCO2">
+        <label for="iCO2"><span id="co2Lbl">CO₂ heide</span> <span class="req-dot" id="dotCO2"></span></label>
+        <div class="input-wrap">
+          <input type="number" id="iCO2" min="0" max="600" placeholder="130" oninput="calc()">
+          <span class="unit">g/km</span>
+        </div>
+      </div>
+      <div class="grow" id="rowPower">
+        <label for="iPower"><span id="powerLbl">Mootori võimsus</span> <span class="req-dot" id="dotPower"></span></label>
+        <div class="input-wrap">
+          <input type="number" id="iPower" min="0" max="1500" placeholder="110" oninput="calc()">
+          <span class="unit">kW</span>
+        </div>
       </div>
     </div>
 
     <!-- Vehicle data separator -->
     <div class="form-sep"></div>
 
-    <!-- Year -->
-    <div class="grow">
-      <label for="iYear"><span id="yearLbl">Esmane registreerimine</span> <span class="req-dot" id="dotYear"></span></label>
-      <div class="input-wrap">
-        <input type="number" id="iYear" min="1950" max="2030" placeholder="2018" oninput="calc()">
+    <!-- Year + Mass side by side -->
+    <div class="form-row">
+      <div class="grow">
+        <label for="iYear"><span id="yearLbl">Esmane registreerimine</span> <span class="req-dot" id="dotYear"></span></label>
+        <div class="input-wrap">
+          <input type="number" id="iYear" min="1950" max="2030" placeholder="2018" oninput="calc()">
+        </div>
       </div>
-    </div>
-
-    <!-- Mass -->
-    <div class="grow">
-      <label for="iMass"><span id="massLbl">Täismass</span></label>
-      <div class="input-wrap">
-        <input type="number" id="iMass" min="400" max="6000" placeholder="1650" oninput="calc()">
-        <span class="unit">kg</span>
+      <div class="grow">
+        <label for="iMass"><span id="massLbl">Täismass</span></label>
+        <div class="input-wrap">
+          <input type="number" id="iMass" min="400" max="6000" placeholder="1650" oninput="calc()">
+          <span class="unit">kg</span>
+        </div>
       </div>
     </div>
 
@@ -239,7 +281,9 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
       <div class="tml-note" id="tmlNote"></div>
     </div>
 
-  </div>
+  </div><!-- /bento -->
+
+  </div><!-- /main-grid -->
 
   <!-- How to use -->
   <section class="section-card">
@@ -285,11 +329,13 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
 // ── State ──────────────────────────────────────────────────────────────────────
 let lang = 'et';
 let fuel = 'ice'; // ice | mhev | phev | ev
+let vtype = 'm1';
 
 // ── Translations ───────────────────────────────────────────────────────────────
 const T = {
   et: {
-    pgTitle:'Automaks', pgSub:'Mootorsõidukimaks 2025 · M1 kategooria',
+    pgTitle:'Automaks', pgSub:'Mootorsõidukimaks 2025',
+    vtypeLbl:'Sõiduki kategooria', displLbl:'Mootori töömaht',
     fuelLbl:'Kütuse tüüp',
     fuel_ice:'Bensiin / Diisel', fuel_mhev:'Hübriid', fuel_phev:'PHEV', fuel_ev:'⚡ Elekter',
     co2Lbl:'CO₂ heide', powerLbl:'Mootori võimsus',
@@ -352,7 +398,8 @@ const T = {
     contactTitle:'Võta ühendust', contactText:'Küsimused, tagasiside või vead?', contactBtn:'Kirjuta meile',
   },
   en: {
-    pgTitle:'Car Tax', pgSub:'Motor vehicle tax 2025 · Category M1',
+    pgTitle:'Car Tax', pgSub:'Motor vehicle tax 2025',
+    vtypeLbl:'Vehicle category', displLbl:'Engine displacement',
     fuelLbl:'Fuel type',
     fuel_ice:'Petrol / Diesel', fuel_mhev:'Hybrid', fuel_phev:'PHEV', fuel_ev:'⚡ Electric',
     co2Lbl:'CO₂ emissions', powerLbl:'Engine power',
@@ -413,7 +460,8 @@ const T = {
     contactTitle:'Contact us', contactText:'Questions, feedback or bugs?', contactBtn:'Write to us',
   },
   ru: {
-    pgTitle:'Автоналог', pgSub:'Налог на транспортное средство 2025 · Категория M1',
+    pgTitle:'Автоналог', pgSub:'Налог на ТС 2025',
+    vtypeLbl:'Категория ТС', displLbl:'Объём двигателя',
     fuelLbl:'Тип топлива',
     fuel_ice:'Бензин / Дизель', fuel_mhev:'Гибрид', fuel_phev:'PHEV', fuel_ev:'⚡ Электро',
     co2Lbl:'Выбросы CO₂', powerLbl:'Мощность двигателя',
@@ -470,7 +518,8 @@ const T = {
     contactTitle:'Связаться', contactText:'Вопросы, отзывы или ошибки?', contactBtn:'Написать нам',
   },
   fi: {
-    pgTitle:'Autovero', pgSub:'Moottoriajoneuvovero 2025 · Luokka M1',
+    pgTitle:'Autovero', pgSub:'Moottoriajoneuvovero 2025',
+    vtypeLbl:'Ajoneuvoluokka', displLbl:'Moottorin tilavuus',
     fuelLbl:'Polttoainetyyppi',
     fuel_ice:'Bensiini / Diesel', fuel_mhev:'Hybridi', fuel_phev:'PHEV', fuel_ev:'⚡ Sähkö',
     co2Lbl:'CO₂-päästöt', powerLbl:'Moottorin teho',
@@ -526,9 +575,10 @@ function t(){ return T[lang] || T.et; }
 // ── Calculations ───────────────────────────────────────────────────────────────
 function ageFactor(firstYear) {
   const age = new Date().getFullYear() - firstYear;
-  if (age <= 5)  return 1.00;
-  if (age >= 15) return 0.20;
-  return +((1 - (age - 5) * 0.08).toFixed(4));
+  if (age >= 20) return 0;
+  if (age >= 15) return 0.10;
+  if (age <= 4)  return 1.00;
+  return +((1 - (age - 4) * 0.08).toFixed(4)); // age5=0.92, age6=0.84...age14=0.20
 }
 
 function co2Component(co2) {
@@ -539,8 +589,36 @@ function co2Component(co2) {
   return v;
 }
 
-function massComponent(mass) {
-  return mass > 2000 ? Math.min((mass - 2000) * 0.4, 400) : 0;
+function n1co2Component(co2) {
+  if (co2 <= 204) return 0;
+  let v = (Math.min(co2, 250) - 204) * 3;
+  if (co2 > 250) v += (Math.min(co2, 300) - 250) * 3.5;
+  if (co2 > 300) v += (co2 - 300) * 4;
+  return v;
+}
+
+function lCategoryTax(displ, firstYear) {
+  const age = new Date().getFullYear() - firstYear;
+  if (age > 20) return 0;
+  if (age <= 10) {
+    if (displ <= 50)   return 0;
+    if (displ <= 125)  return 30;
+    if (displ <= 500)  return 45;
+    if (displ <= 1000) return 60;
+    if (displ <= 1500) return 75;
+    return 90;
+  } else { // 11-20 years
+    if (displ <= 125)  return 0;
+    if (displ <= 500)  return 30;
+    if (displ <= 1000) return 45;
+    if (displ <= 1500) return 60;
+    return 75;
+  }
+}
+
+function massComponent(mass, threshold) {
+  const t = threshold || 2000;
+  return mass > t ? Math.min((mass - t) * 0.4, 400) : 0;
 }
 
 function powerComponent(power) {
@@ -581,6 +659,8 @@ function applyLang() {
   const s = (id, txt) => { const el = document.getElementById(id); if (el) el.textContent = txt; };
   s('pgTitle', tr.pgTitle); s('pgSub', tr.pgSub);
   s('fuelLbl', tr.fuelLbl);
+  s('vtypeLbl', tr.vtypeLbl);
+  if (tr.displLbl) s('displLbl', tr.displLbl);
   s('co2Lbl', tr.co2Lbl); s('powerLbl', tr.powerLbl);
   s('yearLbl', tr.yearLbl); s('massLbl', tr.massLbl);
   s('annLbl', tr.annLbl); s('tmlLbl', tr.tmlLbl);
@@ -624,22 +704,44 @@ function setFuel(btn) {
   btn.classList.add('active');
   fuel = btn.dataset.fuel;
   const isEV = fuel === 'ev';
-  ['rowCO2','rowPower','sepEmissions'].forEach(id => {
+  ['rowEmissions','sepEmissions'].forEach(id => {
     const el = document.getElementById(id); if (el) el.style.display = isEV ? 'none' : '';
   });
+  calc();
+}
+
+function setVtype(v) {
+  vtype = v;
+  const isL = vtype === 'l';
+  // Show/hide fuel row
+  const fuelSection = document.getElementById('fuelGroup').closest('.grow');
+  const fuelSep = document.getElementById('sepEmissions');
+  if (fuelSection) fuelSection.style.display = isL ? 'none' : '';
+  if (fuelSep) fuelSep.style.display = isL ? 'none' : '';
+  // Show/hide emission rows vs displacement
+  const rowEmissions = document.getElementById('rowEmissions');
+  const rowDispl = document.getElementById('rowDispl');
+  if (rowEmissions) rowEmissions.style.display = isL ? 'none' : '';
+  if (rowDispl) rowDispl.style.display = isL ? '' : 'none';
+  // Mass row - hide for L
+  const massRow = document.getElementById('iMass').closest('.grow');
+  if (massRow) massRow.style.display = isL ? 'none' : '';
   calc();
 }
 
 // ── Dots ───────────────────────────────────────────────────────────────────────
 function updateDots() {
   const isEV = fuel === 'ev';
+  const isL = vtype === 'l';
   const y   = parseInt(document.getElementById('iYear').value);
   const co2 = parseFloat(document.getElementById('iCO2').value);
   const pw  = parseFloat(document.getElementById('iPower').value) || 0;
+  const d   = parseFloat(document.getElementById('iDispl') ? document.getElementById('iDispl').value : '0') || 0;
   const set = (id, ok) => { const el = document.getElementById(id); if (el) el.classList.toggle('ok', ok); };
   set('dotYear',  !!(y && y >= 1950 && y <= 2030));
-  set('dotCO2',   !isEV && !isNaN(co2) && co2 >= 0);
-  set('dotPower', !isEV && pw > 0);
+  set('dotCO2',   !isEV && !isL && !isNaN(co2) && co2 >= 0);
+  set('dotPower', !isEV && !isL && pw > 0);
+  set('dotDispl', isL && d > 0);
 }
 
 // ── Clear ──────────────────────────────────────────────────────────────────────
@@ -655,6 +757,8 @@ function clearResult() {
 function calc() {
   const tr     = t();
   const isEV   = fuel === 'ev';
+  const isL    = vtype === 'l';
+  const isN1   = vtype === 'n1';
   const y      = parseInt(document.getElementById('iYear').value);
   const co2Val = parseFloat(document.getElementById('iCO2').value);
   const pw     = parseFloat(document.getElementById('iPower').value) || 0;
@@ -664,16 +768,47 @@ function calc() {
 
   updateDots();
 
-  if (!y || y < 1950 || y > 2030)              { clearResult(); return; }
-  // Need either CO₂ or power (unless EV)
-  if (!isEV && isNaN(co2Val) && !pw)            { clearResult(); return; }
+  if (!y || y < 1950 || y > 2030) { clearResult(); return; }
+  if (isL) {
+    const d = parseFloat(document.getElementById('iDispl').value) || 0;
+    if (!d) { clearResult(); return; }
+    const annTax = lCategoryTax(d, y);
+    const numEl = document.getElementById('annNum');
+    numEl.textContent = eur(annTax);
+    numEl.classList.remove('e');
+    document.getElementById('annChips').innerHTML = annTax === 0
+      ? `<span class="chip">Vabastatud (üle 20 a)</span>`
+      : `<span class="chip">${tr.chipBase}: ${eur(annTax)}</span>`;
+    renderSchedule(annTax, regYear, regMonth, tr);
+    updateDots();
+    return;
+  }
+  if (!isEV && isNaN(co2Val) && !pw) { clearResult(); return; }
 
   const af     = ageFactor(y);
   // Use CO₂ if provided; fall back to power component
   const hasCO2 = !isNaN(co2Val) && co2Val >= 0;
-  const co2c   = isEV ? 0 : hasCO2 ? co2Component(co2Val) : powerComponent(pw);
-  const massc  = massComponent(mass);
-  const base   = 50;
+  let co2c;
+  if (isEV) {
+    co2c = 0;
+  } else if (isN1) {
+    co2c = hasCO2 ? n1co2Component(co2Val) : powerComponent(pw);
+  } else {
+    co2c = hasCO2 ? co2Component(co2Val) : powerComponent(pw);
+  }
+  // For N1 EV: flat €30, no mass component
+  if (isN1 && isEV) {
+    const numEl = document.getElementById('annNum');
+    numEl.textContent = eur(30);
+    numEl.classList.remove('e');
+    document.getElementById('annChips').innerHTML = `<span class="chip">${tr.chipBase}: ${eur(30)}</span>`;
+    renderSchedule(30, regYear, regMonth, tr);
+    updateDots();
+    return;
+  }
+  const evMassThreshold = isN1 ? 2000 : (isEV ? 2400 : 2000);
+  const massc = massComponent(mass, evMassThreshold);
+  const base  = 50;
   const annTax = base + af * (co2c + massc);
 
   // Ann number
@@ -688,7 +823,7 @@ function calc() {
       ? `<span class="chip">${hasCO2 ? tr.chipCO2 : tr.chipEngine}: ${eur(af * co2c)}</span>`
       : null,
   ].filter(Boolean);
-  if (mass > 2000) chips.push(`<span class="chip">${tr.chipMass}: ${eur(af * massc)}</span>`);
+  if (massc > 0) chips.push(`<span class="chip">${tr.chipMass}: ${eur(af * massc)}</span>`);
   chips.push(`<span class="chip">${tr.chipAge}: ${fmt(af)}</span>`);
   document.getElementById('annChips').innerHTML = chips.join('');
 
