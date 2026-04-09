@@ -35,16 +35,16 @@
 }
 
 body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-font-smoothing:antialiased;overflow-x:hidden}
-.page{max-width:980px;margin:0 auto;padding:28px 20px 80px;overflow:visible}
+.page{max-width:980px;margin:0 auto;padding:28px 20px 32px;overflow:visible}
 
 /* ── Main 2-col grid ── */
-.main-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start;margin-bottom:32px}
+.main-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start;margin-bottom:48px}
 .main-grid .form-card{margin-bottom:0}
 .main-grid .bento{margin-bottom:0}
 @media(max-width:700px){.main-grid{grid-template-columns:1fr;gap:12px}}
 
 /* ── Header ── */
-.header{margin-bottom:32px}
+.header{margin-bottom:40px}
 .header-inner{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
 .header-title-group{display:flex;align-items:center;gap:14px}
 .header-icon{font-size:2rem;line-height:1;filter:drop-shadow(0 2px 8px rgba(0,0,0,.2))}
@@ -93,7 +93,7 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
 .select-wrap{position:relative}
 .select-wrap select{width:100%;background:var(--bg);border:1px solid var(--sep);border-radius:12px;padding:11px 36px 11px 14px;font-size:.93rem;font-family:var(--font);color:var(--label);cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;transition:border-color .25s var(--ease),box-shadow .25s var(--ease)}
 .select-wrap select:focus{border-color:var(--label3);box-shadow:0 0 0 3px rgba(128,128,128,.08)}
-.select-wrap::after{content:'▾';position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--label3);pointer-events:none;font-size:.8rem}
+.select-wrap::after{content:'▾';position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--label2);pointer-events:none;font-size:1rem}
 
 /* ── Req dot ── */
 .req-dot{width:16px;height:16px;border-radius:50%;flex-shrink:0;background:var(--sep);transition:all .3s var(--ease);display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:transparent;line-height:1}
@@ -145,8 +145,8 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
 .tml-note{font-size:.73rem;color:rgba(255,255,255,.65);margin-top:10px;line-height:1.5}
 
 /* ── Section cards ── */
-.section-card{background:var(--card);border:var(--card-border);border-radius:var(--radius);padding:24px;margin-bottom:28px;box-shadow:var(--glow)}
-.section-full{background-color:var(--card);border:none;border-radius:0;width:100vw;margin-left:calc(-50vw + 50%);padding:48px calc(50vw - 50% + 20px);margin-bottom:28px;position:relative;overflow:hidden}
+.section-card{background:var(--card);border:var(--card-border);border-radius:var(--radius);padding:24px;margin-bottom:44px;box-shadow:var(--glow)}
+.section-full{background-color:var(--card);border:none;border-radius:0;width:100vw;margin-left:calc(-50vw + 50%);padding:48px calc(50vw - 50% + 20px);margin-bottom:44px;position:relative;overflow:hidden}
 .section-full::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:48px 48px;-webkit-mask-image:linear-gradient(to left,#000 0%,transparent 55%);mask-image:linear-gradient(to left,#000 0%,transparent 55%);pointer-events:none}
 .section-full>.section-title,.section-full>.how-steps,.section-full>.sources-list,.section-full>.calc-content{max-width:940px;margin-left:auto;margin-right:auto;position:relative}
 :root[data-theme="light"] .section-full::before{background-image:linear-gradient(rgba(0,0,0,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.03) 1px,transparent 1px)}
@@ -156,9 +156,6 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
 .section-bare .section-title{flex-shrink:0;max-width:160px;margin-bottom:0;line-height:1.1;font-size:1.6rem;letter-spacing:-.4px;font-weight:700}
 @media(max-width:700px){.section-bare{flex-direction:column;gap:20px}.section-bare .section-title{max-width:none;font-size:1.35rem}}
 .section-bare-bg{background:var(--card);border:none;border-radius:0;width:100vw;margin-left:calc(-50vw + 50%);padding:44px calc(50vw - 50% + 20px);box-shadow:none;position:relative;overflow:hidden;gap:60px}
-.section-bare-bg::after{content:'';position:absolute;inset:0;background:url("bracket.svg") no-repeat right center;background-size:auto 500%;pointer-events:none;-webkit-mask-image:linear-gradient(to left,#000 0%,#000 30%,transparent 80%);mask-image:linear-gradient(to left,#000 0%,#000 30%,transparent 80%)}
-:root[data-theme="light"] .section-bare-bg::after{opacity:.6}
-@media(prefers-color-scheme:light){:root:not([data-theme="dark"]) .section-bare-bg::after{opacity:.6}}
 @media(max-width:700px){.section-bare-bg{padding:28px 20px}.section-bare-bg::after{right:-100px;width:200px;height:200px}}
 .section-title{font-size:1.6rem;font-weight:700;letter-spacing:-.4px;margin-bottom:18px}
 
@@ -192,7 +189,7 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
 .sources-list a::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--label3);flex-shrink:0}
 .sources-list a:hover{color:var(--label);text-decoration:underline;text-underline-offset:3px}
 
-.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:28px}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:44px}
 @media(max-width:480px){.info-grid{grid-template-columns:1fr}}
 .info-card{border-radius:var(--radius);padding:22px;transition:transform .2s var(--ease)}
 .info-card:hover{transform:translateY(-1px)}
@@ -214,6 +211,8 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
 .contact-btn{display:inline-block;margin-top:12px;background:#fff;color:#000;border-radius:10px;padding:8px 16px;font-size:.82rem;font-weight:600;text-decoration:none;transition:transform .15s var(--ease),box-shadow .15s;box-shadow:0 2px 8px rgba(0,0,0,.1)}
 .contact-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.15)}
 .contact-btn:active{transform:translateY(0)}
+
+.footer{text-align:center;font-size:.75rem;color:var(--label3);padding:0;letter-spacing:.01em}
 </style>
 </head>
 <body>
@@ -258,22 +257,18 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
       </div>
     </div>
 
-    <!-- Category separator -->
-    <div class="form-sep"></div>
-
     <!-- Fuel type -->
-    <div class="grow">
+    <div class="grow" id="fuelRow">
       <label id="fuelLbl">Kütuse tüüp</label>
-      <div class="pill-group" id="fuelGroup">
-        <button class="pill active" data-fuel="ice"  onclick="setFuel(this)">Bensiin / Diisel</button>
-        <button class="pill"        data-fuel="mhev" onclick="setFuel(this)">Hübriid</button>
-        <button class="pill"        data-fuel="phev" onclick="setFuel(this)">PHEV</button>
-        <button class="pill"        data-fuel="ev"   onclick="setFuel(this)">⚡ Elekter</button>
+      <div class="select-wrap">
+        <select id="iFuel" onchange="setFuel(this.value)">
+          <option value="ice">Bensiin / Diisel</option>
+          <option value="mhev">Hübriid</option>
+          <option value="phev">PHEV</option>
+          <option value="ev">⚡ Elekter</option>
+        </select>
       </div>
     </div>
-
-    <!-- Emissions separator -->
-    <div class="form-sep" id="sepEmissions"></div>
 
     <!-- Displacement (L category only) -->
     <div class="grow" id="rowDispl" style="display:none">
@@ -302,9 +297,6 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
       </div>
     </div>
 
-    <!-- Vehicle data separator -->
-    <div class="form-sep"></div>
-
     <!-- Year + Mass side by side -->
     <div class="form-row">
       <div class="grow">
@@ -314,7 +306,7 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
         </div>
       </div>
       <div class="grow">
-        <label for="iMass"><span id="massLbl">Täismass</span></label>
+        <label for="iMass"><span id="massLbl">Täismass</span> <span class="req-dot" id="dotMass"></span></label>
         <div class="input-wrap">
           <input type="number" id="iMass" min="400" max="6000" placeholder="1650" oninput="calc()">
           <span class="unit">kg</span>
@@ -395,6 +387,8 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
     </div>
   </div>
 
+  <footer class="footer" id="footerText"></footer>
+
 </div>
 <script>
 // ── State ──────────────────────────────────────────────────────────────────────
@@ -468,6 +462,7 @@ const T = {
     disclaimerTitle:'Teadaanne',
     disclaimerText:'Iseseisev kalkulaator informatiivsel eesmärgil. Ei ole seotud EMTA-ga ega kujuta endast ametlikku maksunõuannet.',
     contactTitle:'Võta ühendust', contactText:'Küsimused, tagasiside või vead?', contactBtn:'Kirjuta meile',
+    footer:'Kõik õigused kaitstud.',
   },
   en: {
     pgTitle:'Car Tax', pgSub:'Motor vehicle tax 2025',
@@ -531,6 +526,7 @@ const T = {
     disclaimerTitle:'Disclaimer',
     disclaimerText:'Independent calculator for informational purposes only. Not affiliated with EMTA and does not constitute official tax advice.',
     contactTitle:'Contact us', contactText:'Questions, feedback or bugs?', contactBtn:'Write to us',
+    footer:'All rights reserved.',
   },
   ru: {
     pgTitle:'Автоналог', pgSub:'Налог на ТС 2025',
@@ -590,6 +586,7 @@ const T = {
     disclaimerTitle:'Предупреждение',
     disclaimerText:'Независимый калькулятор в информационных целях. Не является официальной налоговой консультацией.',
     contactTitle:'Связаться', contactText:'Вопросы, отзывы или ошибки?', contactBtn:'Написать нам',
+    footer:'Все права защищены.',
   },
   fi: {
     pgTitle:'Autovero', pgSub:'Moottoriajoneuvovero 2025',
@@ -642,6 +639,7 @@ const T = {
     disclaimerTitle:'Huomautus',
     disclaimerText:'Itsenäinen laskuri tiedottamistarkoituksiin. Ei liity EMTA:han eikä ole virallista veroneuvontaa.',
     contactTitle:'Ota yhteyttä', contactText:'Kysymykset tai palaute?', contactBtn:'Kirjoita meille',
+    footer:'Kaikki oikeudet pidätetään.',
   },
 };
 
@@ -767,11 +765,13 @@ function applyLang() {
   s('faqTitle', tr.faqTitle); s('sourcesTitle', tr.sourcesTitle);
   s('disclaimerTitle', tr.disclaimerTitle); s('disclaimerText', tr.disclaimerText);
   s('contactTitle', tr.contactTitle); s('contactText', tr.contactText); s('contactBtn', tr.contactBtn);
-  // Fuel buttons
-  document.querySelector('[data-fuel="ice"]').textContent  = tr.fuel_ice;
-  document.querySelector('[data-fuel="mhev"]').textContent = tr.fuel_mhev;
-  document.querySelector('[data-fuel="phev"]').textContent = tr.fuel_phev;
-  document.querySelector('[data-fuel="ev"]').textContent   = tr.fuel_ev;
+  s('footerText', '© ' + new Date().getFullYear() + '. ' + tr.footer);
+  // Fuel select
+  const fs = document.getElementById('iFuel');
+  fs.options[0].textContent = tr.fuel_ice;
+  fs.options[1].textContent = tr.fuel_mhev;
+  fs.options[2].textContent = tr.fuel_phev;
+  fs.options[3].textContent = tr.fuel_ev;
   // Months
   const sel = document.getElementById('iMonth');
   if (sel) {
@@ -798,10 +798,8 @@ function applyLang() {
 }
 
 // ── Fuel & Mode ────────────────────────────────────────────────────────────────
-function setFuel(btn) {
-  document.querySelectorAll('[data-fuel]').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  fuel = btn.dataset.fuel;
+function setFuel(v) {
+  fuel = v;
   const isEV = fuel === 'ev';
   ['rowEmissions','sepEmissions'].forEach(id => {
     const el = document.getElementById(id); if (el) el.style.display = isEV ? 'none' : '';
@@ -813,7 +811,7 @@ function setVtype(v) {
   vtype = v;
   const isL = vtype === 'l';
   // Show/hide fuel row
-  const fuelSection = document.getElementById('fuelGroup').closest('.grow');
+  const fuelSection = document.getElementById('fuelRow');
   const fuelSep = document.getElementById('sepEmissions');
   if (fuelSection) fuelSection.style.display = isL ? 'none' : '';
   if (fuelSep) fuelSep.style.display = isL ? 'none' : '';
@@ -837,10 +835,12 @@ function updateDots() {
   const pw  = parseFloat(document.getElementById('iPower').value) || 0;
   const d   = parseFloat(document.getElementById('iDispl') ? document.getElementById('iDispl').value : '0') || 0;
   const set = (id, ok) => { const el = document.getElementById(id); if (el) el.classList.toggle('ok', ok); };
+  const mass = parseFloat(document.getElementById('iMass').value) || 0;
   set('dotYear',  !!(y && y >= 1950 && y <= 2030));
   set('dotCO2',   !isEV && !isL && !isNaN(co2) && co2 >= 0);
   set('dotPower', !isEV && !isL && pw > 0);
   set('dotDispl', isL && d > 0);
+  set('dotMass',  !isL && mass > 0);
 }
 
 // ── Clear ──────────────────────────────────────────────────────────────────────
@@ -897,6 +897,7 @@ function calc() {
   updateDots();
 
   if (!y || y < 1950 || y > 2030) { clearResult(); return; }
+  if (!isL && !mass) { clearResult(); return; }
   if (isL) {
     const d = parseFloat(document.getElementById('iDispl').value) || 0;
     if (!d) { clearResult(); return; }
