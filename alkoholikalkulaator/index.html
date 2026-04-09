@@ -31,7 +31,13 @@
   }
 }
 body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-font-smoothing:antialiased;overflow-x:hidden}
-.page{max-width:600px;margin:0 auto;padding:20px 16px 60px;overflow:visible}
+.page{max-width:1000px;margin:0 auto;padding:20px 16px 60px;overflow:visible}
+
+/* ── Main 2-col grid ── */
+.main-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:start;margin-bottom:24px}
+.main-grid .form-card{margin-bottom:0}
+.main-grid .bento{margin-bottom:0}
+@media(max-width:680px){.main-grid{grid-template-columns:1fr}}
 
 /* ── Header ── */
 .header{margin-bottom:24px}
@@ -129,7 +135,7 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
 .section-card{background:var(--card);border:var(--card-border);border-radius:var(--radius);padding:20px;margin-bottom:24px}
 .section-full{background-color:var(--card);border:none;border-radius:0;width:100vw;margin-left:calc(-50vw + 50%);padding:40px calc(50vw - 50% + 16px);margin-bottom:24px;position:relative;overflow:hidden}
 .section-full::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:40px 40px;-webkit-mask-image:radial-gradient(ellipse at 50% 50%,#000 20%,transparent 70%);mask-image:radial-gradient(ellipse at 50% 50%,#000 20%,transparent 70%);pointer-events:none}
-.section-full>.section-title,.section-full>.how-steps,.section-full>.sources-list{max-width:568px;margin-left:auto;margin-right:auto;position:relative}
+.section-full>.section-title,.section-full>.how-steps,.section-full>.sources-list{max-width:968px;margin-left:auto;margin-right:auto;position:relative}
 :root[data-theme="light"] .section-full::before{background-image:linear-gradient(rgba(0,0,0,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.035) 1px,transparent 1px)}
 @media(prefers-color-scheme:light){:root:not([data-theme="dark"]) .section-full::before{background-image:linear-gradient(rgba(0,0,0,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.035) 1px,transparent 1px)}}
 .section-title{font-size:1.35rem;font-weight:700;letter-spacing:-.3px;margin-bottom:16px}
@@ -210,6 +216,9 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
     </div>
   </header>
 
+  <!-- Main grid: form left, result right -->
+  <div class="main-grid">
+
   <!-- Form -->
   <section class="form-card">
 
@@ -263,7 +272,9 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
       <div class="tml-sub" id="tlSub"></div>
       <div id="tlContainer"></div>
     </div>
-  </div>
+  </div><!-- /bento -->
+
+  </div><!-- /main-grid -->
 
   <!-- How-to -->
   <section class="section-card section-full">
