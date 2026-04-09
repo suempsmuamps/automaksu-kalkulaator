@@ -1,606 +1,231 @@
 <!DOCTYPE html>
 <html lang="et">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Automaksu kalkulaator | Kalkulaatorid</title>
-  <meta name="description" content="Arvuta sõiduki mootorsõidukimaks 2025. Sisesta CO₂, mass ja aasta – kohene tulemus. Tasuta!">
-  <link rel="canonical" id="linkCanonical" href="">
-  <link rel="alternate" hreflang="et" id="hreflangEt" href="">
-  <link rel="alternate" hreflang="en" id="hreflangEn" href="">
-  <link rel="alternate" hreflang="ru" id="hreflangRu" href="">
-  <link rel="alternate" hreflang="fi" id="hreflangFi" href="">
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8782235353269818" crossorigin="anonymous"></script>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Kalkulaatorid",
-    "description": "Arvuta sõiduki mootorsõidukimaks 2025. Sisesta CO₂, mass ja aasta – kohene tulemus. Tasuta!",
-    "email": "info@victoriae.ee",
-    "areaServed": {"@type": "Country", "name": "Estonia"},
-    "availableLanguage": ["Estonian", "English", "Russian", "Finnish"]
-  }
-  </script>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {"@type": "Question", "name": "Mis on mootorsõidukimaks?", "acceptedAnswer": {"@type": "Answer", "text": "Mootorsõidukimaks on Eestis alates 1. jaanuarist 2025 kehtiv aastane maks M1 kategooria sõiduautode omanikele. Maksu suurus sõltub CO₂ heitkogusest, massist ja vanusest."}},
-      {"@type": "Question", "name": "Millal automaksu maksta tuleb?", "acceptedAnswer": {"@type": "Answer", "text": "Aastamaks tasutakse kahes võrdses osamakses: 15. juuniks ja 15. detsembriks."}},
-      {"@type": "Question", "name": "Kas elektriautod peavad automaksu maksma?", "acceptedAnswer": {"@type": "Answer", "text": "Elektriautod ei pea tasuma CO₂ komponenti. Nende aastamaks on baasmäär 50 € pluss vanusekoefitsient × masskomponent (kehtib üle 2 400 kg sõidukitele)."}},
-      {"@type": "Question", "name": "Mis on vanusekoefitsient?", "acceptedAnswer": {"@type": "Answer", "text": "Vanusekoefitsient vähendab CO₂ ja massikomponenti: kuni 5 a vana = 1,00; seejärel –0,08/aasta; 15+ a = 0,20 (miinimum)."}},
-      {"@type": "Question", "name": "Kuidas esimese aasta automaksu arvutatakse?", "acceptedAnswer": {"@type": "Answer", "text": "Esimese aasta maks = täisaastamaks × (13 − registreerimiskuu) / 12. Kui registreeriti enne juunit, on kaks makset; hiljem üks makse detsembris."}},
-      {"@type": "Question", "name": "Mis on masskomponent?", "acceptedAnswer": {"@type": "Answer", "text": "Masskomponent lisandub registreerimistasule üle 2 000 kg sõidukitele (PHEV: 2 200 kg; EV: 2 400 kg). Tasu = 2 €/kg × ülejäänud kg, max 2 000 €."}},
-      {"@type": "Question", "name": "Kust leida auto CO₂ heitkogust?", "acceptedAnswer": {"@type": "Answer", "text": "CO₂ heitkogus on kirjas sõiduki registreerimistunnistusel (punkt V.7) või Maanteeameti omanikuportaalis."}},
-      {"@type": "Question", "name": "Mis on registreerimistasu?", "acceptedAnswer": {"@type": "Answer", "text": "Registreerimistasu on ühekordne maks sõiduki registreerimisel Eestis või omaniku vahetumisel: 150 € baasmäär + vanusekoefitsient × (CO₂ komponent + masskomponent)."}}
-    ]
-  }
-  </script>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Automaksu kalkulaator 2025 — mootorsõidukimaks Eestis</title>
+<meta name="description" content="Tasuta automaksu kalkulaator 2025: arvuta oma sõiduki mootorsõidukimaks Eestis. Sisesta CO₂ heitkogus, registreerimisaasta ja mass — tulemus kohe.">
+<meta name="keywords" content="automaksu kalkulaator, mootorsõidukimaks, automaks 2025, CO2 maks, auto maks Eesti">
+<link rel="canonical" href="https://automaksu-kalkulaator.ee/">
+<meta property="og:title" content="Automaksu kalkulaator 2025">
+<meta property="og:description" content="Arvuta oma sõiduki mootorsõidukimaks Eestis. Tasuta, kohene tulemus.">
+<meta property="og:type" content="website">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f2f2f7;--card:#fff;--label:#1c1c1e;--label2:#6d6d72;--label3:#aeaeb2;
+  --sep:rgba(60,60,67,.12);--tint:#007aff;--radius:16px;
+  --font:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Helvetica,sans-serif;
+}
+@media(prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){--bg:#1c1c1e;--card:#2c2c2e;--label:#fff;--label2:#aeaeb2;--label3:#636366;--sep:rgba(255,255,255,.1)}
+}
+:root[data-theme="dark"]{--bg:#1c1c1e;--card:#2c2c2e;--label:#fff;--label2:#aeaeb2;--label3:#636366;--sep:rgba(255,255,255,.1)}
 
-    :root {
-      --page:   #F2F2F7;
-      --card:   #FFFFFF;
-      --label:  #000000;
-      --label2: rgba(60,60,67,.55);
-      --label3: rgba(60,60,67,.18);
-      --sep:    rgba(60,60,67,.18);
-      --tint:   #007AFF;
-      --green:  #34C759;
-      --r-card: 14px;
-      --font:   -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif;
-    }
+body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-font-smoothing:antialiased}
+.page{max-width:600px;margin:0 auto;padding:20px 16px 60px}
 
-    body {
-      font-family: var(--font);
-      background: var(--page);
-      color: var(--label);
-      padding: 48px 20px 72px;
-      min-height: 100vh;
-    }
+/* ── Header ── */
+.header{margin-bottom:24px}
+.header-inner{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.header-title-group{display:flex;align-items:center;gap:12px}
+.header-icon{font-size:2rem;line-height:1}
+.header-title{font-size:1.5rem;font-weight:700;letter-spacing:-.3px}
+.header-sub{font-size:.85rem;color:var(--label2);margin-top:2px}
+.header-controls{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.lang-switcher{display:flex;background:var(--sep);border-radius:8px;padding:2px;gap:2px}
+.lang-btn{background:none;border:none;padding:4px 8px;border-radius:6px;font-size:.78rem;font-weight:600;color:var(--label2);cursor:pointer;font-family:var(--font);transition:.15s}
+.lang-btn.active{background:var(--card);color:var(--tint);box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.theme-btn{background:var(--sep);border:none;width:32px;height:32px;border-radius:8px;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent}
 
-    .wrap { max-width: 680px; margin: 0 auto; }
+/* ── Form card ── */
+.form-card{background:var(--card);border-radius:var(--radius);padding:20px;margin-bottom:12px;display:flex;flex-direction:column;gap:20px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.form-sep{height:.5px;background:var(--sep)}
 
-    /* ── Page header ── */
-    .pg-hd {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 32px;
-    }
-    .pg-hd-text { min-width: 0; }
-    .pg-hd h1 { font-size: 2rem; font-weight: 700; letter-spacing: -.04em; }
-    .pg-hd p  { font-size: .88rem; color: var(--label2); margin-top: 4px; }
-    .pg-hd-controls { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; margin-top: 6px; flex-shrink: 0; }
+/* ── Grow ── */
+.grow{display:flex;flex-direction:column;gap:7px}
+.grow>label{font-size:.93rem;color:var(--label2);font-weight:500;display:flex;align-items:center;gap:7px}
 
-    /* ── Section label ── */
-    .slabel {
-      font-size: .78rem; font-weight: 600; text-transform: uppercase;
-      letter-spacing: .05em; color: var(--label2); padding: 0 4px; margin-bottom: 6px;
-    }
+/* ── Pill buttons ── */
+.pill-group{display:flex;flex-wrap:wrap;gap:8px}
+.pill{background:var(--sep);border:none;border-radius:20px;padding:8px 16px;font-family:var(--font);font-size:.88rem;font-weight:500;color:var(--label);cursor:pointer;white-space:nowrap;transition:background .18s,color .18s;-webkit-tap-highlight-color:transparent}
+.pill.active{background:var(--tint);color:#fff}
+.pill:active{opacity:.75}
+.pill-sm{padding:5px 12px;font-size:.82rem}
 
-    /* ── Fuel segmented control ── */
-    .fuel-pills {
-      display: flex; flex-wrap: wrap; gap: 8px;
-    }
-    .fuel-btn {
-      background: rgba(118,118,128,.12); border: none; border-radius: 20px;
-      padding: 8px 16px; font-family: var(--font); font-size: .88rem; font-weight: 500;
-      color: var(--label); cursor: pointer; white-space: nowrap;
-      transition: background .18s, color .18s;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .fuel-btn.active { background: var(--tint); color: #fff; }
-    .fuel-btn:active { opacity: .75; }
+/* ── Input wrap ── */
+.input-wrap{display:flex;align-items:center;background:var(--bg);border-radius:10px;overflow:hidden}
+.input-wrap input{flex:1;border:none;background:none;padding:10px 12px;font-size:1rem;font-family:var(--font);color:var(--label);outline:none;-moz-appearance:textfield}
+.input-wrap input::-webkit-inner-spin-button,.input-wrap input::-webkit-outer-spin-button{-webkit-appearance:none}
+.input-wrap input::placeholder{color:var(--label3)}
+.input-wrap input:disabled{opacity:.4}
+.unit{padding:10px 12px 10px 0;font-size:.85rem;color:var(--label3);flex-shrink:0}
 
-    /* ── Mini mode pills ── */
-    .mini-seg { display: inline-flex; gap: 6px; flex-shrink: 0; }
-    .mini-btn {
-      background: rgba(118,118,128,.12); border: none; border-radius: 20px;
-      padding: 5px 12px; font-family: var(--font); font-size: .8rem; font-weight: 500;
-      color: var(--label); cursor: pointer; white-space: nowrap;
-      transition: background .18s, color .18s;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .mini-btn.active { background: var(--tint); color: #fff; }
-    .mini-btn:active { opacity: .75; }
+/* ── Req dot ── */
+.req-dot{width:16px;height:16px;border-radius:50%;flex-shrink:0;background:var(--label3);transition:background .2s;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:transparent;line-height:1}
+.req-dot::after{content:'✓'}
+.req-dot.ok{background:#34c759;color:#fff}
 
-    /* ── Form card ── */
-    .form-card {
-      background: var(--card); border-radius: var(--r-card); padding: 20px;
-      margin-bottom: 10px; display: flex; flex-direction: column; gap: 20px;
-      box-shadow: 0 1px 3px rgba(0,0,0,.06);
-    }
-    .form-sep { height: .5px; background: var(--sep); margin: 0 -4px; }
+/* ── Bento ── */
+.bento{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:12px}
 
-    /* ── Grow (column: label above input) ── */
-    .grow { display: flex; flex-direction: column; gap: 7px; }
-    .grow > label {
-      font-size: .93rem; color: var(--label2); font-weight: 500;
-      display: flex; align-items: center; gap: 7px;
-    }
+.c-ann{
+  background:#000;
+  background-image:
+    radial-gradient(ellipse at 20% 80%,rgba(59,130,246,.18) 0%,transparent 55%),
+    radial-gradient(ellipse at 80% 10%,rgba(139,92,246,.12) 0%,transparent 50%);
+  border-radius:var(--radius);padding:24px;min-height:170px;
+  display:flex;flex-direction:column;justify-content:flex-end;
+}
+.ann-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.chip{background:rgba(255,255,255,.1);color:rgba(255,255,255,.75);padding:4px 10px;border-radius:20px;font-size:.78rem;font-weight:500;display:inline-flex;align-items:center;gap:5px}
+.ann-num{font-size:3.6rem;font-weight:700;color:#fff;letter-spacing:-1.5px;line-height:1}
+.ann-num.e{color:rgba(255,255,255,.15)}
+.ann-lbl{font-size:.82rem;color:rgba(255,255,255,.38);margin-top:4px;text-transform:uppercase;letter-spacing:.05em}
 
-    /* ── Input wrap ── */
-    .input-wrap {
-      display: flex; align-items: center; background: var(--bg);
-      border-radius: 10px; overflow: hidden;
-    }
-    .input-wrap input[type="number"] {
-      flex: 1; border: none; background: none; padding: 10px 12px;
-      font-size: 1rem; font-family: var(--font); color: var(--label);
-      outline: none; -moz-appearance: textfield;
-    }
-    .input-wrap input::-webkit-inner-spin-button,
-    .input-wrap input::-webkit-outer-spin-button { -webkit-appearance: none; }
-    .input-wrap input::placeholder { color: var(--label3); }
-    .input-wrap input:disabled { opacity: .35; }
-    .input-wrap .unit { padding: 10px 12px 10px 0; font-size: .85rem; color: var(--label3); flex-shrink: 0; }
+/* ── Payment timeline ── */
+.c-tml{background:var(--card);border-radius:var(--radius);padding:20px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.tml-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;gap:12px;flex-wrap:wrap}
+.tml-lbl{font-size:.75rem;font-weight:600;color:var(--label3);text-transform:uppercase;letter-spacing:.05em}
+.tml-picks{display:flex;gap:8px}
+.tml-sel{background:var(--bg);border:none;border-radius:8px;padding:5px 8px;font-size:.82rem;font-family:var(--font);color:var(--label);cursor:pointer;outline:none}
+.pay-grid{display:flex;gap:16px}
+.pay-col{flex:1;display:flex;flex-direction:column;gap:4px}
+.pay-date{font-size:.78rem;color:var(--label3)}
+.pay-amt{font-size:1.4rem;font-weight:700;color:var(--label);font-variant-numeric:tabular-nums}
+.tml-note{font-size:.78rem;color:var(--label3);margin-top:12px;line-height:1.5}
 
-    /* ── Req dot ── */
-    .req-dot {
-      width: 16px; height: 16px; border-radius: 50%; flex-shrink: 0;
-      background: var(--label3); transition: background .2s;
-      display: inline-flex; align-items: center; justify-content: center;
-      font-size: 10px; font-weight: 800; color: transparent; line-height: 1;
-    }
-    .req-dot::after { content: '✓'; }
-    .req-dot.ok { background: #34c759; color: #fff; }
+/* ── Section cards ── */
+.section-card{background:var(--card);border-radius:var(--radius);padding:20px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.section-title{font-size:1.1rem;font-weight:700;margin-bottom:16px}
 
-    /* ── Section footer ── */
-    .sfooter { font-size: .74rem; color: var(--label2); padding: 6px 4px 0; line-height: 1.5; }
+.how-steps{list-style:none;display:flex;flex-direction:column;gap:12px}
+.how-steps li{display:flex;align-items:flex-start;gap:14px;font-size:.93rem;line-height:1.55;color:var(--label2)}
+.step-badge{flex-shrink:0;width:28px;height:28px;border-radius:50%;background:var(--tint);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;margin-top:1px}
 
-    /* ── Notice ── */
-    .notice { font-size: .74rem; color: var(--label2); line-height: 1.6; padding: 0 4px; }
-    .notice a { color: var(--tint); text-decoration: none; }
+.calc-content h3{font-size:.95rem;font-weight:700;margin:14px 0 6px}
+.calc-content h3:first-child{margin-top:0}
+.calc-content p{font-size:.9rem;line-height:1.65;color:var(--label2);margin-bottom:8px}
+.calc-content ul{padding-left:18px;margin-bottom:8px}
+.calc-content li{font-size:.9rem;line-height:1.65;color:var(--label2);margin-bottom:2px}
+.calc-content code{background:var(--bg);border-radius:4px;padding:1px 5px;font-size:.85rem;font-family:'SF Mono',monospace}
+.calc-content strong{color:var(--label)}
 
-    /* ── Spacing ── */
-    .mt8  { margin-top: 8px; }
-    .mt10 { margin-top: 10px; }
-    .mt20 { margin-top: 20px; }
-    .mt28 { margin-top: 28px; }
+.faq-item{border-top:.5px solid var(--sep)}
+.faq-item:first-child{border-top:none}
+.faq-q{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 0;background:transparent;border:none;cursor:pointer;font-family:var(--font);font-size:.93rem;font-weight:600;color:var(--label);text-align:left;-webkit-tap-highlight-color:transparent}
+.faq-q:hover{opacity:.8}
+.faq-toggle{flex-shrink:0;width:22px;height:22px;border-radius:50%;background:rgba(0,122,255,.1);color:var(--tint);display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:600;line-height:1;padding-bottom:1px;transition:transform .2s,background .2s}
+.faq-item.open .faq-toggle{background:var(--tint);color:#fff;transform:rotate(45deg)}
+.faq-a{display:none;padding:0 0 14px;font-size:.88rem;line-height:1.65;color:var(--label2)}
+.faq-a p{margin-bottom:6px}
+.faq-item.open .faq-a{display:block}
 
-    /* ══════════════════════════════════════
-       BENTO RESULTS
-    ══════════════════════════════════════ */
+.sources-list{list-style:none;display:flex;flex-direction:column;gap:8px}
+.sources-list a{color:var(--tint);text-decoration:none;font-size:.88rem}
+.sources-list a:hover{text-decoration:underline}
 
-    .bento {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: auto auto;
-      grid-template-areas:
-        "ann ann ann"
-        "tml tml tml";
-      gap: 10px;
-    }
-
-    .cell { border-radius: 20px; padding: 20px; position: relative; overflow: hidden; }
-    .cell::after {
-      content: ''; position: absolute; inset: 0; border-radius: inherit;
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,.07); pointer-events: none;
-    }
-    .clbl {
-      font-size: .65rem; font-weight: 700; letter-spacing: .1em;
-      text-transform: uppercase; color: rgba(255,255,255,.38); margin-bottom: 12px;
-    }
-    .cell-sub { font-size: .72rem; color: rgba(255,255,255,.38); margin-top: 6px; }
-
-    /* Annual hero */
-    .c-ann {
-      grid-area: ann; background: #000;
-      background-image:
-        radial-gradient(ellipse at 20% 80%, rgba(59,130,246,.18) 0%, transparent 55%),
-        radial-gradient(ellipse at 80% 10%, rgba(139,92,246,.12) 0%, transparent 50%);
-      display: flex; flex-direction: column; justify-content: flex-end;
-      padding: 24px; min-height: 190px;
-    }
-    .ann-num {
-      font-size: 3.2rem; font-weight: 800; letter-spacing: -.05em; line-height: 1;
-      font-variant-numeric: tabular-nums;
-      background: linear-gradient(140deg, #fff 20%, #93c5fd 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-    }
-    .ann-num.e { background: none; -webkit-text-fill-color: rgba(255,255,255,.12); }
-    .ann-chips { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 12px; }
-    .chip {
-      padding: 3px 9px; background: rgba(255,255,255,.08); border-radius: 999px;
-      font-size: .7rem; color: rgba(255,255,255,.5); border: 1px solid rgba(255,255,255,.06);
-    }
-
-    /* Payment timeline — light */
-    .c-tml {
-      grid-area: tml;
-      background: #f1f5f9; background-image: none;
-    }
-    .c-tml .clbl    { color: rgba(0,0,0,.38); }
-    .c-tml .tl-date { color: rgba(0,0,0,.4); }
-    .c-tml .tl-dot  { background: rgba(0,0,0,.35); }
-    .c-tml .tl-bar  { background: rgba(0,0,0,.1); }
-    .c-tml .tl-amt  { color: #000; }
-    .c-tml .tl-amt.e{ color: rgba(0,0,0,.18); }
-    .c-tml .cell-sub{ color: rgba(0,0,0,.38); }
-    .c-tml::after   { box-shadow: inset 0 0 0 1px rgba(0,0,0,.05); }
-
-    /* Inline date picker inside timeline cell */
-    .tl-picker {
-      display: flex;
-      gap: 6px;
-      margin-bottom: 14px;
-    }
-    .tl-sel {
-      flex: 1;
-      border: none;
-      border-radius: 7px;
-      padding: 5px 8px;
-      font-size: .78rem;
-      font-weight: 500;
-      font-family: var(--font);
-      cursor: pointer;
-      -webkit-appearance: none;
-      appearance: none;
-      outline: none;
-      background: rgba(0,0,0,.07);
-      color: rgba(0,0,0,.7);
-    }
-    html.dark .tl-sel {
-      background: rgba(255,255,255,.1);
-      color: rgba(255,255,255,.75);
-    }
-    html.dark .tl-sel option { background: #1c1c1e; color: #fff; }
-
-    .tl { margin-top: 16px; }
-    .tl-head, .tl-foot { display: flex; justify-content: space-between; }
-    .tl-date {
-      font-size: .68rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: .07em; color: rgba(255,255,255,.35);
-    }
-    .tl-track { display: flex; align-items: center; margin: 10px 0; }
-    .tl-dot { width: 12px; height: 12px; background: rgba(255,255,255,.7); border-radius: 50%; flex-shrink: 0; }
-    .tl-bar { flex: 1; height: 1.5px; background: rgba(255,255,255,.12); margin: 0 8px; }
-    .tl-amt {
-      font-size: 1.25rem; font-weight: 700; letter-spacing: -.03em;
-      font-variant-numeric: tabular-nums; color: #fff;
-    }
-    .tl-amt.e { color: rgba(255,255,255,.15); }
-    .tl-head-one  { justify-content: flex-start; }
-    .tl-track-one { justify-content: flex-start; gap: 0; }
-    .tl-track-one .tl-bar { max-width: 48px; opacity: .4; }
-
-    /* ── Dark mode ── */
-    html.dark {
-      --page:   #000000;
-      --card:   #1c1c1e;
-      --label:  #ffffff;
-      --label2: rgba(235,235,245,.6);
-      --label3: rgba(235,235,245,.18);
-      --sep:    rgba(84,84,88,.65);
-    }
-    html.dark .fuel-btn,
-    html.dark .mini-btn { background: rgba(118,118,128,.24); }
-    html.dark .fuel-btn.active,
-    html.dark .mini-btn.active { background: var(--tint); }
-
-    html.dark .c-tml { background: #1c1c1e; background-image: none; }
-    html.dark .c-tml .clbl    { color: rgba(255,255,255,.38); }
-    html.dark .c-tml .tl-date { color: rgba(255,255,255,.35); }
-    html.dark .c-tml .tl-dot  { background: rgba(255,255,255,.7); }
-    html.dark .c-tml .tl-bar  { background: rgba(255,255,255,.12); }
-    html.dark .c-tml .tl-amt  { color: #fff; }
-    html.dark .c-tml .tl-amt.e{ color: rgba(255,255,255,.15); }
-    html.dark .c-tml .cell-sub{ color: rgba(255,255,255,.38); }
-    html.dark .c-tml::after   { box-shadow: inset 0 0 0 1px rgba(255,255,255,.07); }
-
-    /* ── Disclaimer ── */
-    /* ── Info grid (disclaimer + contact) ── */
-    .info-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 40px;
-    }
-    .info-card {
-      border-radius: var(--r-card);
-      padding: 22px;
-      display: flex;
-      flex-direction: column;
-    }
-    .info-icon { font-size: 1.75rem; line-height: 1; margin-bottom: 14px; }
-    .info-card-title {
-      font-size: .82rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: .06em; margin-bottom: 8px;
-    }
-    .info-card p {
-      font-size: .82rem; line-height: 1.65; flex: 1; margin-bottom: 0;
-    }
-
-    /* Amber — disclaimer */
-    .info-card--amber {
-      background: #fef3c7;
-      background-image:
-        radial-gradient(ellipse at 95% 5%,  rgba(251,191,36,.55) 0%, transparent 45%),
-        radial-gradient(ellipse at 5%  95%, rgba(245,158,11,.25) 0%, transparent 40%),
-        radial-gradient(ellipse at 50% 50%, rgba(254,243,199,0)  0%, #fef3c7      100%);
-    }
-    .info-card--amber .info-card-title { color: #92400e; }
-    .info-card--amber p { color: rgba(120,53,15,.7); }
-    html.dark .info-card--amber {
-      background: #1c1500;
-      background-image:
-        radial-gradient(ellipse at 95% 5%,  rgba(180,120,0,.35)  0%, transparent 45%),
-        radial-gradient(ellipse at 5%  95%, rgba(120,70,0,.2)    0%, transparent 40%);
-    }
-    html.dark .info-card--amber .info-card-title { color: #fcd34d; }
-    html.dark .info-card--amber p { color: rgba(252,211,77,.55); }
-
-    /* Blue — contact */
-    .info-card--blue {
-      background: #dbeafe;
-      background-image:
-        radial-gradient(ellipse at 95% 5%,  rgba(147,197,253,.7) 0%, transparent 45%),
-        radial-gradient(ellipse at 5%  95%, rgba(99,102,241,.18) 0%, transparent 40%),
-        radial-gradient(ellipse at 50% 50%, rgba(219,234,254,0)  0%, #dbeafe      100%);
-    }
-    .info-card--blue .info-card-title { color: #1e3a8a; }
-    .info-card--blue p { color: rgba(30,58,138,.65); }
-    html.dark .info-card--blue {
-      background: #071428;
-      background-image:
-        radial-gradient(ellipse at 95% 5%,  rgba(37,99,235,.4)   0%, transparent 45%),
-        radial-gradient(ellipse at 5%  95%, rgba(99,102,241,.2)  0%, transparent 40%);
-    }
-    html.dark .info-card--blue .info-card-title { color: #93c5fd; }
-    html.dark .info-card--blue p { color: rgba(147,197,253,.55); }
-
-    .contact-btn {
-      display: inline-flex; align-items: center; gap: 7px;
-      margin-top: 16px; padding: 9px 16px;
-      background: #1e3a8a; color: #fff;
-      border-radius: 10px; font-size: .82rem; font-weight: 600;
-      font-family: var(--font); text-decoration: none;
-      -webkit-tap-highlight-color: transparent; align-self: flex-start;
-    }
-    .contact-btn:active { opacity: .75; }
-    html.dark .contact-btn { background: #2563eb; }
-
-    @media (max-width: 560px) { .info-grid { grid-template-columns: 1fr; } }
-
-    /* ── Mobile ── */
-    @media (max-width: 560px) {
-      body { padding: 28px 12px 56px; }
-      .bento {
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: auto;
-        grid-template-areas:
-          "ann ann"
-          "tml tml";
-      }
-      .c-ann { min-height: 180px; padding: 20px; }
-      .ann-num { font-size: 2.4rem; }
-      .pg-hd-controls { gap: 5px; }
-    }
-
-    /* ══════════════════════════════════════
-       NEW CONTENT SECTIONS
-    ══════════════════════════════════════ */
-
-    .pg-section { margin-top: 40px; }
-
-    .sh2 {
-      font-size: 1.25rem; font-weight: 700; letter-spacing: -.02em;
-      color: var(--label); margin-bottom: 16px;
-    }
-
-    /* ── Calculator grid (other calcs) ── */
-    .calcs-grid {
-      display: flex; flex-wrap: wrap; gap: 8px;
-    }
-    .calc-pill {
-      display: inline-block; padding: 8px 16px;
-      background: var(--card); border-radius: 999px;
-      font-family: var(--font); font-size: .85rem; font-weight: 500;
-      color: var(--tint); text-decoration: none;
-      border: 1px solid rgba(0,122,255,.18);
-      transition: opacity .15s;
-    }
-    .calc-pill:hover { opacity: .75; }
-    .calc-pill.current {
-      background: var(--tint); color: #fff;
-      border-color: transparent;
-    }
-    html.dark .calc-pill {
-      border-color: rgba(0,122,255,.3);
-    }
-    html.dark .calc-pill.current {
-      border-color: transparent;
-    }
-
-    /* ── How to use steps ── */
-    .how-steps {
-      list-style: none; display: flex; flex-direction: column; gap: 12px;
-    }
-    .how-steps li {
-      display: flex; align-items: flex-start; gap: 14px;
-      font-size: .93rem; line-height: 1.55; color: var(--label);
-    }
-    .step-badge {
-      flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%;
-      background: var(--tint); color: #fff;
-      display: flex; align-items: center; justify-content: center;
-      font-size: .78rem; font-weight: 700; margin-top: 1px;
-    }
-
-    /* ── Calc content (how it's calculated) ── */
-    .calc-content h3 {
-      font-size: 1rem; font-weight: 700; letter-spacing: -.01em;
-      color: var(--label); margin: 24px 0 8px;
-    }
-    .calc-content h3:first-child { margin-top: 0; }
-    .calc-content p {
-      font-size: .9rem; line-height: 1.65; color: var(--label2); margin-bottom: 8px;
-    }
-    .calc-content ul, .calc-content ol {
-      padding-left: 20px; margin-bottom: 8px;
-    }
-    .calc-content li {
-      font-size: .9rem; line-height: 1.65; color: var(--label2); margin-bottom: 4px;
-    }
-    .calc-content strong { color: var(--label); font-weight: 600; }
-    .calc-content code {
-      font-family: 'SF Mono', 'Menlo', monospace; font-size: .85rem;
-      background: rgba(0,0,0,.06); border-radius: 4px; padding: 1px 5px;
-      color: var(--label);
-    }
-    html.dark .calc-content code { background: rgba(255,255,255,.1); }
-
-    /* ── FAQ accordion ── */
-    .faq-list { display: flex; flex-direction: column; gap: 8px; }
-
-    .faq-item {
-      background: var(--card); border-radius: var(--r-card); overflow: hidden;
-    }
-
-    .faq-q {
-      width: 100%; display: flex; align-items: center; justify-content: space-between;
-      gap: 12px; padding: 14px 16px;
-      background: transparent; border: none; cursor: pointer;
-      font-family: var(--font); font-size: .93rem; font-weight: 600;
-      color: var(--label); text-align: left;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .faq-q:hover { opacity: .8; }
-
-    .faq-toggle {
-      flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%;
-      background: rgba(0,122,255,.1); color: var(--tint);
-      display: flex; align-items: center; justify-content: center;
-      font-size: .85rem; font-weight: 600; line-height: 1;
-      padding-bottom: 1px;
-      transition: transform .2s, background .2s;
-    }
-    .faq-item.open .faq-toggle {
-      background: var(--tint); color: #fff; transform: rotate(45deg);
-    }
-
-    .faq-a {
-      display: none; padding: 0 16px 14px;
-      font-size: .88rem; line-height: 1.65; color: var(--label2);
-      border-top: .5px solid var(--sep);
-    }
-    .faq-item.open .faq-a {
-      display: block;
-    }
-    .faq-a-inner { padding-top: 12px; }
-
-    /* ── Sources ── */
-    .sources-list {
-      list-style: none; display: flex; flex-direction: column;
-    }
-    .sources-list li {
-      padding: 12px 4px;
-      border-bottom: .5px solid var(--sep);
-      font-size: .9rem; line-height: 1.55;
-    }
-    .sources-list li:last-child { border-bottom: none; }
-    .sources-list a {
-      color: var(--tint); text-decoration: none; font-weight: 600;
-    }
-    .sources-list a:hover { text-decoration: underline; }
-    .sources-list .src-desc {
-      color: var(--label2); font-size: .83rem; margin-top: 2px;
-    }
-  </style>
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+@media(max-width:480px){.info-grid{grid-template-columns:1fr}}
+.info-card{border-radius:var(--radius);padding:20px}
+.info-card--amber{background:#fef3c7;background-image:radial-gradient(ellipse at 95% 5%,rgba(251,191,36,.55) 0%,transparent 45%),radial-gradient(ellipse at 5% 95%,rgba(245,158,11,.25) 0%,transparent 40%)}
+.info-card--blue{background:#dbeafe;background-image:radial-gradient(ellipse at 95% 5%,rgba(147,197,253,.7) 0%,transparent 45%),radial-gradient(ellipse at 5% 95%,rgba(99,102,241,.18) 0%,transparent 40%)}
+.info-icon{font-size:1.5rem;margin-bottom:8px}
+.info-card-title{font-size:.93rem;font-weight:700;color:#1c1c1e;margin-bottom:6px}
+.info-card p{font-size:.82rem;line-height:1.55;color:#374151}
+.contact-btn{display:inline-block;margin-top:10px;background:#1d4ed8;color:#fff;border-radius:8px;padding:7px 14px;font-size:.82rem;font-weight:600;text-decoration:none}
+</style>
 </head>
 <body>
-<div class="wrap">
+<div class="page">
 
-  <!-- ── Header ── -->
-  <header class="pg-hd">
-    <div class="pg-hd-text">
-      <h1 id="pgTitle">Automaks</h1>
-      <p id="pgSubtitle">Mootorsõidukimaks 2025 · M1 kategooria sõiduautod</p>
-    </div>
-    <div class="pg-hd-controls">
-      <!-- Language -->
-      <div class="mini-seg" id="langSeg">
-        <div class="mini-slider" id="langSlider"></div>
-        <button class="mini-btn active" data-lang="et" onclick="setLang(this)">ET</button>
-        <button class="mini-btn"        data-lang="en" onclick="setLang(this)">EN</button>
-        <button class="mini-btn"        data-lang="ru" onclick="setLang(this)">RU</button>
-        <button class="mini-btn"        data-lang="fi" onclick="setLang(this)">FI</button>
+  <header class="header">
+    <div class="header-inner">
+      <div class="header-title-group">
+        <div class="header-icon">🚗</div>
+        <div>
+          <h1 class="header-title" id="pgTitle">Automaks</h1>
+          <p class="header-sub" id="pgSub">Mootorsõidukimaks 2025 · M1 kategooria</p>
+        </div>
       </div>
-      <!-- Theme -->
-      <div class="mini-seg" id="themeSeg">
-        <div class="mini-slider" id="themeSlider"></div>
-        <button class="mini-btn active" data-theme="light" id="btnThemeLight" onclick="setTheme(this)">Hele</button>
-        <button class="mini-btn"        data-theme="dark"  id="btnThemeDark"  onclick="setTheme(this)">Tume</button>
+      <div class="header-controls">
+        <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">🌙</button>
+        <div class="lang-switcher">
+          <button class="lang-btn" id="btnET" onclick="setLang('et')">ET</button>
+          <button class="lang-btn" id="btnEN" onclick="setLang('en')">EN</button>
+          <button class="lang-btn" id="btnRU" onclick="setLang('ru')">RU</button>
+          <button class="lang-btn" id="btnFI" onclick="setLang('fi')">FI</button>
+        </div>
       </div>
     </div>
   </header>
 
-  <!-- ══ FORM CARD ══ -->
+  <!-- Form -->
   <div class="form-card">
 
     <!-- Fuel type -->
     <div class="grow">
-      <label id="fuelLabel">Kütuse tüüp</label>
-      <div class="fuel-pills" id="fuelSeg">
-        <button class="fuel-btn active" data-fuel="ice"  id="fuelIce"  onclick="setFuel(this)">Bensiin / Diisel</button>
-        <button class="fuel-btn"        data-fuel="mhev" id="fuelMhev" onclick="setFuel(this)">Hübriid</button>
-        <button class="fuel-btn"        data-fuel="phev" id="fuelPhev" onclick="setFuel(this)">PHEV</button>
-        <button class="fuel-btn"        data-fuel="ev"   id="fuelEv"   onclick="setFuel(this)">⚡ Elekter</button>
+      <label id="fuelLbl">Kütuse tüüp</label>
+      <div class="pill-group" id="fuelGroup">
+        <button class="pill active" data-fuel="ice"  onclick="setFuel(this)">Bensiin / Diisel</button>
+        <button class="pill"        data-fuel="mhev" onclick="setFuel(this)">Hübriid</button>
+        <button class="pill"        data-fuel="phev" onclick="setFuel(this)">PHEV</button>
+        <button class="pill"        data-fuel="ev"   onclick="setFuel(this)">⚡ Elekter</button>
       </div>
     </div>
 
-    <div class="form-sep" id="emissionsLabel"></div>
+    <!-- Emissions separator -->
+    <div class="form-sep" id="sepEmissions"></div>
 
-    <!-- Emissions -->
-    <div class="grow" id="modeRow">
-      <label id="sourceLabel">Andmete allikas</label>
-      <div class="mini-seg" id="modeSeg">
-        <button class="mini-btn active" data-mode="co2" id="modeCo2" onclick="setMode(this)">CO₂</button>
-        <button class="mini-btn"        data-mode="alt" id="modeAlt" onclick="setMode(this)">Mootor</button>
+    <!-- Mode -->
+    <div class="grow" id="rowMode">
+      <label id="modeLbl">Andmete allikas</label>
+      <div class="pill-group">
+        <button class="pill pill-sm active" data-mode="co2" onclick="setMode(this)">CO₂</button>
+        <button class="pill pill-sm"        data-mode="alt" onclick="setMode(this)" id="modeAltBtn">Mootor</button>
       </div>
     </div>
 
-    <div class="grow" id="co2Row">
-      <label for="iCO2" id="co2Label">CO₂ heitkogus <span class="req-dot" id="dotCO2"></span></label>
+    <!-- CO₂ input -->
+    <div class="grow" id="rowCO2">
+      <label for="iCO2"><span id="co2Lbl">CO₂ heitkogus</span> <span class="req-dot" id="dotCO2"></span></label>
       <div class="input-wrap">
         <input type="number" id="iCO2" min="0" max="600" placeholder="130" oninput="calc()">
         <span class="unit">g/km</span>
       </div>
     </div>
 
-    <div class="grow" id="displRow" style="display:none">
-      <label for="iDispl" id="displLabel">Mootori töömaht <span class="req-dot" id="dotEng"></span></label>
+    <!-- Engine inputs (alt mode) -->
+    <div class="grow" id="rowDispl" style="display:none">
+      <label for="iDispl"><span id="displLbl">Mootori töömaht</span> <span class="req-dot" id="dotDispl"></span></label>
       <div class="input-wrap">
         <input type="number" id="iDispl" min="0" max="10000" placeholder="1598" oninput="calc()">
         <span class="unit">cm³</span>
       </div>
     </div>
 
-    <div class="grow" id="powerRow" style="display:none">
-      <label for="iPower" id="powerLabel">Võimsus <span class="req-dot" id="dotPow"></span></label>
+    <div class="grow" id="rowPower" style="display:none">
+      <label for="iPower"><span id="powerLbl">Võimsus</span> <span class="req-dot" id="dotPower"></span></label>
       <div class="input-wrap">
         <input type="number" id="iPower" min="0" max="1500" placeholder="110" oninput="calc()">
         <span class="unit">kW</span>
       </div>
     </div>
 
-    <div class="form-sep" id="vehicleLabel"></div>
+    <!-- Vehicle data separator -->
+    <div class="form-sep"></div>
 
-    <!-- Vehicle data -->
+    <!-- Year -->
     <div class="grow">
-      <label for="iYear" id="yearLabel">Esmane registreerimine <span class="req-dot" id="dotYear"></span></label>
+      <label for="iYear"><span id="yearLbl">Esmane registreerimine</span> <span class="req-dot" id="dotYear"></span></label>
       <div class="input-wrap">
         <input type="number" id="iYear" min="1950" max="2030" placeholder="2018" oninput="calc()">
       </div>
     </div>
 
+    <!-- Mass -->
     <div class="grow">
-      <label for="iMass" id="massLabel">Mass</label>
+      <label for="iMass"><span id="massLbl">Täismass</span></label>
       <div class="input-wrap">
         <input type="number" id="iMass" min="400" max="6000" placeholder="1650" oninput="calc()">
         <span class="unit">kg</span>
@@ -608,1109 +233,590 @@
     </div>
 
   </div>
-  <!-- ══ BENTO RESULTS ══ -->
-  <div class="slabel mt28" id="resultsLabel">Tulemused</div>
+
+  <!-- Bento -->
   <div class="bento">
 
-    <!-- Annual hero -->
-    <div class="cell c-ann">
-      <div class="clbl" id="annLabel">Aastamaks</div>
-      <div>
-        <div class="ann-num e" id="annNum" data-v="0">—</div>
-        <div class="ann-chips" id="annChips"></div>
-      </div>
+    <div class="c-ann">
+      <div class="ann-chips" id="annChips"></div>
+      <div class="ann-num e" id="annNum">—</div>
+      <div class="ann-lbl" id="annLbl">Aastamaks</div>
     </div>
 
-    <!-- Payment timeline -->
-    <div class="cell c-tml">
-      <div class="clbl" id="tmlLabel">Maksegraafik</div>
-      <div class="tl-picker">
-        <select id="iRegYear" onchange="calc()" class="tl-sel"></select>
-        <select id="iMonth"   onchange="calc()" class="tl-sel"></select>
+    <div class="c-tml" id="tmlCard" style="display:none">
+      <div class="tml-top">
+        <span class="tml-lbl" id="tmlLbl">Maksegraafik</span>
+        <div class="tml-picks">
+          <select class="tml-sel" id="iRegYear" onchange="calc()"></select>
+          <select class="tml-sel" id="iMonth"   onchange="calc()"></select>
+        </div>
       </div>
-      <div id="tlContainer"></div>
-      <div class="cell-sub" style="margin-top:10px" id="tlSub"></div>
+      <div id="payContainer"></div>
+      <div class="tml-note" id="tmlNote"></div>
     </div>
 
   </div>
 
-  <p class="notice mt10" id="noticeEl">
-    Kalkulaator on informatiivne. Täpseks arvutuseks kasuta
-    <a href="https://www.emta.ee/eraisik/maksud-ja-tasumine/muud-maksud/mootorsoidukimaks" target="_blank" rel="noopener">EMTA ametlikku kalkulaatorit</a>.
-    Alus: mootorsõidukimaksu seadus, jõustus 01.01.2025.
-  </p>
-
-  <!-- ══ OTHER CALCULATORS ══ -->
-  <section class="pg-section" id="secCalcs">
-    <h2 class="sh2" id="calcsTitle">Teised kalkulaatorid</h2>
-    <div class="calcs-grid" id="calcsGrid"></div>
-  </section>
-
-  <!-- ══ HOW TO USE ══ -->
-  <section class="pg-section" id="secHow">
-    <h2 class="sh2" id="howTitle">Kuidas automaksu kalkulaatorit kasutada</h2>
+  <!-- How to use -->
+  <section class="section-card">
+    <h2 class="section-title" id="howTitle">Kuidas kasutada?</h2>
     <ol class="how-steps" id="howSteps"></ol>
   </section>
 
-  <!-- ══ HOW IT'S CALCULATED ══ -->
-  <section class="pg-section" id="secCalc">
-    <h2 class="sh2" id="calcTitle">Kuidas mootorsõidukimaksu arvutatakse?</h2>
+  <!-- How calculated -->
+  <section class="section-card">
+    <h2 class="section-title" id="calcTitle">Kuidas automaksu arvutatakse?</h2>
     <div class="calc-content" id="calcContent"></div>
   </section>
 
-  <!-- ══ FAQ ══ -->
-  <section class="pg-section" id="secFaq">
-    <h2 class="sh2" id="faqTitle">Korduma kippuvad küsimused automaksu kohta</h2>
-    <div class="faq-list" id="faqList"></div>
+  <!-- FAQ -->
+  <section class="section-card">
+    <h2 class="section-title" id="faqTitle">KKK</h2>
+    <div id="faqList"></div>
   </section>
 
-  <!-- ══ SOURCES ══ -->
-  <section class="pg-section" id="secSources">
-    <h2 class="sh2" id="sourcesTitle">Allikad</h2>
+  <!-- Sources -->
+  <section class="section-card">
+    <h2 class="section-title" id="sourcesTitle">Allikad</h2>
     <ul class="sources-list" id="sourcesList"></ul>
   </section>
 
-  <!-- ══ DISCLAIMER + CONTACT ══ -->
+  <!-- Info -->
   <div class="info-grid">
-    <div class="info-card info-card--amber" id="secDisclaimer">
+    <div class="info-card info-card--amber">
       <div class="info-icon">🛡️</div>
       <div class="info-card-title" id="disclaimerTitle">Teadaanne</div>
-      <p id="disclaimerText">See on sõltumatu kalkulaator, mille on loonud Laatorid informatiivsel eesmärgil. See ei ole seotud Maksu- ja Tolliametiga (EMTA) ega kujuta endast ametlikku maksunõuannet. Me ei garanteeri tulemuste täpsust ega vastuta kalkulaatori põhjal tehtud otsuste eest. Täpseks maksuarvutuseks kasuta EMTA ametlikku kalkulaatorit.</p>
+      <p id="disclaimerText"></p>
     </div>
-    <div class="info-card info-card--blue" id="secContact">
+    <div class="info-card info-card--blue">
       <div class="info-icon">✉️</div>
       <div class="info-card-title" id="contactTitle">Võta ühendust</div>
-      <p id="contactText">Märkasid kalkulaatoris viga või soovid anda tagasisidet? Kirjuta meile — vastame esimesel võimalusel.</p>
+      <p id="contactText"></p>
       <a href="mailto:laatorid@gmail.com" class="contact-btn" id="contactBtn">Kirjuta meile</a>
     </div>
   </div>
 
-</div><!-- /wrap -->
-
+</div>
 <script>
-  /* ── State ── */
-  let fuel = 'ice';
-  let mode = 'co2';
-  let lang = 'et';
-  const Y  = 2026;
+// ── State ──────────────────────────────────────────────────────────────────────
+let lang = 'et';
+let fuel = 'ice'; // ice | mhev | phev | ev
+let mode = 'co2'; // co2 | alt
 
-  /* ── Base path detection ── */
-  function getBasePath() {
-    const path = window.location.pathname;
-    // Remove language suffixes to get base
-    return path.replace(/\/(en|ru|fi)$/, '').replace(/\/(en|ru|fi)\/.*$/, '') || '/';
+// ── Translations ───────────────────────────────────────────────────────────────
+const T = {
+  et: {
+    pgTitle:'Automaks', pgSub:'Mootorsõidukimaks 2025 · M1 kategooria',
+    fuelLbl:'Kütuse tüüp',
+    fuel_ice:'Bensiin / Diisel', fuel_mhev:'Hübriid', fuel_phev:'PHEV', fuel_ev:'⚡ Elekter',
+    modeLbl:'Andmete allikas', mode_co2:'CO₂', mode_alt:'Mootor',
+    co2Lbl:'CO₂ heitkogus', displLbl:'Mootori töömaht', powerLbl:'Võimsus',
+    yearLbl:'Esmane registreerimine', massLbl:'Täismass',
+    annLbl:'AASTAMAKS', tmlLbl:'MAKSEGRAAFIK',
+    chipBase:'Põhimäär', chipCO2:'CO₂ komponent', chipEngine:'Mootori komponent',
+    chipMass:'Massi komponent', chipAge:'Vanusekoefitsient',
+    months:['Jaanuar','Veebruar','Märts','Aprill','Mai','Juuni','Juuli','August','September','Oktoober','November','Detsember'],
+    junDate:'30. juuni', decDate:'31. dets',
+    tlFull:'Täisaasta maks, tasutakse kahes osas.',
+    tlPro:(m,h) => `Esimese aasta maks ${m} kuu eest.${h?' Tasutakse kahes osas.':' Tasutakse ühes osas.'}`,
+    howTitle:'Kuidas kasutada?',
+    howSteps:[
+      'Vali kütuse tüüp: bensiin/diisel, hübriid, PHEV või elekter.',
+      'Sisesta CO₂ heitkogus g/km (registreerimistunnistuse punkt V.7). Puudub? Vali „Mootor" ja sisesta töömaht ning võimsus.',
+      'Sisesta sõiduki esmane registreerimisaasta.',
+      'Sisesta sõiduki täismass kg (vabatahtlik — mõjutab ainult üle 2 000 kg sõidukeid).',
+      'Aastamaks ja maksegraafik ilmuvad koheselt.',
+    ],
+    calcTitle:'Kuidas automaksu arvutatakse?',
+    calcHTML:`
+      <h3>Valem</h3>
+      <p>Eesti mootorsõidukimaks (2025) koosneb kolmest osast:</p>
+      <p><code>Aastamaks = 50 € + vanusekoefitsient × (CO₂ komponent + massi komponent)</code></p>
+      <h3>CO₂ komponent</h3>
+      <ul>
+        <li>0–117 g/km: <strong>0 €</strong></li>
+        <li>117–150 g/km: <strong>3 €/g</strong></li>
+        <li>150–200 g/km: <strong>3,50 €/g</strong></li>
+        <li>üle 200 g/km: <strong>4 €/g</strong></li>
+      </ul>
+      <p><strong>Näide:</strong> 160 g/km → (150−117)×3 + (160−150)×3,5 = 99 + 35 = <strong>134 €</strong></p>
+      <h3>Massi komponent</h3>
+      <p>Rakendub ainult üle <strong>2 000 kg</strong> sõidukitele: 0,40 €/kg üle piiri (max 400 €).</p>
+      <h3>Vanusekoefitsient</h3>
+      <ul>
+        <li>0–5 aastat: <strong>1,00</strong></li>
+        <li>6–14 aastat: väheneb 0,08 aastas (0,92 → 0,28)</li>
+        <li>15+ aastat: <strong>0,20</strong></li>
+      </ul>
+      <h3>Maksegraafik</h3>
+      <p>Maks tasutakse kahes osas — <strong>30. juuniks</strong> ja <strong>31. detsembriks</strong>. Esimese aasta maks on proportsionaalne registreerimiskuule.</p>
+    `,
+    faqTitle:'Korduma kippuvad küsimused',
+    faqItems:[
+      {q:'Millal automaks jõustus?', a:'<p>Mootorsõidukimaks kehtib Eestis alates <strong>1. jaanuarist 2025</strong>. See asendab senist registreerimistasu aastateksa makstava maksuga.</p>'},
+      {q:'Kas elektriautod maksavad automaksu?', a:'<p>Elektriautod maksavad ainult põhimäära (50 €) ja massikomponenti (üle 2 000 kg). CO₂ komponenti elektriautodele ei rakendata.</p>'},
+      {q:'Kust leian CO₂ väärtuse?', a:'<p>CO₂ heitkogus (g/km) on kirjas sõiduki <strong>registreerimistunnistuse</strong> punktis V.7. Alternatiivina leiad selle autoregistrist või tootja tehnilistest andmetest.</p>'},
+      {q:'Mis juhtub, kui CO₂ andmed puuduvad?', a:'<p>Kui registreerimistunnistusel CO₂ andmed puuduvad, kasutatakse alternatiivset valemit mootori töömahu (cm³) ja võimsuse (kW) alusel.</p>'},
+      {q:'Kuidas mõjutab vanus maksu?', a:'<p>Vanusekoefitsient vähendab CO₂ ja massikomponenti. Kuni 5-aastased autod: 1,00; iga järgnev aasta vähendab 0,08 võrra kuni 15+ aastaste autode koefitsiendini 0,20.</p>'},
+    ],
+    sourcesTitle:'Allikad',
+    sources:[
+      {name:'Mootorsõidukimaksu seadus — Riigi Teataja', url:'https://www.riigiteataja.ee/'},
+      {name:'EMTA — automaks 2025', url:'https://www.emta.ee/eraklient/auto-ja-kuluartiklid/mootorsoidukimaks'},
+      {name:'Maanteeamet — registreerimistunnistus', url:'https://www.mnt.ee/'},
+    ],
+    disclaimerTitle:'Teadaanne',
+    disclaimerText:'Iseseisev kalkulaator informatiivsel eesmärgil. Ei ole seotud EMTA-ga ega kujuta endast ametlikku maksunõuannet.',
+    contactTitle:'Võta ühendust', contactText:'Küsimused, tagasiside või vead?', contactBtn:'Kirjuta meile',
+  },
+  en: {
+    pgTitle:'Car Tax', pgSub:'Motor vehicle tax 2025 · Category M1',
+    fuelLbl:'Fuel type',
+    fuel_ice:'Petrol / Diesel', fuel_mhev:'Hybrid', fuel_phev:'PHEV', fuel_ev:'⚡ Electric',
+    modeLbl:'Data source', mode_co2:'CO₂', mode_alt:'Engine',
+    co2Lbl:'CO₂ emissions', displLbl:'Engine displacement', powerLbl:'Power',
+    yearLbl:'First registration', massLbl:'Gross mass',
+    annLbl:'ANNUAL TAX', tmlLbl:'PAYMENT SCHEDULE',
+    chipBase:'Base rate', chipCO2:'CO₂ component', chipEngine:'Engine component',
+    chipMass:'Mass component', chipAge:'Age factor',
+    months:['January','February','March','April','May','June','July','August','September','October','November','December'],
+    junDate:'30 June', decDate:'31 Dec',
+    tlFull:'Full year tax, paid in two instalments.',
+    tlPro:(m,h) => `First year tax for ${m} months.${h?' Paid in two instalments.':' Paid in one instalment.'}`,
+    howTitle:'How to use',
+    howSteps:[
+      'Select the fuel type: petrol/diesel, hybrid, PHEV or electric.',
+      'Enter CO₂ emissions in g/km (registration certificate, point V.7). Not available? Select "Engine" and enter displacement and power.',
+      'Enter the vehicle\'s first registration year.',
+      'Enter the vehicle\'s gross mass in kg (optional — only affects vehicles over 2 000 kg).',
+      'Annual tax and payment schedule appear instantly.',
+    ],
+    calcTitle:'How is car tax calculated?',
+    calcHTML:`
+      <h3>Formula</h3>
+      <p>Estonia's motor vehicle tax (2025) has three parts:</p>
+      <p><code>Annual tax = €50 + age factor × (CO₂ component + mass component)</code></p>
+      <h3>CO₂ component brackets</h3>
+      <ul>
+        <li>0–117 g/km: <strong>€0</strong></li>
+        <li>117–150 g/km: <strong>€3/g</strong></li>
+        <li>150–200 g/km: <strong>€3.50/g</strong></li>
+        <li>above 200 g/km: <strong>€4/g</strong></li>
+      </ul>
+      <p><strong>Example:</strong> 160 g/km → (150−117)×3 + (160−150)×3.5 = 99 + 35 = <strong>€134</strong></p>
+      <h3>Mass component</h3>
+      <p>Applies only to vehicles over <strong>2 000 kg</strong>: €0.40/kg above the threshold (max €400).</p>
+      <h3>Age factor</h3>
+      <ul>
+        <li>0–5 years: <strong>1.00</strong></li>
+        <li>6–14 years: decreases by 0.08 per year (0.92 → 0.28)</li>
+        <li>15+ years: <strong>0.20</strong></li>
+      </ul>
+    `,
+    faqTitle:'Frequently asked questions',
+    faqItems:[
+      {q:'When did the car tax come into effect?', a:'<p>The motor vehicle tax applies in Estonia from <strong>1 January 2025</strong>, replacing the previous registration fee with an annual tax.</p>'},
+      {q:'Do electric cars pay car tax?', a:'<p>Electric cars pay only the base rate (€50) and the mass component (for vehicles over 2 000 kg). No CO₂ component applies to electric vehicles.</p>'},
+      {q:'Where do I find the CO₂ value?', a:'<p>The CO₂ emissions (g/km) are on the vehicle <strong>registration certificate</strong>, point V.7. You can also find it in the vehicle register or manufacturer technical data.</p>'},
+      {q:'What if CO₂ data is unavailable?', a:'<p>If no CO₂ data is on the registration certificate, an alternative formula based on engine displacement (cm³) and power (kW) is used.</p>'},
+      {q:'How does vehicle age affect the tax?', a:'<p>The age factor reduces CO₂ and mass components. Up to 5 years: 1.00; each subsequent year reduces by 0.08, down to 0.20 for vehicles 15+ years old.</p>'},
+    ],
+    sourcesTitle:'Sources',
+    sources:[
+      {name:'Motor Vehicle Tax Act — Riigi Teataja', url:'https://www.riigiteataja.ee/'},
+      {name:'EMTA — car tax 2025', url:'https://www.emta.ee/eraklient/auto-ja-kuluartiklid/mootorsoidukimaks'},
+      {name:'Road Administration — registration certificate', url:'https://www.mnt.ee/'},
+    ],
+    disclaimerTitle:'Disclaimer',
+    disclaimerText:'Independent calculator for informational purposes only. Not affiliated with EMTA and does not constitute official tax advice.',
+    contactTitle:'Contact us', contactText:'Questions, feedback or bugs?', contactBtn:'Write to us',
+  },
+  ru: {
+    pgTitle:'Автоналог', pgSub:'Налог на транспортное средство 2025 · Категория M1',
+    fuelLbl:'Тип топлива',
+    fuel_ice:'Бензин / Дизель', fuel_mhev:'Гибрид', fuel_phev:'PHEV', fuel_ev:'⚡ Электро',
+    modeLbl:'Источник данных', mode_co2:'CO₂', mode_alt:'Двигатель',
+    co2Lbl:'Выбросы CO₂', displLbl:'Объём двигателя', powerLbl:'Мощность',
+    yearLbl:'Первая регистрация', massLbl:'Полная масса',
+    annLbl:'ГОДОВОЙ НАЛОГ', tmlLbl:'ГРАФИК ПЛАТЕЖЕЙ',
+    chipBase:'Базовая ставка', chipCO2:'Компонент CO₂', chipEngine:'Компонент двигателя',
+    chipMass:'Компонент массы', chipAge:'Коэффициент возраста',
+    months:['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'],
+    junDate:'30 июня', decDate:'31 дек',
+    tlFull:'Налог за полный год, уплачивается двумя частями.',
+    tlPro:(m,h) => `Налог первого года за ${m} месяцев.${h?' Уплачивается двумя частями.':' Уплачивается одной частью.'}`,
+    howTitle:'Как пользоваться?',
+    howSteps:[
+      'Выберите тип топлива: бензин/дизель, гибрид, PHEV или электро.',
+      'Введите выбросы CO₂ в г/км (свидетельство о регистрации, пункт V.7). Нет данных? Выберите «Двигатель» и введите объём и мощность.',
+      'Введите год первой регистрации автомобиля.',
+      'Введите полную массу в кг (необязательно — влияет только на авто свыше 2 000 кг).',
+      'Годовой налог и график платежей появятся мгновенно.',
+    ],
+    calcTitle:'Как рассчитывается автоналог?',
+    calcHTML:`
+      <h3>Формула</h3>
+      <p>Налог на транспортное средство Эстонии (2025) состоит из трёх частей:</p>
+      <p><code>Годовой налог = 50 € + коэф. возраста × (компонент CO₂ + компонент массы)</code></p>
+      <h3>Ступени компонента CO₂</h3>
+      <ul>
+        <li>0–117 г/км: <strong>0 €</strong></li>
+        <li>117–150 г/км: <strong>3 €/г</strong></li>
+        <li>150–200 г/км: <strong>3,50 €/г</strong></li>
+        <li>выше 200 г/км: <strong>4 €/г</strong></li>
+      </ul>
+      <h3>Компонент массы</h3>
+      <p>Только для авто свыше <strong>2 000 кг</strong>: 0,40 €/кг сверх порога (макс. 400 €).</p>
+      <h3>Коэффициент возраста</h3>
+      <ul>
+        <li>0–5 лет: <strong>1,00</strong></li>
+        <li>6–14 лет: снижается на 0,08 в год (0,92 → 0,28)</li>
+        <li>15+ лет: <strong>0,20</strong></li>
+      </ul>
+    `,
+    faqTitle:'Часто задаваемые вопросы',
+    faqItems:[
+      {q:'Когда вступил в силу автоналог?', a:'<p>Налог на транспортное средство действует в Эстонии с <strong>1 января 2025 года</strong>.</p>'},
+      {q:'Платят ли электромобили автоналог?', a:'<p>Электромобили платят только базовую ставку (50 €) и компонент массы (для авто свыше 2 000 кг). Компонент CO₂ для электромобилей не применяется.</p>'},
+      {q:'Где найти значение CO₂?', a:'<p>Выбросы CO₂ (г/км) указаны в <strong>свидетельстве о регистрации</strong>, пункт V.7.</p>'},
+    ],
+    sourcesTitle:'Источники',
+    sources:[
+      {name:'Закон о налоге на ТС — Riigi Teataja', url:'https://www.riigiteataja.ee/'},
+      {name:'EMTA — автоналог 2025', url:'https://www.emta.ee/eraklient/auto-ja-kuluartiklid/mootorsoidukimaks'},
+    ],
+    disclaimerTitle:'Предупреждение',
+    disclaimerText:'Независимый калькулятор в информационных целях. Не является официальной налоговой консультацией.',
+    contactTitle:'Связаться', contactText:'Вопросы, отзывы или ошибки?', contactBtn:'Написать нам',
+  },
+  fi: {
+    pgTitle:'Autovero', pgSub:'Moottoriajoneuvovero 2025 · Luokka M1',
+    fuelLbl:'Polttoainetyyppi',
+    fuel_ice:'Bensiini / Diesel', fuel_mhev:'Hybridi', fuel_phev:'PHEV', fuel_ev:'⚡ Sähkö',
+    modeLbl:'Tietolähde', mode_co2:'CO₂', mode_alt:'Moottori',
+    co2Lbl:'CO₂-päästöt', displLbl:'Moottorin tilavuus', powerLbl:'Teho',
+    yearLbl:'Ensimmäinen rekisteröinti', massLbl:'Kokonaismassa',
+    annLbl:'VUOSIVERO', tmlLbl:'MAKSUAIKATAULU',
+    chipBase:'Perusmaksu', chipCO2:'CO₂-komponentti', chipEngine:'Moottorikomponentti',
+    chipMass:'Massakomponentti', chipAge:'Ikäkerroin',
+    months:['Tammikuu','Helmikuu','Maaliskuu','Huhtikuu','Toukokuu','Kesäkuu','Heinäkuu','Elokuu','Syyskuu','Lokakuu','Marraskuu','Joulukuu'],
+    junDate:'30. kesäkuuta', decDate:'31. joulu',
+    tlFull:'Täyden vuoden vero, maksetaan kahdessa erässä.',
+    tlPro:(m,h) => `Ensimmäisen vuoden vero ${m} kuukaudelta.${h?' Maksetaan kahdessa erässä.':' Maksetaan yhdessä erässä.'}`,
+    howTitle:'Kuinka käyttää?',
+    howSteps:[
+      'Valitse polttoainetyyppi: bensiini/diesel, hybridi, PHEV tai sähkö.',
+      'Syötä CO₂-päästöt g/km (rekisteröintitodistus, kohta V.7). Ei saatavilla? Valitse "Moottori" ja syötä tilavuus ja teho.',
+      'Syötä ajoneuvon ensimmäinen rekisteröintivuosi.',
+      'Syötä kokonaismassa kg (vapaaehtoinen — vaikuttaa vain yli 2 000 kg ajoneuvoihin).',
+      'Vuosivero ja maksuaikataulu näkyvät välittömästi.',
+    ],
+    calcTitle:'Miten autovero lasketaan?',
+    calcHTML:`
+      <h3>Kaava</h3>
+      <p>Viron moottoriajoneuvovero (2025) koostuu kolmesta osasta:</p>
+      <p><code>Vuosivero = 50 € + ikäkerroin × (CO₂-komponentti + massakomponentti)</code></p>
+      <h3>CO₂-komponentin portaat</h3>
+      <ul>
+        <li>0–117 g/km: <strong>0 €</strong></li>
+        <li>117–150 g/km: <strong>3 €/g</strong></li>
+        <li>150–200 g/km: <strong>3,50 €/g</strong></li>
+        <li>yli 200 g/km: <strong>4 €/g</strong></li>
+      </ul>
+      <h3>Massakomponentti</h3>
+      <p>Vain yli <strong>2 000 kg</strong> ajoneuvoille: 0,40 €/kg rajan ylittävältä osalta (maks. 400 €).</p>
+    `,
+    faqTitle:'Usein kysytyt kysymykset',
+    faqItems:[
+      {q:'Milloin autovero tuli voimaan?', a:'<p>Moottoriajoneuvovero on voimassa Virossa <strong>1. tammikuuta 2025</strong> alkaen.</p>'},
+      {q:'Maksavatko sähköautot autoveroa?', a:'<p>Sähköautot maksavat vain perusmaksun (50 €) ja massakomponentin (yli 2 000 kg ajoneuvoille). CO₂-komponenttia ei sovelleta sähköautoihin.</p>'},
+    ],
+    sourcesTitle:'Lähteet',
+    sources:[
+      {name:'Moottoriajoneuvoverolaki — Riigi Teataja', url:'https://www.riigiteataja.ee/'},
+      {name:'EMTA — autovero 2025', url:'https://www.emta.ee/eraklient/auto-ja-kuluartiklid/mootorsoidukimaks'},
+    ],
+    disclaimerTitle:'Huomautus',
+    disclaimerText:'Itsenäinen laskuri tiedottamistarkoituksiin. Ei liity EMTA:han eikä ole virallista veroneuvontaa.',
+    contactTitle:'Ota yhteyttä', contactText:'Kysymykset tai palaute?', contactBtn:'Kirjoita meille',
+  },
+};
+
+function t(){ return T[lang] || T.et; }
+
+// ── Calculations ───────────────────────────────────────────────────────────────
+function ageFactor(firstYear) {
+  const age = new Date().getFullYear() - firstYear;
+  if (age <= 5)  return 1.00;
+  if (age >= 15) return 0.20;
+  return +((1 - (age - 5) * 0.08).toFixed(4));
+}
+
+function co2Component(co2) {
+  if (co2 <= 117) return 0;
+  let v = (Math.min(co2, 150) - 117) * 3;
+  if (co2 > 150) v += (Math.min(co2, 200) - 150) * 3.5;
+  if (co2 > 200) v += (co2 - 200) * 4;
+  return v;
+}
+
+function massComponent(mass) {
+  return mass > 2000 ? Math.min((mass - 2000) * 0.4, 400) : 0;
+}
+
+function engineComponent(displ, power) {
+  return (displ || 0) * 0.05 + (power || 0) * 0.80;
+}
+
+// ── Format helpers ─────────────────────────────────────────────────────────────
+const eur = n => n.toLocaleString('et-EE', {style:'currency', currency:'EUR', minimumFractionDigits:2});
+const fmt = n => n.toFixed(2).replace('.',',');
+
+// ── Theme ──────────────────────────────────────────────────────────────────────
+function isDark() {
+  const saved = localStorage.getItem('theme');
+  if (saved) return saved === 'dark';
+  return window.matchMedia('(prefers-color-scheme:dark)').matches;
+}
+function applyTheme(dark) {
+  document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+  document.getElementById('themeBtn').textContent = dark ? '☀️' : '🌙';
+}
+function toggleTheme() {
+  const nowDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  localStorage.setItem('theme', nowDark ? 'light' : 'dark');
+  applyTheme(!nowDark);
+}
+
+// ── Lang ───────────────────────────────────────────────────────────────────────
+function setLang(l) {
+  lang = l;
+  document.documentElement.lang = l;
+  ['et','en','ru','fi'].forEach(x => document.getElementById('btn'+x.toUpperCase()).classList.toggle('active', x===l));
+  applyLang();
+  calc();
+}
+
+function applyLang() {
+  const tr = t();
+  const s = (id, txt) => { const el = document.getElementById(id); if (el) el.textContent = txt; };
+  s('pgTitle', tr.pgTitle); s('pgSub', tr.pgSub);
+  s('fuelLbl', tr.fuelLbl); s('modeLbl', tr.modeLbl);
+  s('co2Lbl', tr.co2Lbl); s('displLbl', tr.displLbl); s('powerLbl', tr.powerLbl);
+  s('yearLbl', tr.yearLbl); s('massLbl', tr.massLbl);
+  s('annLbl', tr.annLbl); s('tmlLbl', tr.tmlLbl);
+  s('howTitle', tr.howTitle); s('calcTitle', tr.calcTitle);
+  s('faqTitle', tr.faqTitle); s('sourcesTitle', tr.sourcesTitle);
+  s('disclaimerTitle', tr.disclaimerTitle); s('disclaimerText', tr.disclaimerText);
+  s('contactTitle', tr.contactTitle); s('contactText', tr.contactText); s('contactBtn', tr.contactBtn);
+  // Fuel buttons
+  document.querySelector('[data-fuel="ice"]').textContent  = tr.fuel_ice;
+  document.querySelector('[data-fuel="mhev"]').textContent = tr.fuel_mhev;
+  document.querySelector('[data-fuel="phev"]').textContent = tr.fuel_phev;
+  document.querySelector('[data-fuel="ev"]').textContent   = tr.fuel_ev;
+  // Mode buttons
+  document.querySelector('[data-mode="co2"]').textContent  = tr.mode_co2;
+  document.querySelector('[data-mode="alt"]').textContent  = tr.mode_alt;
+  // Months
+  const sel = document.getElementById('iMonth');
+  if (sel) {
+    const cur = sel.value;
+    sel.innerHTML = tr.months.map((m,i) => `<option value="${i+1}">${m}</option>`).join('');
+    sel.value = cur || new Date().getMonth() + 1;
+  }
+  // How steps
+  document.getElementById('howSteps').innerHTML =
+    tr.howSteps.map((step,i) => `<li><span class="step-badge">${i+1}</span><span>${step}</span></li>`).join('');
+  // Calc content
+  document.getElementById('calcContent').innerHTML = tr.calcHTML;
+  // FAQ
+  document.getElementById('faqList').innerHTML = tr.faqItems.map((item,i) => `
+    <div class="faq-item" id="faq-${i}">
+      <button class="faq-q" onclick="toggleFaq(${i})">
+        <span>${item.q}</span><span class="faq-toggle">+</span>
+      </button>
+      <div class="faq-a">${item.a}</div>
+    </div>`).join('');
+  // Sources
+  document.getElementById('sourcesList').innerHTML =
+    tr.sources.map(s => `<li><a href="${s.url}" target="_blank" rel="noopener">${s.name}</a></li>`).join('');
+}
+
+// ── Fuel & Mode ────────────────────────────────────────────────────────────────
+function setFuel(btn) {
+  document.querySelectorAll('[data-fuel]').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  fuel = btn.dataset.fuel;
+  const isEV = fuel === 'ev';
+  ['rowMode','rowCO2','rowDispl','rowPower','sepEmissions'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.style.display = isEV ? 'none' : '';
+  });
+  if (isEV) {
+    document.querySelectorAll('[data-mode]').forEach(b => b.classList.remove('active'));
+    document.querySelector('[data-mode="co2"]').classList.add('active');
+    mode = 'co2';
+  }
+  applyMode(); calc();
+}
+
+function setMode(btn) {
+  document.querySelectorAll('[data-mode]').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  mode = btn.dataset.mode;
+  applyMode(); calc();
+}
+
+function applyMode() {
+  const isAlt = mode === 'alt';
+  document.getElementById('rowCO2').style.display   = isAlt ? 'none' : (fuel === 'ev' ? 'none' : '');
+  document.getElementById('rowDispl').style.display = isAlt ? '' : 'none';
+  document.getElementById('rowPower').style.display = isAlt ? '' : 'none';
+  const co2el = document.getElementById('iCO2');
+  co2el.disabled = isAlt;
+  if (isAlt) co2el.value = '';
+}
+
+// ── Dots ───────────────────────────────────────────────────────────────────────
+function updateDots() {
+  const isEV  = fuel === 'ev';
+  const isAlt = mode === 'alt' && !isEV;
+  const y   = parseInt(document.getElementById('iYear').value);
+  const co2 = parseFloat(document.getElementById('iCO2').value);
+  const d   = parseFloat(document.getElementById('iDispl').value) || 0;
+  const pw  = parseFloat(document.getElementById('iPower').value) || 0;
+  const set = (id, ok) => { const el = document.getElementById(id); if (el) el.classList.toggle('ok', ok); };
+  set('dotYear',  !!(y && y >= 1950 && y <= 2030));
+  set('dotCO2',   !isEV && !isAlt && !isNaN(co2) && co2 >= 0);
+  set('dotDispl', isAlt && d > 0);
+  set('dotPower', isAlt && pw > 0);
+}
+
+// ── Clear ──────────────────────────────────────────────────────────────────────
+function clearResult() {
+  const el = document.getElementById('annNum');
+  el.textContent = '—'; el.classList.add('e');
+  document.getElementById('annChips').innerHTML = '';
+  document.getElementById('tmlCard').style.display = 'none';
+  updateDots();
+}
+
+// ── Main calc ──────────────────────────────────────────────────────────────────
+function calc() {
+  const tr     = t();
+  const isEV   = fuel === 'ev';
+  const isAlt  = mode === 'alt' && !isEV;
+  const y      = parseInt(document.getElementById('iYear').value);
+  const co2Val = parseFloat(document.getElementById('iCO2').value);
+  const d      = parseFloat(document.getElementById('iDispl').value) || 0;
+  const pw     = parseFloat(document.getElementById('iPower').value) || 0;
+  const mass   = parseFloat(document.getElementById('iMass').value) || 0;
+  const regYear = parseInt(document.getElementById('iRegYear').value);
+  const regMonth= parseInt(document.getElementById('iMonth').value);
+
+  updateDots();
+
+  if (!y || y < 1950 || y > 2030)              { clearResult(); return; }
+  if (!isEV && !isAlt && isNaN(co2Val))         { clearResult(); return; }
+  if (isAlt && (!d || !pw))                     { clearResult(); return; }
+
+  const af     = ageFactor(y);
+  const co2c   = isEV ? 0 : isAlt ? 0 : co2Component(co2Val);
+  const altc   = isAlt ? engineComponent(d, pw) : 0;
+  const massc  = massComponent(mass);
+  const base   = 50;
+  const annTax = base + af * (co2c + altc + massc);
+
+  // Ann number
+  const numEl = document.getElementById('annNum');
+  numEl.textContent = eur(annTax);
+  numEl.classList.remove('e');
+
+  // Chips
+  const chips = [
+    `<span class="chip">${tr.chipBase}: ${eur(base)}</span>`,
+    isAlt
+      ? `<span class="chip">${tr.chipEngine}: ${eur(af * altc)}</span>`
+      : `<span class="chip">${tr.chipCO2}: ${eur(af * co2c)}</span>`,
+  ];
+  if (mass > 2000) chips.push(`<span class="chip">${tr.chipMass}: ${eur(af * massc)}</span>`);
+  chips.push(`<span class="chip">${tr.chipAge}: ${fmt(af)}</span>`);
+  document.getElementById('annChips').innerHTML = chips.join('');
+
+  // Payment schedule
+  renderSchedule(annTax, regYear, regMonth, tr);
+}
+
+// ── Payment schedule ───────────────────────────────────────────────────────────
+function renderSchedule(annTax, regYear, regMonth, tr) {
+  const card = document.getElementById('tmlCard');
+  card.style.display = '';
+  const months   = 13 - regMonth;
+  const proRated = annTax * months / 12;
+  const hasJune  = regMonth <= 6;
+  const junAmt   = hasJune ? proRated / 2 : 0;
+  const decAmt   = hasJune ? proRated / 2 : proRated;
+  const isFullYear = regMonth === 1;
+
+  const junLabel = `${tr.junDate} ${regYear}`;
+  const decLabel = `${tr.decDate} ${regYear}`;
+
+  let html = '<div class="pay-grid">';
+  if (hasJune) {
+    html += `<div class="pay-col"><div class="pay-date">${junLabel}</div><div class="pay-amt">${eur(junAmt)}</div></div>`;
+  }
+  html += `<div class="pay-col"><div class="pay-date">${decLabel}</div><div class="pay-amt">${eur(decAmt)}</div></div>`;
+  html += '</div>';
+  document.getElementById('payContainer').innerHTML = html;
+  document.getElementById('tmlNote').textContent = isFullYear ? tr.tlFull : tr.tlPro(months, hasJune);
+}
+
+// ── FAQ ────────────────────────────────────────────────────────────────────────
+function toggleFaq(i) {
+  const item = document.getElementById('faq-' + i);
+  item.classList.toggle('open');
+}
+
+// ── Init ───────────────────────────────────────────────────────────────────────
+(function init() {
+  applyTheme(isDark());
+
+  // Populate year selector
+  const nowY = new Date().getFullYear();
+  const nowM = new Date().getMonth() + 1;
+  const yrSel = document.getElementById('iRegYear');
+  for (let yr = 2025; yr <= nowY + 1; yr++) {
+    const opt = document.createElement('option');
+    opt.value = yr; opt.textContent = yr;
+    if (yr === nowY) opt.selected = true;
+    yrSel.appendChild(opt);
   }
 
-  function getLangFromPath() {
-    const path = window.location.pathname;
-    if (/\/en(\/|$)/.test(path)) return 'en';
-    if (/\/ru(\/|$)/.test(path)) return 'ru';
-    if (/\/fi(\/|$)/.test(path)) return 'fi';
-    return 'et';
-  }
-
-  function buildLangUrl(l) {
-    const base = getBasePath().replace(/\/$/, '');
-    if (l === 'et') return base || '/';
-    return base + '/' + l;
-  }
-
-  function updateMetaTags() {
-    const tr = T[lang];
-    document.title = tr.metaTitle;
-    document.documentElement.lang = lang;
-
-    const metaDesc = document.querySelector('meta[name="description"]');
-    if (metaDesc) metaDesc.setAttribute('content', tr.metaDesc);
-
-    const canonical = document.getElementById('linkCanonical');
-    if (canonical) canonical.href = window.location.origin + buildLangUrl(lang);
-
-    const hreflangs = { et: 'hreflangEt', en: 'hreflangEn', ru: 'hreflangRu', fi: 'hreflangFi' };
-    Object.entries(hreflangs).forEach(([l, id]) => {
-      const el = document.getElementById(id);
-      if (el) el.href = window.location.origin + buildLangUrl(l);
-    });
-  }
-
-  /* ── Translations ── */
-  const T = {
-    et: {
-      numLocale:   'et-EE',
-      metaTitle:   'Automaksu kalkulaator | Kalkulaatorid',
-      metaDesc:    'Arvuta sõiduki mootorsõidukimaks 2025. Sisesta CO₂, mass ja aasta – kohene tulemus. Tasuta!',
-      title:       'Automaks',
-      subtitle:    'Mootorsõidukimaks 2025 · M1 kategooria sõiduautod',
-      fuelLabel:   'Kütuse tüüp',
-      fuel_ice:    'Bensiin / Diisel',
-      fuel_mhev:   'Hübriid',
-      fuel_phev:   'PHEV',
-      fuel_ev:     '⚡ Elekter',
-      emissionsLabel: 'Heitkogus',
-      sourceLabel: 'Andmete allikas',
-      mode_co2:    'CO₂',
-      mode_alt:    'Mootor',
-      co2Label:    'CO₂ heitkogus',
-      displLabel:  'Mootori töömaht',
-      powerLabel:  'Võimsus',
-      vehicleLabel:'Sõiduki andmed',
-      yearLabel:   'Esmane registreerimine',
-      regYearLabel:'Soetamise aasta',
-      monthLabel:  'Soetamise kuu',
-      monthHint:   'Soetamise kuu mõjutab esimese aasta maksegraafiku osamakseid.',
-      massLabel:   'Mass',
-      massHint:    thr => `Masskomponent lisandub alates ${thr.toLocaleString('et-EE')} kg.`,
-      resultsLabel:'Tulemused',
-      cell_ann:    'Aastamaks',
-      cell_reg:    'Registreerimistasu',
-      cell_age:    'Vanusekoefitsient',
-      cell_tml:    'Maksegraafik',
-      cell_masc:   'Masskomponent',
-      regSub:      'Ühekordne · omaniku vahetumisel',
-      mascSub:     'registreerimistasus',
-      themeLight:  'Hele',
-      themeDark:   'Tume',
-      belowThr:    diff => `Alla piirmäära · ${diff.toLocaleString('et-EE')} kg puudu`,
-      carNew:      'uus sõiduk',
-      carAge:      age => `${age} aasta vanune`,
-      chipBase:    'Põhi',
-      chipCO2:     'CO₂',
-      chipEngine:  'Mootor',
-      chipMass:    'Mass',
-      chipAge:     'Koef',
-      junDate:     '15. juuni',
-      decDate:     '15. detsember',
-      tlFull:      'Kaks võrdset osamakset · 50% aastamaksust',
-      tlPro:       (m, j) => `1. aasta: ${m}/12 aastamaksust · ${j ? 'kaks makset' : 'üks makse detsembris'}`,
-      noticeHTML:  'Kalkulaator on informatiivne. Täpseks arvutuseks kasuta <a href="https://www.emta.ee/eraisik/maksud-ja-tasumine/muud-maksud/mootorsoidukimaks" target="_blank" rel="noopener">EMTA ametlikku kalkulaatorit</a>. Alus: mootorsõidukimaksu seadus, jõustus 01.01.2025.',
-      months: ['Jaanuar','Veebruar','Märts','Aprill','Mai','Juuni','Juuli','August','September','Oktoober','November','Detsember'],
-      navTitle:    'Teised kalkulaatorid',
-      calcNames:   { automaksu: 'Automaksu kalkulaator', palga: 'Palgakalkulaator', kmb: 'Käibemaksu kalkulaator', laenu: 'Laenukalkulaator', tulumaks: 'Tulumaksu kalkulaator' },
-      howTitle:    'Kuidas automaksu kalkulaatorit kasutada',
-      howSteps:    [
-        'Vali kütuse tüüp: bensiin/diisel, hübriid, PHEV või elekter.',
-        'Sisesta CO₂ heitkogus g/km (registreerimistunnistuse punkt V.7). Puudub? Vali „Mootor" ja sisesta töömaht ning võimsus.',
-        'Sisesta sõiduki esmane registreerimisaasta.',
-        'Sisesta sõiduki täismass kg (vabatahtlik — mõjutab ainult üle 2 000 kg sõidukeid).',
-        'Aastamaks ja maksegraafik ilmuvad koheselt.',
-      ],
-      calcTitle:   'Kuidas mootorsõidukimaksu arvutatakse?',
-      calcContentHTML: `
-        <h3>Aastamaksu valem</h3>
-        <p>Mootorsõidukimaksu aastane maks koosneb kolmest osast: <strong>baasmäär 50 €</strong> + <strong>vanusekoefitsient × (CO₂ komponent + masskomponent)</strong>. Valem sihib märksõnu nagu <em>automaksu arvutus Eesti</em> ja <em>mootorsõidukimaks 2025 valem</em>.</p>
-        <p><code>Aastamaks = 50 € + af × (CO₂-komponent + masskomponent)</code></p>
-        <h3>CO₂ komponendi astmed aastamaksus</h3>
-        <p>CO₂-põhine automaks Eestis 2025 arvutatakse astmeliselt:</p>
-        <ul>
-          <li>0–117 g/km: <strong>0 €</strong></li>
-          <li>117–150 g/km: <strong>3 €/g</strong></li>
-          <li>151–200 g/km: <strong>3,50 €/g</strong></li>
-          <li>üle 200 g/km: <strong>4 €/g</strong></li>
-        </ul>
-        <p><strong>Näide:</strong> 160 g/km → (150−117)×3 + (160−150)×3,5 = 99 + 35 = <strong>134 €</strong> CO₂ komponent enne vanusekoefitsienti.</p>
-        <h3>Vanusekoefitsient</h3>
-        <p>Vanusekoefitsient vähendab nii CO₂ kui masskomponenti. See on oluline osa <em>automaksu arvutuses Eestis</em>:</p>
-        <ul>
-          <li>0–5 aastat vana: <strong>1,00</strong></li>
-          <li>6 aastat: 0,92</li>
-          <li>7 aastat: 0,84</li>
-          <li>8 aastat: 0,76</li>
-          <li>9 aastat: 0,68</li>
-          <li>10 aastat: 0,60</li>
-          <li>11 aastat: 0,52</li>
-          <li>12 aastat: 0,44</li>
-          <li>13 aastat: 0,36</li>
-          <li>14 aastat: 0,28</li>
-          <li>15+ aastat: <strong>0,20</strong> (miinimum)</li>
-        </ul>
-        <h3>Registreerimistasu ja selle CO₂ komponendid</h3>
-        <p>Registreerimistasu = <code>150 € + af × (CO₂ komponent + masskomponent)</code>. CO₂ astmed on registreerimistasus kõrgemad:</p>
-        <ul>
-          <li>0–117 g/km: <strong>5 €/g</strong></li>
-          <li>117–150 g/km: <strong>10 €/g</strong></li>
-          <li>151–200 g/km: <strong>30 €/g</strong></li>
-          <li>üle 200 g/km: <strong>50 €/g</strong></li>
-        </ul>
-        <h3>Masskomponent</h3>
-        <p>Masskomponent lisandub registreerimistasule üle künnise:</p>
-        <ul>
-          <li>ICE / hübriid: üle <strong>2 000 kg</strong></li>
-          <li>PHEV: üle <strong>2 200 kg</strong></li>
-          <li>Elektriautode automaks Eestis 2025: üle <strong>2 400 kg</strong></li>
-        </ul>
-        <p>Tasu: <code>2 €/kg × ülejäänud kg</code>, maksimaalselt <strong>2 000 €</strong>. Aastamaksus lisandub masskomponent üle 2 000 kg: <code>0,40 €/kg</code>, max 400 €.</p>
-        <h3>Esimese aasta pro-rata arvutus</h3>
-        <p>Kui sõiduk registreeritakse esmakordselt aasta keskel, makstakse esimesel aastal ainult osa: <code>täisaastamaks × (13 − registreerimiskuu) / 12</code>.</p>
-        <p><strong>Näide:</strong> Registreerimine märtsis (kuu 3) → (13−3)/12 = 10/12 ≈ 83,3% täisaastamaksust. Kui registreerimine on enne juunit, on kaks osamakset (juuni + detsember); hiljem üks makse detsembris.</p>
-      `,
-      faqTitle:    'Korduma kippuvad küsimused automaksu kohta',
-      faqItems:    [
-        { q: 'Mis on mootorsõidukimaks?', a: 'Mootorsõidukimaks on Eestis alates 1. jaanuarist 2025 kehtiv aastane maks M1 kategooria sõiduautode omanikele. Maksu suurus sõltub CO₂ heitkogusest, massist ja vanusest.' },
-        { q: 'Millal automaksu maksta tuleb?', a: 'Aastamaks tasutakse kahes võrdses osamakses: 15. juuniks ja 15. detsembriks.' },
-        { q: 'Kas elektriautod peavad automaksu maksma?', a: 'Elektriautod ei pea tasuma CO₂ komponenti. Nende aastamaks on baasmäär 50 € pluss vanusekoefitsient × masskomponent (kehtib üle 2 400 kg sõidukitele).' },
-        { q: 'Mis on vanusekoefitsient?', a: 'Vanusekoefitsient vähendab CO₂ ja massikomponenti: kuni 5 a vana = 1,00; seejärel –0,08/aasta; 15+ a = 0,20 (miinimum).' },
-        { q: 'Kuidas esimese aasta automaksu arvutatakse?', a: 'Esimese aasta maks = täisaastamaks × (13 − registreerimiskuu) / 12. Kui registreeriti enne juunit, on kaks makset; hiljem üks makse detsembris.' },
-        { q: 'Mis on masskomponent?', a: 'Masskomponent lisandub registreerimistasule üle 2 000 kg sõidukitele (PHEV: 2 200 kg; EV: 2 400 kg). Tasu = 2 €/kg × ülejäänud kg, max 2 000 €.' },
-        { q: 'Kust leida auto CO₂ heitkogust?', a: 'CO₂ heitkogus on kirjas sõiduki registreerimistunnistusel (punkt V.7) või Maanteeameti omanikuportaalis.' },
-        { q: 'Mis on registreerimistasu?', a: 'Registreerimistasu on ühekordne maks sõiduki registreerimisel Eestis või omaniku vahetumisel: 150 € baasmäär + vanusekoefitsient × (CO₂ komponent + masskomponent).' },
-      ],
-      sourcesTitle: 'Allikad',
-      sources: [
-        { name: 'EMTA – Mootorsõidukimaks', url: 'https://www.emta.ee/eraisik/maksud-ja-tasumine/muud-maksud/mootorsoidukimaks', desc: 'Eesti Maksu- ja Tolliameti ametlik teave mootorsõidukimaksu kohta.' },
-        { name: 'Riigi Teataja – Mootorsõidukimaksu seadus', url: 'https://www.riigiteataja.ee/', desc: 'Otsi „mootorsõidukimaksu seadus" Riigi Teataja portaalis.' },
-        { name: 'Transpordiamet', url: 'https://www.transpordiamet.ee/', desc: 'Sõidukite registreerimine ja tehnilised andmed.' },
-      ],
-      disclaimerTitle: 'Teadaanne',
-      disclaimerText:  'See on sõltumatu kalkulaator, mille on loonud Laatorid informatiivsel eesmärgil. See ei ole seotud Maksu- ja Tolliametiga (EMTA) ega kujuta endast ametlikku maksunõuannet. Me ei garanteeri tulemuste täpsust ega vastuta kalkulaatori põhjal tehtud otsuste eest. Täpseks maksuarvutuseks kasuta EMTA ametlikku kalkulaatorit.',
-      contactTitle:    'Võta ühendust',
-      contactText:     'Märkasid kalkulaatoris viga või soovid anda tagasisidet? Kirjuta meile — vastame esimesel võimalusel.',
-      contactBtn:      '✉ Kirjuta meile',
-      chkFuel: 'Kütuse tüüp', chkSource: 'Andmete allikas', chkYear: 'Registreerimisaasta', chkCO2: 'CO₂ heitkogus', chkEng: 'Mootori andmed',
-    },
-    en: {
-      numLocale:   'en-IE',
-      metaTitle:   'Car Tax Calculator | Kalkulaatorid',
-      metaDesc:    'Calculate Estonia motor vehicle tax 2025. Enter CO₂, weight and year – instant result. Free!',
-      title:       'Car Tax',
-      subtitle:    'Motor vehicle tax 2025 · M1 category passenger cars',
-      fuelLabel:   'Fuel type',
-      fuel_ice:    'Petrol / Diesel',
-      fuel_mhev:   'Hybrid',
-      fuel_phev:   'PHEV',
-      fuel_ev:     '⚡ Electric',
-      emissionsLabel: 'Emissions',
-      sourceLabel: 'Data source',
-      mode_co2:    'CO₂',
-      mode_alt:    'Engine',
-      co2Label:    'CO₂ emissions',
-      displLabel:  'Engine displacement',
-      powerLabel:  'Power',
-      vehicleLabel:'Vehicle data',
-      yearLabel:   'First registration',
-      regYearLabel:'Purchase year',
-      monthLabel:  'Purchase month',
-      monthHint:   'Affects the first-year payment schedule instalments.',
-      massLabel:   'Weight',
-      massHint:    thr => `Mass component applies from ${thr.toLocaleString('et-EE')} kg.`,
-      resultsLabel:'Results',
-      cell_ann:    'Annual tax',
-      cell_reg:    'Registration fee',
-      cell_age:    'Age factor',
-      cell_tml:    'Payment schedule',
-      cell_masc:   'Mass component',
-      regSub:      'One-time · on ownership transfer',
-      mascSub:     'in registration fee',
-      themeLight:  'Light',
-      themeDark:   'Dark',
-      belowThr:    diff => `Below threshold · ${diff.toLocaleString('et-EE')} kg short`,
-      carNew:      'new vehicle',
-      carAge:      age => `${age} year${age === 1 ? '' : 's'} old`,
-      chipBase:    'Base',
-      chipCO2:     'CO₂',
-      chipEngine:  'Engine',
-      chipMass:    'Mass',
-      chipAge:     'Coef',
-      junDate:     'June 15',
-      decDate:     'Dec 15',
-      tlFull:      'Two equal instalments · 50% of annual tax',
-      tlPro:       (m, j) => `1st year: ${m}/12 of annual · ${j ? 'two payments' : 'one payment in December'}`,
-      noticeHTML:  'Calculator is for informational purposes. For exact calculations use the <a href="https://www.emta.ee/eraisik/maksud-ja-tasumine/muud-maksud/mootorsoidukimaks" target="_blank" rel="noopener">EMTA official calculator</a>. Basis: motor vehicle tax act, effective 01.01.2025.',
-      months: ['January','February','March','April','May','June','July','August','September','October','November','December'],
-      navTitle:    'Other calculators',
-      calcNames:   { automaksu: 'Car Tax Calculator', palga: 'Salary Calculator', kmb: 'VAT Calculator', laenu: 'Loan Calculator', tulumaks: 'Income Tax Calculator' },
-      howTitle:    'How to use the car tax calculator',
-      howSteps:    [
-        'Select the fuel type: petrol/diesel, hybrid, PHEV or electric.',
-        'Enter CO₂ emissions in g/km (registration certificate, point V.7). Not available? Select "Engine" and enter displacement and power.',
-        'Enter the vehicle\'s first registration year.',
-        'Enter the vehicle\'s gross mass in kg (optional — only affects vehicles over 2 000 kg).',
-        'Annual tax and payment schedule appear instantly.',
-      ],
-      calcTitle:   'How is the Estonian motor vehicle tax calculated?',
-      calcContentHTML: `
-        <h3>Annual tax formula</h3>
-        <p>Estonia's motor vehicle tax (2025) consists of three parts: <strong>base rate €50</strong> + <strong>age factor × (CO₂ component + mass component)</strong>. Key search terms: <em>Estonia car tax calculation</em>, <em>motor vehicle tax 2025 formula</em>.</p>
-        <p><code>Annual tax = €50 + af × (CO₂ component + mass component)</code></p>
-        <h3>CO₂ component brackets for annual tax</h3>
-        <p>The CO₂-based car tax in Estonia 2025 uses progressive brackets:</p>
-        <ul>
-          <li>0–117 g/km: <strong>€0</strong></li>
-          <li>117–150 g/km: <strong>€3/g</strong></li>
-          <li>151–200 g/km: <strong>€3.50/g</strong></li>
-          <li>above 200 g/km: <strong>€4/g</strong></li>
-        </ul>
-        <p><strong>Example:</strong> 160 g/km → (150−117)×3 + (160−150)×3.5 = 99 + 35 = <strong>€134</strong> CO₂ component before the age factor.</p>
-        <h3>Age factor</h3>
-        <p>The age factor reduces both the CO₂ and mass components:</p>
-        <ul>
-          <li>0–5 years old: <strong>1.00</strong></li>
-          <li>6 years: 0.92</li>
-          <li>7 years: 0.84</li>
-          <li>8 years: 0.76</li>
-          <li>9 years: 0.68</li>
-          <li>10 years: 0.60</li>
-          <li>11 years: 0.52</li>
-          <li>12 years: 0.44</li>
-          <li>13 years: 0.36</li>
-          <li>14 years: 0.28</li>
-          <li>15+ years: <strong>0.20</strong> (minimum)</li>
-        </ul>
-        <h3>Registration fee and its CO₂ components</h3>
-        <p>Registration fee = <code>€150 + af × (CO₂ component + mass component)</code>. The CO₂ brackets for the registration fee are higher:</p>
-        <ul>
-          <li>0–117 g/km: <strong>€5/g</strong></li>
-          <li>117–150 g/km: <strong>€10/g</strong></li>
-          <li>151–200 g/km: <strong>€30/g</strong></li>
-          <li>above 200 g/km: <strong>€50/g</strong></li>
-        </ul>
-        <h3>Mass component</h3>
-        <p>The mass component is added to the registration fee above the threshold:</p>
-        <ul>
-          <li>ICE / hybrid: above <strong>2,000 kg</strong></li>
-          <li>PHEV: above <strong>2,200 kg</strong></li>
-          <li>Electric vehicle tax in Estonia 2025: above <strong>2,400 kg</strong></li>
-        </ul>
-        <p>Rate: <code>€2/kg × excess kg</code>, maximum <strong>€2,000</strong>. For the annual tax, mass component above 2,000 kg: <code>€0.40/kg</code>, max €400.</p>
-        <h3>First-year pro-rata calculation</h3>
-        <p>When a vehicle is first registered mid-year, only a portion is due: <code>full annual tax × (13 − registration month) / 12</code>.</p>
-        <p><strong>Example:</strong> Registered in March (month 3) → (13−3)/12 = 10/12 ≈ 83.3% of the full annual tax. If registered before June, there are two instalments (June + December); otherwise one payment in December.</p>
-      `,
-      faqTitle:    'Frequently asked questions about car tax',
-      faqItems:    [
-        { q: 'What is the motor vehicle tax?', a: 'The motor vehicle tax is an annual tax in Estonia effective from 1 January 2025 for owners of M1 category passenger cars. The amount depends on CO₂ emissions, mass and age.' },
-        { q: 'When must the car tax be paid?', a: 'The annual tax is paid in two equal instalments: by 15 June and by 15 December.' },
-        { q: 'Do electric cars have to pay car tax?', a: 'Electric cars do not pay the CO₂ component. Their annual tax is the base rate €50 plus age factor × mass component (applies to vehicles over 2,400 kg).' },
-        { q: 'What is the age factor?', a: 'The age factor reduces both the CO₂ and mass components: up to 5 years old = 1.00; then –0.08/year; 15+ years = 0.20 (minimum).' },
-        { q: 'How is the first-year car tax calculated?', a: 'First-year tax = full annual tax × (13 − registration month) / 12. If registered before June, two payments; otherwise one payment in December.' },
-        { q: 'What is the mass component?', a: 'The mass component is added to the registration fee for vehicles over 2,000 kg (PHEV: 2,200 kg; EV: 2,400 kg). Fee = €2/kg × excess kg, max €2,000.' },
-        { q: 'Where to find the car\'s CO₂ emissions?', a: 'CO₂ emissions are listed on the vehicle registration certificate (point V.7) or in the Transport Administration owner portal.' },
-        { q: 'What is the registration fee?', a: 'The registration fee is a one-time fee when registering a vehicle in Estonia or on ownership transfer: €150 base + age factor × (CO₂ component + mass component).' },
-      ],
-      sourcesTitle: 'Sources',
-      sources: [
-        { name: 'EMTA – Motor Vehicle Tax', url: 'https://www.emta.ee/eraisik/maksud-ja-tasumine/muud-maksud/mootorsoidukimaks', desc: 'Official information from the Estonian Tax and Customs Board.' },
-        { name: 'Riigi Teataja – Motor Vehicle Tax Act', url: 'https://www.riigiteataja.ee/', desc: 'Search "mootorsõidukimaksu seadus" in the State Gazette portal.' },
-        { name: 'Transport Administration', url: 'https://www.transpordiamet.ee/', desc: 'Vehicle registration and technical data.' },
-      ],
-      disclaimerTitle: 'Notice',
-      disclaimerText:  'This is an independent calculator created by Laatorid for informational purposes only. It is not affiliated with the Estonian Tax and Customs Board (EMTA) and does not constitute official tax advice. We make no guarantees as to accuracy and accept no liability for decisions made based on this tool. For an authoritative calculation, use the official EMTA calculator.',
-      contactTitle:    'Contact',
-      contactText:     'Spotted an error or have feedback about the calculator? Write to us — we\'ll respond as soon as possible.',
-      contactBtn:      '✉ Get in touch',
-      chkFuel: 'Fuel type', chkSource: 'Data source', chkYear: 'Registration year', chkCO2: 'CO₂ emissions', chkEng: 'Engine data',
-    },
-    ru: {
-      numLocale:   'et-EE',
-      metaTitle:   'Калькулятор автоналога | Kalkulaatorid',
-      metaDesc:    'Рассчитайте налог на авто Эстония 2025. Введите CO₂, массу и год – мгновенный результат!',
-      title:       'Автоналог',
-      subtitle:    'Налог на автомобиль 2025 · легковые автомобили категории M1',
-      fuelLabel:   'Тип топлива',
-      fuel_ice:    'Бензин / Дизель',
-      fuel_mhev:   'Гибрид',
-      fuel_phev:   'PHEV',
-      fuel_ev:     '⚡ Электро',
-      emissionsLabel: 'Выбросы',
-      sourceLabel: 'Источник данных',
-      mode_co2:    'CO₂',
-      mode_alt:    'Двигатель',
-      co2Label:    'Выбросы CO₂',
-      displLabel:  'Объём двигателя',
-      powerLabel:  'Мощность',
-      vehicleLabel:'Данные авто',
-      yearLabel:   'Первая регистрация',
-      regYearLabel:'Год покупки',
-      monthLabel:  'Месяц покупки',
-      monthHint:   'Влияет на платёжный график первого года.',
-      massLabel:   'Масса',
-      massHint:    thr => `Компонент массы начисляется с ${thr.toLocaleString('et-EE')} кг.`,
-      resultsLabel:'Результаты',
-      cell_ann:    'Годовой налог',
-      cell_reg:    'Регистрационный сбор',
-      cell_age:    'Коэф. возраста',
-      cell_tml:    'График платежей',
-      cell_masc:   'Компонент массы',
-      regSub:      'Единоразово · при смене владельца',
-      mascSub:     'в регистрационном сборе',
-      themeLight:  'Светлая',
-      themeDark:   'Тёмная',
-      belowThr:    diff => `Ниже порога · не хватает ${diff.toLocaleString('et-EE')} кг`,
-      carNew:      'новый автомобиль',
-      carAge:      age => `${age} ${age === 1 ? 'год' : age < 5 ? 'года' : 'лет'}`,
-      chipBase:    'Базовая',
-      chipCO2:     'CO₂',
-      chipEngine:  'Двигатель',
-      chipMass:    'Масса',
-      chipAge:     'Коэф',
-      junDate:     '15 июня',
-      decDate:     '15 декабря',
-      tlFull:      'Два равных платежа · 50% годового налога',
-      tlPro:       (m, j) => `1-й год: ${m}/12 годового · ${j ? 'два платежа' : 'один платёж в декабре'}`,
-      noticeHTML:  'Калькулятор носит информационный характер. Для точного расчёта используйте <a href="https://www.emta.ee/eraisik/maksud-ja-tasumine/muud-maksud/mootorsoidukimaks" target="_blank" rel="noopener">официальный калькулятор EMTA</a>. Основание: закон о налоге на автотранспортные средства, вступил в силу 01.01.2025.',
-      months: ['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'],
-      navTitle:    'Другие калькуляторы',
-      calcNames:   { automaksu: 'Калькулятор автоналога', palga: 'Калькулятор зарплаты', kmb: 'Калькулятор НДС', laenu: 'Кредитный калькулятор', tulumaks: 'Калькулятор подоходного налога' },
-      howTitle:    'Как пользоваться калькулятором автоналога',
-      howSteps:    [
-        'Выберите тип топлива: бензин/дизель, гибрид, PHEV или электро.',
-        'Введите выбросы CO₂ в г/км (свидетельство о регистрации, пункт V.7). Нет данных? Выберите «Двигатель» и введите объём и мощность.',
-        'Введите год первой регистрации автомобиля.',
-        'Введите полную массу автомобиля в кг (необязательно — влияет только на автомобили свыше 2 000 кг).',
-        'Годовой налог и график платежей отображаются мгновенно.',
-      ],
-      calcTitle:   'Как рассчитывается налог на автомобиль в Эстонии?',
-      calcContentHTML: `
-        <h3>Формула годового налога</h3>
-        <p>Налог на автомобиль в Эстонии 2025 состоит из трёх частей: <strong>базовая ставка 50 €</strong> + <strong>коэффициент возраста × (компонент CO₂ + компонент массы)</strong>. Ключевые запросы: <em>расчёт автоналога Эстония</em>, <em>налог на автомобиль 2025 формула</em>.</p>
-        <p><code>Годовой налог = 50 € + кв × (CO₂-компонент + компонент массы)</code></p>
-        <h3>Ступени компонента CO₂ в годовом налоге</h3>
-        <p>Налог на автомобиль на основе CO₂ в Эстонии 2025 рассчитывается ступенчато:</p>
-        <ul>
-          <li>0–117 г/км: <strong>0 €</strong></li>
-          <li>117–150 г/км: <strong>3 €/г</strong></li>
-          <li>151–200 г/км: <strong>3,50 €/г</strong></li>
-          <li>свыше 200 г/км: <strong>4 €/г</strong></li>
-        </ul>
-        <p><strong>Пример:</strong> 160 г/км → (150−117)×3 + (160−150)×3,5 = 99 + 35 = <strong>134 €</strong> компонент CO₂ до применения коэффициента возраста.</p>
-        <h3>Коэффициент возраста</h3>
-        <p>Коэффициент возраста уменьшает как компонент CO₂, так и компонент массы:</p>
-        <ul>
-          <li>0–5 лет: <strong>1,00</strong></li>
-          <li>6 лет: 0,92</li>
-          <li>7 лет: 0,84</li>
-          <li>8 лет: 0,76</li>
-          <li>9 лет: 0,68</li>
-          <li>10 лет: 0,60</li>
-          <li>11 лет: 0,52</li>
-          <li>12 лет: 0,44</li>
-          <li>13 лет: 0,36</li>
-          <li>14 лет: 0,28</li>
-          <li>15+ лет: <strong>0,20</strong> (минимум)</li>
-        </ul>
-        <h3>Регистрационный сбор и его компоненты CO₂</h3>
-        <p>Регистрационный сбор = <code>150 € + кв × (CO₂-компонент + компонент массы)</code>. Ступени CO₂ для регистрационного сбора выше:</p>
-        <ul>
-          <li>0–117 г/км: <strong>5 €/г</strong></li>
-          <li>117–150 г/км: <strong>10 €/г</strong></li>
-          <li>151–200 г/км: <strong>30 €/г</strong></li>
-          <li>свыше 200 г/км: <strong>50 €/г</strong></li>
-        </ul>
-        <h3>Компонент массы</h3>
-        <p>Компонент массы добавляется к регистрационному сбору сверх порога:</p>
-        <ul>
-          <li>ДВС / гибрид: свыше <strong>2 000 кг</strong></li>
-          <li>PHEV: свыше <strong>2 200 кг</strong></li>
-          <li>Налог на электромобили в Эстонии 2025: свыше <strong>2 400 кг</strong></li>
-        </ul>
-        <p>Ставка: <code>2 €/кг × превышение кг</code>, максимум <strong>2 000 €</strong>. В годовом налоге компонент массы свыше 2 000 кг: <code>0,40 €/кг</code>, макс. 400 €.</p>
-        <h3>Расчёт за первый год (pro-rata)</h3>
-        <p>При первой регистрации автомобиля в середине года уплачивается только часть: <code>полный годовой налог × (13 − месяц регистрации) / 12</code>.</p>
-        <p><strong>Пример:</strong> Регистрация в марте (месяц 3) → (13−3)/12 = 10/12 ≈ 83,3% полного годового налога. При регистрации до июня – два платежа (июнь + декабрь); иначе – один платёж в декабре.</p>
-      `,
-      faqTitle:    'Часто задаваемые вопросы об автоналоге',
-      faqItems:    [
-        { q: 'Что такое налог на автомобиль?', a: 'Налог на автотранспортные средства — ежегодный налог в Эстонии, действующий с 1 января 2025 года для владельцев легковых автомобилей категории M1. Размер налога зависит от выбросов CO₂, массы и возраста.' },
-        { q: 'Когда нужно платить автоналог?', a: 'Годовой налог уплачивается двумя равными частями: до 15 июня и до 15 декабря.' },
-        { q: 'Платят ли электромобили автоналог?', a: 'Электромобили не платят компонент CO₂. Их годовой налог – базовая ставка 50 € плюс коэффициент возраста × компонент массы (применяется к автомобилям свыше 2 400 кг).' },
-        { q: 'Что такое коэффициент возраста?', a: 'Коэффициент возраста уменьшает компоненты CO₂ и массы: до 5 лет = 1,00; затем –0,08/год; 15+ лет = 0,20 (минимум).' },
-        { q: 'Как рассчитывается налог за первый год?', a: 'Налог за первый год = полный годовой налог × (13 − месяц регистрации) / 12. Если до июня – два платежа; иначе один платёж в декабре.' },
-        { q: 'Что такое компонент массы?', a: 'Компонент массы добавляется к регистрационному сбору для автомобилей свыше 2 000 кг (PHEV: 2 200 кг; EV: 2 400 кг). Сбор = 2 €/кг × превышение кг, макс. 2 000 €.' },
-        { q: 'Где найти выбросы CO₂ автомобиля?', a: 'Выбросы CO₂ указаны в свидетельстве о регистрации транспортного средства (пункт V.7) или в портале Транспортного департамента.' },
-        { q: 'Что такое регистрационный сбор?', a: 'Регистрационный сбор – единовременный платёж при регистрации автомобиля в Эстонии или при смене владельца: базовая ставка 150 € + коэффициент возраста × (компонент CO₂ + компонент массы).' },
-      ],
-      sourcesTitle: 'Источники',
-      sources: [
-        { name: 'EMTA – Налог на автомобиль', url: 'https://www.emta.ee/eraisik/maksud-ja-tasumine/muud-maksud/mootorsoidukimaks', desc: 'Официальная информация Налогово-таможенного департамента Эстонии.' },
-        { name: 'Riigi Teataja – Закон о налоге на автотранспортные средства', url: 'https://www.riigiteataja.ee/', desc: 'Найдите «mootorsõidukimaksu seadus» на портале Государственного вестника.' },
-        { name: 'Транспортный департамент', url: 'https://www.transpordiamet.ee/', desc: 'Регистрация транспортных средств и технические данные.' },
-      ],
-      disclaimerTitle: 'Уведомление',
-      disclaimerText:  'Это независимый калькулятор, созданный Laatorid в информационных целях. Он не связан с Налогово-таможенным департаментом Эстонии (EMTA) и не является официальной налоговой консультацией. Мы не гарантируем точность результатов и не несём ответственности за решения, принятые на основании данного инструмента. Для точного расчёта используйте официальный калькулятор EMTA.',
-      contactTitle:    'Связаться с нами',
-      contactText:     'Заметили ошибку или хотите оставить отзыв? Напишите нам — ответим как можно скорее.',
-      contactBtn:      '✉ Написать нам',
-      chkFuel: 'Тип топлива', chkSource: 'Источник данных', chkYear: 'Год регистрации', chkCO2: 'Выбросы CO₂', chkEng: 'Данные двигателя',
-    },
-    fi: {
-      numLocale:   'fi-FI',
-      metaTitle:   'Autoverolaskuri | Kalkulaatorid',
-      metaDesc:    'Laske ajoneuvovero Viro 2025. Syötä CO₂, massa ja vuosi – välitön tulos. Ilmainen!',
-      title:       'Autovero',
-      subtitle:    'Ajoneuvovero 2025 · M1-luokan henkilöautot',
-      fuelLabel:   'Polttoainetyyppi',
-      fuel_ice:    'Bensiini / Diesel',
-      fuel_mhev:   'Hybridi',
-      fuel_phev:   'PHEV',
-      fuel_ev:     '⚡ Sähkö',
-      emissionsLabel: 'Päästöt',
-      sourceLabel: 'Tietolähde',
-      mode_co2:    'CO₂',
-      mode_alt:    'Moottori',
-      co2Label:    'CO₂-päästöt',
-      displLabel:  'Moottorin tilavuus',
-      powerLabel:  'Teho',
-      vehicleLabel:'Ajoneuvon tiedot',
-      yearLabel:   'Ensimmäinen rekisteröinti',
-      regYearLabel:'Hankintavuosi',
-      monthLabel:  'Hankintakuukausi',
-      monthHint:   'Vaikuttaa ensimmäisen vuoden maksuaikatauluun.',
-      massLabel:   'Massa',
-      massHint:    thr => `Massakomponentti lisätään alkaen ${thr.toLocaleString('et-EE')} kg.`,
-      resultsLabel:'Tulokset',
-      cell_ann:    'Vuosivero',
-      cell_reg:    'Rekisteröintimaksu',
-      cell_age:    'Ikäkerroin',
-      cell_tml:    'Maksuaikataulu',
-      cell_masc:   'Massakomponentti',
-      regSub:      'Kertaluonteinen · omistajan vaihtuessa',
-      mascSub:     'rekisteröintimaksussa',
-      themeLight:  'Vaalea',
-      themeDark:   'Tumma',
-      belowThr:    diff => `Alle kynnyksen · ${diff.toLocaleString('et-EE')} kg puuttuu`,
-      carNew:      'uusi ajoneuvo',
-      carAge:      age => `${age} vuotta vanha`,
-      chipBase:    'Perus',
-      chipCO2:     'CO₂',
-      chipEngine:  'Moottori',
-      chipMass:    'Massa',
-      chipAge:     'Kerroin',
-      junDate:     '15. kesäkuuta',
-      decDate:     '15. joulukuuta',
-      tlFull:      'Kaksi yhtä suurta erää · 50% vuosiverosta',
-      tlPro:       (m, j) => `1. vuosi: ${m}/12 vuosiverosta · ${j ? 'kaksi maksua' : 'yksi maksu joulukuussa'}`,
-      noticeHTML:  'Laskuri on informatiivinen. Tarkkaa laskelmaa varten käytä <a href="https://www.emta.ee/eraisik/maksud-ja-tasumine/muud-maksud/mootorsoidukimaks" target="_blank" rel="noopener">EMTA:n virallista laskuria</a>. Perusta: moottoriajoneuvojen verolaki, voimaan 01.01.2025.',
-      months: ['Tammikuu','Helmikuu','Maaliskuu','Huhtikuu','Toukokuu','Kesäkuu','Heinäkuu','Elokuu','Syyskuu','Lokakuu','Marraskuu','Joulukuu'],
-      navTitle:    'Muut laskurit',
-      calcNames:   { automaksu: 'Autoverolaskuri', palga: 'Palkkalaskuri', kmb: 'ALV-laskuri', laenu: 'Lainanlaskuri', tulumaks: 'Tuloveron laskuri' },
-      howTitle:    'Kuinka käyttää autoverolaskuria',
-      howSteps:    [
-        'Valitse polttoainetyyppi: bensiini/diesel, hybridi, PHEV tai sähkö.',
-        'Syötä CO₂-päästöt g/km (rekisteröintitodistus, kohta V.7). Ei saatavilla? Valitse "Moottori" ja syötä tilavuus ja teho.',
-        'Syötä ajoneuvon ensimmäinen rekisteröintivuosi.',
-        'Syötä ajoneuvon kokonaismassa kg (vapaaehtoinen — vaikuttaa vain yli 2 000 kg ajoneuvoihin).',
-        'Vuosivero ja maksuaikataulu näkyvät välittömästi.',
-      ],
-      calcTitle:   'Miten Viron ajoneuvovero lasketaan?',
-      calcContentHTML: `
-        <h3>Vuosiveron kaava</h3>
-        <p>Viron ajoneuvovero (2025) koostuu kolmesta osasta: <strong>perusmaksu 50 €</strong> + <strong>ikäkerroin × (CO₂-komponentti + massakomponentti)</strong>. Hakusanoja: <em>autoveron laskenta Viro</em>, <em>ajoneuvovero 2025 kaava</em>.</p>
-        <p><code>Vuosivero = 50 € + ik × (CO₂-komponentti + massakomponentti)</code></p>
-        <h3>CO₂-komponentin portaat vuosiverossa</h3>
-        <p>CO₂-perusteinen autovero Virossa 2025 lasketaan porrastetusti:</p>
-        <ul>
-          <li>0–117 g/km: <strong>0 €</strong></li>
-          <li>117–150 g/km: <strong>3 €/g</strong></li>
-          <li>151–200 g/km: <strong>3,50 €/g</strong></li>
-          <li>yli 200 g/km: <strong>4 €/g</strong></li>
-        </ul>
-        <p><strong>Esimerkki:</strong> 160 g/km → (150−117)×3 + (160−150)×3,5 = 99 + 35 = <strong>134 €</strong> CO₂-komponentti ennen ikäkerrointa.</p>
-        <h3>Ikäkerroin</h3>
-        <p>Ikäkerroin pienentää sekä CO₂- että massakomponenttia:</p>
-        <ul>
-          <li>0–5 vuotta: <strong>1,00</strong></li>
-          <li>6 vuotta: 0,92</li>
-          <li>7 vuotta: 0,84</li>
-          <li>8 vuotta: 0,76</li>
-          <li>9 vuotta: 0,68</li>
-          <li>10 vuotta: 0,60</li>
-          <li>11 vuotta: 0,52</li>
-          <li>12 vuotta: 0,44</li>
-          <li>13 vuotta: 0,36</li>
-          <li>14 vuotta: 0,28</li>
-          <li>15+ vuotta: <strong>0,20</strong> (minimi)</li>
-        </ul>
-        <h3>Rekisteröintimaksu ja sen CO₂-komponentit</h3>
-        <p>Rekisteröintimaksu = <code>150 € + ik × (CO₂-komponentti + massakomponentti)</code>. CO₂-portaat rekisteröintimaksussa ovat korkeammat:</p>
-        <ul>
-          <li>0–117 g/km: <strong>5 €/g</strong></li>
-          <li>117–150 g/km: <strong>10 €/g</strong></li>
-          <li>151–200 g/km: <strong>30 €/g</strong></li>
-          <li>yli 200 g/km: <strong>50 €/g</strong></li>
-        </ul>
-        <h3>Massakomponentti</h3>
-        <p>Massakomponentti lisätään rekisteröintimaksuun kynnyksen ylittävältä osalta:</p>
-        <ul>
-          <li>Polttomoottori / hybridi: yli <strong>2 000 kg</strong></li>
-          <li>PHEV: yli <strong>2 200 kg</strong></li>
-          <li>Sähköautojen autovero Virossa 2025: yli <strong>2 400 kg</strong></li>
-        </ul>
-        <p>Maksu: <code>2 €/kg × ylimenevä kg</code>, enintään <strong>2 000 €</strong>. Vuosiverossa massakomponentti yli 2 000 kg: <code>0,40 €/kg</code>, enintään 400 €.</p>
-        <h3>Ensimmäisen vuoden pro-rata-laskenta</h3>
-        <p>Kun ajoneuvo rekisteröidään ensi kertaa kesken vuoden, maksetaan vain osa: <code>täysi vuosivero × (13 − rekisteröintikuukausi) / 12</code>.</p>
-        <p><strong>Esimerkki:</strong> Rekisteröinti maaliskuussa (kuukausi 3) → (13−3)/12 = 10/12 ≈ 83,3% täydestä vuosiverosta. Rekisteröinti ennen kesäkuuta – kaksi maksuerää (kesäkuu + joulukuu); muuten yksi maksu joulukuussa.</p>
-      `,
-      faqTitle:    'Usein kysytyt kysymykset autoverosta',
-      faqItems:    [
-        { q: 'Mikä on ajoneuvovero?', a: 'Ajoneuvovero on Virossa 1. tammikuuta 2025 alkaen voimaan astunut vuosittainen vero M1-luokan henkilöautojen omistajille. Veron suuruus riippuu CO₂-päästöistä, massasta ja iästä.' },
-        { q: 'Milloin autovero on maksettava?', a: 'Vuosivero maksetaan kahtena yhtä suurena eränä: 15. kesäkuuta mennessä ja 15. joulukuuta mennessä.' },
-        { q: 'Maksavatko sähköautot autoveroa?', a: 'Sähköautot eivät maksa CO₂-komponenttia. Niiden vuosivero on perusmaksu 50 € plus ikäkerroin × massakomponentti (sovelletaan yli 2 400 kg ajoneuvoihin).' },
-        { q: 'Mikä on ikäkerroin?', a: 'Ikäkerroin pienentää CO₂- ja massakomponentteja: enintään 5 vuotta = 1,00; sen jälkeen –0,08/vuosi; 15+ vuotta = 0,20 (minimi).' },
-        { q: 'Miten ensimmäisen vuoden autovero lasketaan?', a: 'Ensimmäisen vuoden vero = täysi vuosivero × (13 − rekisteröintikuukausi) / 12. Ennen kesäkuuta rekisteröinnissä kaksi maksuerää; muuten yksi maksu joulukuussa.' },
-        { q: 'Mikä on massakomponentti?', a: 'Massakomponentti lisätään rekisteröintimaksuun yli 2 000 kg ajoneuvoille (PHEV: 2 200 kg; EV: 2 400 kg). Maksu = 2 €/kg × ylimenevä kg, enintään 2 000 €.' },
-        { q: 'Mistä löytää auton CO₂-päästöt?', a: 'CO₂-päästöt löytyvät ajoneuvon rekisteröintitodistuksesta (kohta V.7) tai Liikenneviraston omistajaportalista.' },
-        { q: 'Mikä on rekisteröintimaksu?', a: 'Rekisteröintimaksu on kertaluonteinen maksu ajoneuvon rekisteröinnistä Virossa tai omistajan vaihtuessa: 150 € perusmaksu + ikäkerroin × (CO₂-komponentti + massakomponentti).' },
-      ],
-      sourcesTitle: 'Lähteet',
-      sources: [
-        { name: 'EMTA – Ajoneuvovero', url: 'https://www.emta.ee/eraisik/maksud-ja-tasumine/muud-maksud/mootorsoidukimaks', desc: 'Viron vero- ja tulliviranomaisen virallinen tieto ajoneuvoverosta.' },
-        { name: 'Riigi Teataja – Ajoneuvoverolaki', url: 'https://www.riigiteataja.ee/', desc: 'Hae "mootorsõidukimaksu seadus" valtion säädösportaalista.' },
-        { name: 'Liikennevirasto', url: 'https://www.transpordiamet.ee/', desc: 'Ajoneuvojen rekisteröinti ja tekniset tiedot.' },
-      ],
-      disclaimerTitle: 'Ilmoitus',
-      disclaimerText:  'Tämä on Laatorid-yrityksen luoma itsenäinen laskuri, joka on tarkoitettu ainoastaan tiedottamistarkoituksiin. Se ei ole Viron vero- ja tulliviranomaisen (EMTA) virallinen työkalu eikä muodosta virallista veroneuvontaa. Emme takaa tulosten tarkkuutta emmekä vastaa tähän laskuriin perustuvista päätöksistä. Tarkkaa verolaskelmaa varten käytä EMTAn virallista laskuria.',
-      contactTitle:    'Ota yhteyttä',
-      contactText:     'Huomasitko virheen tai haluatko antaa palautetta? Kirjoita meille — vastaamme mahdollisimman pian.',
-      contactBtn:      '✉ Kirjoita meille',
-      chkFuel: 'Polttoainetyyppi', chkSource: 'Tietolähde', chkYear: 'Rekisteröintivuosi', chkCO2: 'CO₂-päästöt', chkEng: 'Mootoritiedot',
-    },
-  };
-
-  const t = () => T[lang];
-
-  /* ── Render: Other calculators grid ── */
-  function renderCalcsGrid() {
-    const tr = t();
-    const calcs = [
-      { key: 'automaksu', path: '/automaksu-kalkulaator', current: true },
-      { key: 'palga',     path: '/palgakalkulaator' },
-      { key: 'kmb',       path: '/kaibemaksu-kalkulaator' },
-      { key: 'laenu',     path: '/laenukalkulaator' },
-      { key: 'tulumaks',  path: '/tulumaksu-kalkulaator' },
-    ];
-    const suffix = lang === 'et' ? '' : '/' + lang;
-    const grid = document.getElementById('calcsGrid');
-    grid.innerHTML = calcs.map(c => {
-      const href = c.path + suffix;
-      const cls  = c.current ? 'calc-pill current' : 'calc-pill';
-      return `<a href="${href}" class="${cls}">${tr.calcNames[c.key]}</a>`;
-    }).join('');
-    document.getElementById('calcsTitle').textContent = tr.navTitle;
-  }
-
-  /* ── Render: How to use steps ── */
-  function renderHowSteps() {
-    const tr = t();
-    document.getElementById('howTitle').textContent = tr.howTitle;
-    const ol = document.getElementById('howSteps');
-    ol.innerHTML = tr.howSteps.map((step, i) =>
-      `<li><span class="step-badge">${i + 1}</span><span>${step}</span></li>`
-    ).join('');
-  }
-
-  /* ── Render: How it's calculated ── */
-  function renderCalcContent() {
-    const tr = t();
-    document.getElementById('calcTitle').textContent = tr.calcTitle;
-    document.getElementById('calcContent').innerHTML = tr.calcContentHTML;
-  }
-
-  /* ── Render: FAQ ── */
-  function renderFAQ() {
-    const tr = t();
-    document.getElementById('faqTitle').textContent = tr.faqTitle;
-    const list = document.getElementById('faqList');
-    list.innerHTML = tr.faqItems.map((item, i) =>
-      `<div class="faq-item" id="faq-${i}">
-        <button class="faq-q" onclick="toggleFaq(${i})" aria-expanded="false">
-          <span>${item.q}</span>
-          <span class="faq-toggle">+</span>
-        </button>
-        <div class="faq-a" role="region">
-          <div class="faq-a-inner">${item.a}</div>
-        </div>
-      </div>`
-    ).join('');
-  }
-
-  /* ── Render: Sources ── */
-  function renderSources() {
-    const tr = t();
-    document.getElementById('sourcesTitle').textContent = tr.sourcesTitle;
-    const list = document.getElementById('sourcesList');
-    list.innerHTML = tr.sources.map(s =>
-      `<li>
-        <a href="${s.url}" target="_blank" rel="noopener">${s.name}</a>
-        <div class="src-desc">${s.desc}</div>
-      </li>`
-    ).join('');
-  }
-
-  /* ── FAQ toggle ── */
-  function toggleFaq(i) {
-    const item = document.getElementById('faq-' + i);
-    const isOpen = item.classList.contains('open');
-    item.classList.toggle('open', !isOpen);
-    const btn = item.querySelector('.faq-q');
-    btn.setAttribute('aria-expanded', String(!isOpen));
-  }
-
-  /* ── Language segmented control ── */
-  function posLangSlider() {
-    const seg    = document.getElementById('langSeg');
-    const active = seg.querySelector('.mini-btn.active');
-    if (!active) return;
-    const sr = seg.getBoundingClientRect();
-    const br = active.getBoundingClientRect();
-    const sl = document.getElementById('langSlider');
-    sl.style.left  = (br.left - sr.left + 2) + 'px';
-    sl.style.width = (br.width - 4) + 'px';
-  }
-  window.addEventListener('resize', posLangSlider);
-
-  function setLang(btn, pushState = true) {
-    document.querySelectorAll('#langSeg .mini-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    lang = btn.dataset.lang;
-    document.documentElement.lang = lang;
-    requestAnimationFrame(() => requestAnimationFrame(posLangSlider));
-    if (pushState) {
-      const newUrl = buildLangUrl(lang);
-      history.pushState({ lang }, '', newUrl);
-    }
-    updateMetaTags();
-    applyLang();
-    if (!/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)) {
-      document.getElementById('iYear').focus();
-    }
-  }
-
-  function applyLang() {
-    const tr = t();
-    document.getElementById('pgTitle').textContent       = tr.title;
-    document.getElementById('pgSubtitle').textContent    = tr.subtitle;
-    document.getElementById('fuelLabel').textContent     = tr.fuelLabel;
-    document.getElementById('fuelIce').textContent       = tr.fuel_ice;
-    document.getElementById('fuelMhev').textContent      = tr.fuel_mhev;
-    document.getElementById('fuelPhev').textContent      = tr.fuel_phev;
-    document.getElementById('fuelEv').textContent        = tr.fuel_ev;
-    document.getElementById('emissionsLabel').textContent= tr.emissionsLabel;
-    document.getElementById('sourceLabel').textContent   = tr.sourceLabel;
-    document.getElementById('modeCo2').textContent       = tr.mode_co2;
-    document.getElementById('modeAlt').textContent       = tr.mode_alt;
-    document.getElementById('co2Label').textContent      = tr.co2Label;
-    document.getElementById('displLabel').textContent    = tr.displLabel;
-    document.getElementById('powerLabel').textContent    = tr.powerLabel;
-    document.getElementById('vehicleLabel').textContent  = tr.vehicleLabel;
-    document.getElementById('yearLabel').textContent     = tr.yearLabel;
-    document.getElementById('massLabel').textContent     = tr.massLabel;
-    document.getElementById('resultsLabel').textContent  = tr.resultsLabel;
-    document.getElementById('annLabel').textContent      = tr.cell_ann;
-    document.getElementById('tmlLabel').textContent      = tr.cell_tml;
-    document.getElementById('btnThemeLight').textContent = tr.themeLight;
-    document.getElementById('btnThemeDark').textContent  = tr.themeDark;
-    document.getElementById('noticeEl').innerHTML        = tr.noticeHTML;
-    document.getElementById('disclaimerTitle').textContent = tr.disclaimerTitle;
-    document.getElementById('disclaimerText').textContent  = tr.disclaimerText;
-    document.getElementById('contactTitle').textContent    = tr.contactTitle;
-    document.getElementById('contactText').textContent     = tr.contactText;
-    document.getElementById('contactBtn').textContent      = tr.contactBtn;
-    /* Month options — preserve selected value */
-    const sel  = document.getElementById('iMonth');
-    const curV = sel.value || '1';
-    sel.innerHTML = tr.months.map((m, i) => `<option value="${i+1}">${m}</option>`).join('');
-    sel.value = curV;
-    /* Rebuild new sections */
-    renderCalcsGrid();
-    renderHowSteps();
-    renderCalcContent();
-    renderFAQ();
-    renderSources();
-    /* Re-position sliders whose labels changed width */
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-      posFuelSlider();
-      posModeSlider();
-      posThemeSlider();
-    }));
-    calc();
-  }
-
-  /* ── Fuel pills ── */
-  function setFuel(btn) {
-    document.querySelectorAll('.fuel-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    fuel = btn.dataset.fuel;
-    const isEV = fuel === 'ev';
-    document.getElementById('emissionsLabel').style.display = isEV ? 'none' : '';
-    document.getElementById('emissionsGroup').style.display = isEV ? 'none' : '';
-    document.getElementById('modeRow').style.display        = isEV ? 'none' : '';
-    if (isEV) setMode(document.querySelector('#modeSeg .mini-btn[data-mode="co2"]'), false);
-    applyMode();
-    calc();
-  }
-
-  /* ── Mode pills ── */
-  function setMode(btn, doCalc = true) {
-    document.querySelectorAll('#modeSeg .mini-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    mode = btn.dataset.mode;
-    applyMode();
-    if (doCalc) calc();
-  }
-
-  function applyMode() {
-    const isAlt = mode === 'alt';
-    document.getElementById('co2Row').style.display   = isAlt ? 'none' : '';
-    document.getElementById('displRow').style.display = isAlt ? '' : 'none';
-    document.getElementById('powerRow').style.display = isAlt ? '' : 'none';
-    const co2 = document.getElementById('iCO2');
-    co2.disabled = isAlt;
-    if (isAlt) co2.value = '';
-  }
-
-  /* ── Tax logic ── */
-  function ageFactor(y, taxYear) {
-    const a = taxYear - y;
-    if (a <= 0)  return 1.00;
-    if (a <= 5)  return 1.00;
-    if (a >= 15) return 0.20;
-    return +(1 - (a - 5) * 0.08).toFixed(4);
-  }
-
-  function annCO2(c) {
-    if (c <= 117) return 0;
-    let t = (Math.min(c, 150) - 117) * 3;
-    if (c > 150) t += (Math.min(c, 200) - 150) * 3.5;
-    if (c > 200) t += (c - 200) * 4;
-    return t;
-  }
-
-  function annMass(m) { return m > 2000 ? Math.min((m - 2000) * 0.4, 400) : 0; }
-
-  function altComp(d, p) { return (d || 0) * 0.05 + (p || 0) * 0.80; }
-
-  /* ── Number animation ── */
-  const eur = n => n.toLocaleString(t().numLocale, { style:'currency', currency:'EUR', minimumFractionDigits:2 });
-
-  function animNum(el, to) {
-    const from = parseFloat(el.dataset.v || '0');
-    const dur  = 400, t0 = performance.now();
-    (function tick(now) {
-      const p  = Math.min((now - t0) / dur, 1);
-      const ep = 1 - (1 - p) ** 3;
-      el.textContent = eur(from + (to - from) * ep);
-      if (p < 1) requestAnimationFrame(tick);
-      else el.dataset.v = to;
-    })(t0);
-  }
-
-  /* ── Set cell states ── */
-  function setVal(id, val, emptyClass) {
-    const el = document.getElementById(id);
-    if (val === null) { el.textContent = '—'; el.classList.add(emptyClass); }
-    else { el.classList.remove(emptyClass); animNum(el, val); }
-  }
-
-  function updateDots() {
-    const isEV  = fuel === 'ev';
-    const isAlt = mode === 'alt' && !isEV;
-    const y     = parseInt(document.getElementById('iYear').value);
-    const co2r  = parseFloat(document.getElementById('iCO2').value);
-    const d     = parseFloat(document.getElementById('iDispl').value) || 0;
-    const pw    = parseFloat(document.getElementById('iPower').value) || 0;
-
-    const set = (id, ok) => { const el = document.getElementById(id); if (el) el.classList.toggle('ok', ok); };
-    set('dotYear', !!(y && y >= 1950));
-    set('dotCO2',  !isEV && !isAlt && !isNaN(co2r) && co2r >= 0);
-    set('dotEng',  isAlt && !!d);
-    set('dotPow',  isAlt && !!pw);
-  }
-
-  function clear() {
-    const el = document.getElementById('annNum');
-    el.textContent = '—'; el.classList.add('e'); el.dataset.v = '0';
-    document.getElementById('annChips').innerHTML = '';
-    document.getElementById('tlContainer').innerHTML = '';
-    document.getElementById('tlSub').textContent = '';
-    updateDots();
-  }
-
-  /* ── Timeline renderer ── */
-  function renderTimeline(regMonth, annFull, regYear) {
-    const tr       = t();
-    const months   = 13 - regMonth;
-    const proRated = annFull * months / 12;
-    const hasJune  = regMonth <= 6;
-    const decAmt   = hasJune ? proRated / 2 : proRated;
-    const isFullYear = regMonth === 1;
-    const tl = document.getElementById('tlContainer');
-    const junLabel = `${tr.junDate} ${regYear}`;
-    const decLabel = `${tr.decDate} ${regYear}`;
-
-    if (hasJune) {
-      tl.innerHTML = `
-        <div class="tl">
-          <div class="tl-head">
-            <span class="tl-date">${junLabel}</span>
-            <span class="tl-date">${decLabel}</span>
-          </div>
-          <div class="tl-track">
-            <div class="tl-dot"></div>
-            <div class="tl-bar"></div>
-            <div class="tl-dot"></div>
-          </div>
-          <div class="tl-foot">
-            <div class="tl-amt" id="payJun" data-v="0">—</div>
-            <div class="tl-amt" id="payDec" data-v="0">—</div>
-          </div>
-        </div>`;
-      animNum(document.getElementById('payJun'), proRated / 2);
-    } else {
-      tl.innerHTML = `
-        <div class="tl tl-one">
-          <div class="tl-head tl-head-one">
-            <span class="tl-date">${decLabel}</span>
-          </div>
-          <div class="tl-track tl-track-one">
-            <div class="tl-dot"></div>
-            <div class="tl-bar"></div>
-          </div>
-          <div class="tl-foot">
-            <div class="tl-amt" id="payDec" data-v="0">—</div>
-          </div>
-        </div>`;
-    }
-    animNum(document.getElementById('payDec'), decAmt);
-
-    const sub = document.getElementById('tlSub');
-    sub.textContent = isFullYear ? tr.tlFull : tr.tlPro(months, hasJune);
-  }
-
-  /* ── Main calc ── */
-  function calc() {
-    const tr       = t();
-    const y        = parseInt(document.getElementById('iYear').value);
-    const regYear  = parseInt(document.getElementById('iRegYear').value) || 2026;
-    const mass     = parseFloat(document.getElementById('iMass').value) || 0;
-    const regMonth = parseInt(document.getElementById('iMonth').value) || 1;
-    const isEV     = fuel === 'ev';
-    const isAlt    = mode === 'alt' && !isEV;
-    const co2r     = isEV ? 0 : parseFloat(document.getElementById('iCO2').value);
-    const d        = parseFloat(document.getElementById('iDispl').value) || 0;
-    const pw       = parseFloat(document.getElementById('iPower').value) || 0;
-
-    if (!y || y < 1950 || y > regYear) { clear(); return; }
-    if (!isEV && !isAlt && isNaN(co2r)) { clear(); return; }
-    if (isAlt && (!d || !pw)) { clear(); return; }
-
-    const co2 = isEV ? 0 : co2r;
-    const af  = ageFactor(y, regYear);
-    const age = regYear - y;
-
-    /* Annual */
-    const base    = 50;
-    const co2c    = isEV ? 0 : isAlt ? 0 : annCO2(co2);
-    const altc    = isAlt ? altComp(d, pw) : 0;
-    const massc   = annMass(mass);
-    const annFull = base + af * (co2c + altc + massc);
-
-    /* Cells */
-    setVal('annNum', annFull, 'e');
-    updateDots();
-
-    /* Chips */
-    const chips = [
-      [tr.chipBase,                      eur(base)],
-      isAlt ? [tr.chipEngine, eur(af * altc)] : [tr.chipCO2, eur(af * co2c)],
-      ...(mass > 2000 ? [[tr.chipMass,   eur(af * massc)]] : []),
-      [tr.chipAge,                        af.toFixed(2).replace('.', ',')],
-    ];
-    document.getElementById('annChips').innerHTML = chips
-      .map(([lbl, val]) => `<span class="chip">${lbl}: ${val}</span>`)
-      .join('');
-
-    /* Timeline */
-    renderTimeline(regMonth, annFull, regYear);
-  }
-
-  /* ── Theme segmented control ── */
-  function posThemeSlider() {
-    const seg    = document.getElementById('themeSeg');
-    const active = seg.querySelector('.mini-btn.active');
-    if (!active) return;
-    const sr = seg.getBoundingClientRect();
-    const br = active.getBoundingClientRect();
-    const sl = document.getElementById('themeSlider');
-    sl.style.left  = (br.left - sr.left + 2) + 'px';
-    sl.style.width = (br.width - 4) + 'px';
-  }
-  window.addEventListener('resize', posThemeSlider);
-
-  function setTheme(btn) {
-    document.querySelectorAll('#themeSeg .mini-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    document.documentElement.classList.toggle('dark', btn.dataset.theme === 'dark');
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-      posThemeSlider();
-      posFuelSlider();
-      posModeSlider();
-      posLangSlider();
-    }));
-  }
-
-  /* ── Handle browser back/forward ── */
-  window.addEventListener('popstate', (e) => {
-    const detectedLang = getLangFromPath();
-    const btn = document.querySelector(`#langSeg .mini-btn[data-lang="${detectedLang}"]`);
-    if (btn) {
-      document.querySelectorAll('#langSeg .mini-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      lang = detectedLang;
-      document.documentElement.lang = lang;
-      requestAnimationFrame(() => requestAnimationFrame(posLangSlider));
-      updateMetaTags();
-      applyLang();
-    }
+  // Populate month selector
+  const mSel = document.getElementById('iMonth');
+  T.et.months.forEach((m, i) => {
+    const opt = document.createElement('option');
+    opt.value = i + 1; opt.textContent = m;
+    if (i + 1 === nowM) opt.selected = true;
+    mSel.appendChild(opt);
   });
 
-  /* ── Init ── */
-  window.addEventListener('DOMContentLoaded', () => {
-    /* Detect language from URL path */
-    const detectedLang = getLangFromPath();
-    if (detectedLang !== 'et') {
-      lang = detectedLang;
-      const btn = document.querySelector(`#langSeg .mini-btn[data-lang="${detectedLang}"]`);
-      if (btn) {
-        document.querySelectorAll('#langSeg .mini-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-      }
-    }
+  setLang('et');
+  document.getElementById('btnET').classList.add('active');
+})();
+</script>
 
-    /* Populate purchase year options */
-    const nowY = new Date().getFullYear();
-    const nowM = new Date().getMonth() + 1;
-    const yrSel = document.getElementById('iRegYear');
-    for (let yr = 2025; yr <= nowY + 1; yr++) {
-      const opt = document.createElement('option');
-      opt.value = yr;
-      opt.textContent = yr;
-      if (yr === nowY) opt.selected = true;
-      yrSel.appendChild(opt);
-    }
-
-    /* Populate month options */
-    const sel = document.getElementById('iMonth');
-    T[lang].months.forEach((m, i) => {
-      const opt = document.createElement('option');
-      opt.value = i + 1;
-      opt.textContent = m;
-      if (i + 1 === nowM) opt.selected = true;
-      sel.appendChild(opt);
-    });
-
-    updateMetaTags();
-    renderCalcsGrid();
-    renderHowSteps();
-    renderCalcContent();
-    renderFAQ();
-    renderSources();
-
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-      posFuelSlider();
-      posModeSlider();
-      posThemeSlider();
-      posLangSlider();
-    }));
-  });
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Automaksu kalkulaator",
+  "url": "https://automaksu-kalkulaator.ee",
+  "description": "Tasuta automaksu kalkulaator 2025: arvuta oma sõiduki mootorsõidukimaks Eestis.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "inLanguage": ["et","en","ru","fi"],
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}
+}
 </script>
 </body>
 </html>
