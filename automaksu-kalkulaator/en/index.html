@@ -146,11 +146,11 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
 
 /* ── Section cards ── */
 .section-card{background:var(--card);border:var(--card-border);border-radius:var(--radius);padding:24px;margin-bottom:44px;box-shadow:var(--glow)}
-.section-full{background-color:var(--card);border:none;border-radius:0;width:100vw;margin-left:calc(-50vw + 50%);padding:48px calc(50vw - 50% + 20px);margin-bottom:44px;position:relative;overflow:hidden}
+.section-full{background-color:var(--card);border:none;border-radius:0;box-shadow:none;width:100vw;margin-left:calc(-50vw + 50%);padding:48px calc(50vw - 50% + 20px);margin-bottom:44px;position:relative;overflow:hidden}
 .section-full::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:48px 48px;-webkit-mask-image:linear-gradient(to left,#000 0%,transparent 55%);mask-image:linear-gradient(to left,#000 0%,transparent 55%);pointer-events:none}
-.section-full>.section-title,.section-full>.how-steps,.section-full>.sources-list,.section-full>.calc-content{max-width:940px;margin-left:auto;margin-right:auto;position:relative}
 :root[data-theme="light"] .section-full::before{background-image:linear-gradient(rgba(0,0,0,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.03) 1px,transparent 1px)}
 @media(prefers-color-scheme:light){:root:not([data-theme="dark"]) .section-full::before{background-image:linear-gradient(rgba(0,0,0,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.03) 1px,transparent 1px)}}
+.section-full>.section-title,.section-full>.how-steps,.section-full>.sources-list,.section-full>.calc-content{max-width:940px;margin-left:auto;margin-right:auto;position:relative}
 @media(max-width:1032px){.section-full{padding-left:20px;padding-right:20px}}
 .section-bare{background:none;border:none;padding-left:0;padding-right:0;display:flex;align-items:flex-start;gap:32px;box-shadow:none}
 .section-bare .section-title{flex-shrink:0;max-width:160px;margin-bottom:0;line-height:1.1;font-size:1.6rem;letter-spacing:-.4px;font-weight:700}
@@ -721,7 +721,7 @@ const fmt = n => n.toFixed(2).replace('.',',');
 function isDark() {
   const saved = localStorage.getItem('theme');
   if (saved) return saved === 'dark';
-  return window.matchMedia('(prefers-color-scheme:dark)').matches;
+  return false;
 }
 function applyTheme(dark) {
   document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
