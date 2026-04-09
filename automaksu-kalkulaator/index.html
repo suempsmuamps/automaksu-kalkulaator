@@ -10,31 +10,31 @@
 <meta property="og:title" content="Automaksu kalkulaator 2025">
 <meta property="og:description" content="Arvuta oma sõiduki mootorsõidukimaks Eestis. Tasuta, kohene tulemus.">
 <meta property="og:type" content="website">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#000;--card:#111;--label:#fff;--label2:#999;--label3:#555;
+  --bg:#000;--card:#111;--label:#fff;--label2:#b0b0b0;--label3:#777;
   --sep:rgba(255,255,255,.08);--tint:#fff;--radius:14px;
   --card-border:1px solid rgba(255,255,255,.08);
-  --font:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --font:'Space Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
 }
 :root[data-theme="light"]{
-  --bg:#fff;--card:#f5f5f5;--label:#000;--label2:#555;--label3:#999;
+  --bg:#fff;--card:#f5f5f5;--label:#000;--label2:#444;--label3:#666;
   --sep:rgba(0,0,0,.08);--tint:#000;--card-border:1px solid rgba(0,0,0,.06);
 }
 @media(prefers-color-scheme:light){
   :root:not([data-theme="dark"]){
-    --bg:#fff;--card:#f5f5f5;--label:#000;--label2:#555;--label3:#999;
+    --bg:#fff;--card:#f5f5f5;--label:#000;--label2:#444;--label3:#666;
     --sep:rgba(0,0,0,.08);--tint:#000;--card-border:1px solid rgba(0,0,0,.06);
   }
 }
 
-body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-font-smoothing:antialiased}
-.page{max-width:1000px;margin:0 auto;padding:20px 16px 60px}
+body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.page{max-width:1000px;margin:0 auto;padding:20px 16px 60px;overflow:visible}
 
 /* ── Main 2-col grid ── */
-.main-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:start;margin-bottom:12px}
+.main-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:start;margin-bottom:24px}
 .main-grid .form-card{margin-bottom:0}
 .main-grid .bento{margin-bottom:0}
 @media(max-width:680px){.main-grid{grid-template-columns:1fr}}
@@ -44,7 +44,7 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
 .header-inner{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .header-title-group{display:flex;align-items:center;gap:12px}
 .header-icon{font-size:2rem;line-height:1}
-.header-title{font-size:1.5rem;font-weight:700;letter-spacing:-.3px}
+.header-title{font-size:1.75rem;font-weight:700;letter-spacing:-.5px}
 .header-sub{font-size:.85rem;color:var(--label2);margin-top:2px}
 .header-controls{display:flex;align-items:center;gap:8px;flex-shrink:0}
 .lang-switcher{display:flex;background:var(--sep);border-radius:8px;padding:2px;gap:2px}
@@ -101,10 +101,10 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
   display:flex;flex-direction:column;justify-content:flex-end;
 }
 .ann-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
-.chip{background:rgba(255,255,255,.1);color:rgba(255,255,255,.75);padding:4px 10px;border-radius:20px;font-size:.78rem;font-weight:500;display:inline-flex;align-items:center;gap:5px}
+.chip{background:rgba(255,255,255,.12);color:rgba(255,255,255,.9);padding:4px 10px;border-radius:20px;font-size:.78rem;font-weight:500;display:inline-flex;align-items:center;gap:5px}
 .ann-num{font-size:3.2rem;font-weight:700;color:#fff;letter-spacing:-1.5px;line-height:1}
 .ann-num.e{color:rgba(255,255,255,.12)}
-.ann-lbl{font-size:.82rem;color:rgba(255,255,255,.4);margin-top:4px;text-transform:uppercase;letter-spacing:.06em}
+.ann-lbl{font-size:.82rem;color:rgba(255,255,255,.6);margin-top:4px;text-transform:uppercase;letter-spacing:.06em}
 
 /* ── Reg fee card ── */
 .c-reg{
@@ -120,24 +120,30 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
 /* ── Payment timeline ── */
 .c-tml{background:rgba(255,255,255,.04);border-radius:10px;padding:14px;margin-top:14px;border:1px solid rgba(248,248,248,.06)}
 .tml-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;gap:10px;flex-wrap:wrap}
-.tml-lbl{font-size:.75rem;font-weight:600;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.06em}
+.tml-lbl{font-size:.75rem;font-weight:600;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.06em}
 .tml-picks{display:flex;gap:6px}
-.tml-sel{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:5px 8px;font-size:.82rem;font-family:var(--font);color:rgba(255,255,255,.85);cursor:pointer;outline:none}
+.tml-sel{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:5px 8px;font-size:.82rem;font-family:var(--font);color:#fff;cursor:pointer;outline:none}
 .pay-grid{display:flex;gap:16px}
 .pay-col{flex:1;display:flex;flex-direction:column;gap:3px}
-.pay-date{font-size:.78rem;color:rgba(255,255,255,.4)}
+.pay-date{font-size:.78rem;color:rgba(255,255,255,.65)}
 .pay-amt{font-size:1.3rem;font-weight:700;color:#fff;font-variant-numeric:tabular-nums}
-.tml-note{font-size:.75rem;color:rgba(255,255,255,.35);margin-top:8px;line-height:1.45}
+.tml-note{font-size:.75rem;color:rgba(255,255,255,.6);margin-top:8px;line-height:1.45}
 
 /* ── Section cards ── */
-.section-card{background:var(--card);border:var(--card-border);border-radius:var(--radius);padding:20px;margin-bottom:12px}
-.section-title{font-size:1.1rem;font-weight:700;margin-bottom:16px}
+.section-card{background:var(--card);border:var(--card-border);border-radius:var(--radius);padding:20px;margin-bottom:24px}
+.section-full{background-color:var(--card);border:none;border-radius:0;width:100vw;margin-left:calc(-50vw + 50%);padding:40px calc(50vw - 50% + 16px);margin-bottom:24px;position:relative;overflow:hidden}
+.section-full::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:40px 40px;-webkit-mask-image:radial-gradient(ellipse at 50% 50%,#000 20%,transparent 70%);mask-image:radial-gradient(ellipse at 50% 50%,#000 20%,transparent 70%);pointer-events:none}
+.section-full>.section-title,.section-full>.how-steps,.section-full>.sources-list{max-width:968px;margin-left:auto;margin-right:auto;position:relative}
+:root[data-theme="light"] .section-full::before{background-image:linear-gradient(rgba(0,0,0,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.035) 1px,transparent 1px)}
+@media(prefers-color-scheme:light){:root:not([data-theme="dark"]) .section-full::before{background-image:linear-gradient(rgba(0,0,0,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.035) 1px,transparent 1px)}}
+@media(max-width:1032px){.section-full{padding-left:16px;padding-right:16px}}
+.section-title{font-size:1.35rem;font-weight:700;letter-spacing:-.3px;margin-bottom:16px}
 
 .how-steps{list-style:none;display:flex;flex-direction:column;gap:12px}
 .how-steps li{display:flex;align-items:flex-start;gap:14px;font-size:.93rem;line-height:1.55;color:var(--label2)}
 .step-badge{flex-shrink:0;width:28px;height:28px;border-radius:50%;background:var(--label);color:var(--bg);display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;margin-top:1px}
 
-.calc-content h3{font-size:.95rem;font-weight:700;margin:14px 0 6px}
+.calc-content h3{font-size:1.05rem;font-weight:700;margin:14px 0 6px}
 .calc-content h3:first-child{margin-top:0}
 .calc-content p{font-size:.9rem;line-height:1.65;color:var(--label2);margin-bottom:8px}
 .calc-content ul{padding-left:18px;margin-bottom:8px}
@@ -159,7 +165,7 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
 .sources-list a{color:var(--label2);text-decoration:underline;text-underline-offset:2px;font-size:.88rem}
 .sources-list a:hover{text-decoration:underline}
 
-.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px}
 @media(max-width:480px){.info-grid{grid-template-columns:1fr}}
 .info-card{border-radius:var(--radius);padding:20px}
 .info-card--amber{background:linear-gradient(135deg,#3d2e00 0%,#4a3800 50%,#2a1f00 100%);border:1px solid rgba(251,191,36,.2)}
@@ -175,7 +181,7 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
   :root:not([data-theme="dark"]) .info-card p{color:#374151}
 }
 .info-icon{font-size:1.5rem;margin-bottom:8px}
-.info-card-title{font-size:.93rem;font-weight:700;color:var(--label);margin-bottom:6px}
+.info-card-title{font-size:1.05rem;font-weight:700;color:var(--label);margin-bottom:6px}
 .info-card p{font-size:.82rem;line-height:1.55;color:var(--label2)}
 .contact-btn{display:inline-block;margin-top:10px;background:#fff;color:#000;border-radius:8px;padding:7px 14px;font-size:.82rem;font-weight:600;text-decoration:none}
 </style>
@@ -321,7 +327,7 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
   </div><!-- /main-grid -->
 
   <!-- How to use -->
-  <section class="section-card">
+  <section class="section-card section-full">
     <h2 class="section-title" id="howTitle">Kuidas kasutada?</h2>
     <ol class="how-steps" id="howSteps"></ol>
   </section>
@@ -339,7 +345,7 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
   </section>
 
   <!-- Sources -->
-  <section class="section-card">
+  <section class="section-card section-full">
     <h2 class="section-title" id="sourcesTitle">Allikad</h2>
     <ul class="sources-list" id="sourcesList"></ul>
   </section>
