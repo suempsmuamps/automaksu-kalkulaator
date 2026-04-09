@@ -162,8 +162,10 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
 .how-steps{list-style:none;display:flex;gap:0;overflow-x:auto;padding-bottom:8px;scrollbar-width:none;-ms-overflow-style:none;position:relative}
 .how-steps::-webkit-scrollbar{display:none}
 .how-steps li{flex:1;min-width:150px;display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:8px;font-size:.8rem;line-height:1.55;color:var(--label3);padding:0 20px 0 0;position:relative}
-.how-steps li:not(:last-child)::after{content:'';position:absolute;top:10px;left:30px;width:calc(100% - 30px);height:1px;background:var(--sep)}
-.step-badge{flex-shrink:0;width:22px;height:22px;border-radius:50%;background:var(--label2);color:var(--bg);display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:600;position:relative;z-index:1}
+.how-steps li:not(:last-child)::after{content:'';position:absolute;top:10px;left:22px;width:calc(100% - 22px);height:1px;background:var(--sep);transition:background .3s var(--ease)}
+.how-steps li.step-done:not(:last-child)::after{background:#22c55e}
+.step-badge{flex-shrink:0;width:22px;height:22px;border-radius:50%;background:var(--label2);color:var(--bg);display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:600;position:relative;z-index:1;transition:background .3s var(--ease),box-shadow .3s var(--ease)}
+.step-badge.ok{background:#22c55e;box-shadow:0 0 8px rgba(34,197,94,.3)}
 @media(max-width:700px){.how-steps{flex-direction:column;gap:0;overflow-x:visible;padding-bottom:0}.how-steps li{min-width:0;flex-direction:row;align-items:center;gap:12px;padding:12px 0}.how-steps li:not(:last-child)::after{left:10px;width:1px;height:100%;top:22px}}
 
 .calc-content h3{font-size:1.02rem;font-weight:700;margin:16px 0 6px}
@@ -223,7 +225,7 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
       <div class="header-title-group">
         <div class="header-icon">🚗</div>
         <div>
-          <h1 class="header-title" id="pgTitle">Automaks</h1>
+          <h1 class="header-title" id="pgTitle">Automaksu­kalkulaator</h1>
           <p class="header-sub" id="pgSub">Mootorsõidukimaks 2025 · M1 kategooria</p>
         </div>
       </div>
@@ -399,7 +401,7 @@ let vtype = 'm1';
 // ── Translations ───────────────────────────────────────────────────────────────
 const T = {
   et: {
-    pgTitle:'Automaks', pgSub:'Mootorsõidukimaks 2025',
+    pgTitle:'Automaksu\u00ADkalkulaator', pgSub:'Mootorsõidukimaks 2025',
     vtypeLbl:'Sõiduki kategooria', displLbl:'Mootori töömaht',
     fuelLbl:'Kütuse tüüp',
     fuel_ice:'Bensiin / Diisel', fuel_mhev:'Hübriid', fuel_phev:'PHEV', fuel_ev:'⚡ Elekter',
@@ -781,7 +783,7 @@ function applyLang() {
   }
   // How steps
   document.getElementById('howSteps').innerHTML =
-    tr.howSteps.map((step,i) => `<li><span class="step-badge">${i+1}</span><span>${step}</span></li>`).join('');
+    tr.howSteps.map((step,i) => `<li><span class="step-badge" id="stepBadge${i}">${i+1}</span><span>${step}</span></li>`).join('');
   // Calc content
   document.getElementById('calcContent').innerHTML = tr.calcHTML;
   // FAQ
@@ -836,11 +838,29 @@ function updateDots() {
   const d   = parseFloat(document.getElementById('iDispl') ? document.getElementById('iDispl').value : '0') || 0;
   const set = (id, ok) => { const el = document.getElementById(id); if (el) el.classList.toggle('ok', ok); };
   const mass = parseFloat(document.getElementById('iMass').value) || 0;
-  set('dotYear',  !!(y && y >= 1950 && y <= 2030));
-  set('dotCO2',   !isEV && !isL && !isNaN(co2) && co2 >= 0);
-  set('dotPower', !isEV && !isL && pw > 0);
-  set('dotDispl', isL && d > 0);
-  set('dotMass',  !isL && mass > 0);
+  const hasYear = !!(y && y >= 1950 && y <= 2030);
+  const hasCO2  = !isEV && !isL && !isNaN(co2) && co2 >= 0;
+  const hasPower= !isEV && !isL && pw > 0;
+  const hasDispl= isL && d > 0;
+  const hasMass = !isL && mass > 0;
+  set('dotYear',  hasYear);
+  set('dotCO2',   hasCO2);
+  set('dotPower', hasPower);
+  set('dotDispl', hasDispl);
+  set('dotMass',  hasMass);
+  // Step progress: 1=fuel/category (always), 2=emissions, 3=year+mass, 4=all
+  const s1 = true; // fuel & category always selected
+  const s2 = isEV || isL ? (isL ? hasDispl : true) : (hasCO2 || hasPower);
+  const s3 = hasYear && (isL || hasMass);
+  const s4 = s1 && s2 && s3;
+  set('stepBadge0', s1);
+  set('stepBadge1', s2);
+  set('stepBadge2', s3);
+  set('stepBadge3', s4);
+  // Green lines — flow like water
+  const steps = document.querySelectorAll('.how-steps li');
+  const flow = [s1, s1&&s2, s1&&s2&&s3, s1&&s2&&s3];
+  steps.forEach((li,i) => li.classList.toggle('step-done', !!flow[i]));
 }
 
 // ── Clear ──────────────────────────────────────────────────────────────────────
