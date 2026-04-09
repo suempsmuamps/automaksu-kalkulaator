@@ -92,7 +92,9 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
 .preset-btn{display:flex;align-items:center;gap:5px;background:var(--bg);border:none;border-radius:20px;padding:7px 13px;font-size:.85rem;font-weight:500;color:var(--label);cursor:pointer;font-family:var(--font);transition:.15s;white-space:nowrap;-webkit-tap-highlight-color:transparent}
 .preset-btn:active{transform:scale(.95);opacity:.8}
 .drinks-list{display:flex;flex-direction:column;gap:6px}
-.drink-card{display:flex;align-items:center;gap:7px;background:var(--bg);border-radius:10px;padding:8px 10px}
+.drink-card{display:flex;flex-direction:column;gap:6px;background:var(--bg);border-radius:10px;padding:8px 10px}
+.drink-top{display:flex;align-items:center;gap:7px}
+.drink-fields{display:flex;align-items:center;gap:7px}
 .drink-icon{font-size:1.1rem;flex-shrink:0}
 .drink-name{flex:1;font-size:.83rem;font-weight:500;color:var(--label);min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .drink-inp{width:52px;border:none;background:var(--card);border-radius:6px;padding:4px 6px;font-size:.83rem;font-family:var(--font);color:var(--label);text-align:center;outline:none}
@@ -760,19 +762,23 @@ function renderDrinks(){
   const list = document.getElementById('drinksList');
   list.innerHTML = drinks.map(d=>`
     <div class="drink-card">
-      <span class="drink-icon">${d.icon}</span>
-      <span class="drink-name">${d.name}</span>
-      <input class="drink-inp drink-qty" type="number" value="${d.qty||1}" min="1" max="50"
-        onchange="updateDrink(${d.uid},'qty',this.value)" title="×">
-      <span class="drink-unit">×</span>
-      <input class="drink-inp" type="number" value="${d.ml}" min="1" max="2000" step="10"
-        onchange="updateDrink(${d.uid},'ml',this.value)" title="ml">
-      <span class="drink-unit">ml</span>
-      <input class="drink-inp" type="number" value="${d.abv}" min="0.5" max="96" step="0.5"
-        onchange="updateDrink(${d.uid},'abv',this.value)" title="%">
-      <span class="drink-unit">%</span>
-      <span class="drink-grams" id="g-${d.uid}">${grams(d).toFixed(1)}g</span>
-      <button class="drink-rm" onclick="removeDrink(${d.uid})">×</button>
+      <div class="drink-top">
+        <span class="drink-icon">${d.icon}</span>
+        <span class="drink-name">${d.name}</span>
+        <button class="drink-rm" onclick="removeDrink(${d.uid})">×</button>
+      </div>
+      <div class="drink-fields">
+        <input class="drink-inp drink-qty" type="number" value="${d.qty||1}" min="1" max="50"
+          onchange="updateDrink(${d.uid},'qty',this.value)" title="×">
+        <span class="drink-unit">×</span>
+        <input class="drink-inp" type="number" value="${d.ml}" min="1" max="2000" step="10"
+          onchange="updateDrink(${d.uid},'ml',this.value)" title="ml">
+        <span class="drink-unit">ml</span>
+        <input class="drink-inp" type="number" value="${d.abv}" min="0.5" max="96" step="0.5"
+          onchange="updateDrink(${d.uid},'abv',this.value)" title="%">
+        <span class="drink-unit">%</span>
+        <span class="drink-grams" id="g-${d.uid}">${grams(d).toFixed(1)}g</span>
+      </div>
     </div>`).join('');
 }
 
