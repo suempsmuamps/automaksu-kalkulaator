@@ -96,6 +96,7 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
 .drink-icon{font-size:1.1rem;flex-shrink:0}
 .drink-name{flex:1;font-size:.83rem;font-weight:500;color:var(--label);min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .drink-inp{width:52px;border:none;background:var(--card);border-radius:6px;padding:4px 6px;font-size:.83rem;font-family:var(--font);color:var(--label);text-align:center;outline:none}
+.drink-qty{width:36px;font-weight:600}
 .drink-unit{font-size:.75rem;color:var(--label3);white-space:nowrap}
 .drink-grams{font-size:.75rem;color:var(--label2);white-space:nowrap;min-width:36px;text-align:right}
 .drink-rm{background:none;border:none;color:var(--label3);cursor:pointer;font-size:1.1rem;padding:2px 4px;line-height:1;transition:color .15s;-webkit-tap-highlight-color:transparent}
@@ -157,8 +158,10 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
 .how-steps{list-style:none;display:flex;gap:0;overflow-x:auto;padding-bottom:8px;scrollbar-width:none;-ms-overflow-style:none;position:relative}
 .how-steps::-webkit-scrollbar{display:none}
 .how-steps li{flex:1;min-width:150px;display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:8px;font-size:.8rem;line-height:1.55;color:var(--label3);padding:0 20px 0 0;position:relative}
-.how-steps li:not(:last-child)::after{content:'';position:absolute;top:10px;left:30px;width:calc(100% - 30px);height:1px;background:var(--sep)}
-.step-badge{flex-shrink:0;width:22px;height:22px;border-radius:50%;background:var(--label2);color:var(--bg);display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:600;position:relative;z-index:1}
+.how-steps li:not(:last-child)::after{content:'';position:absolute;top:10px;left:22px;width:calc(100% - 22px);height:1px;background:var(--sep);transition:background .3s var(--ease)}
+.how-steps li.step-done:not(:last-child)::after{background:#22c55e}
+.step-badge{flex-shrink:0;width:22px;height:22px;border-radius:50%;background:var(--label2);color:var(--bg);display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:600;position:relative;z-index:1;transition:background .3s var(--ease),box-shadow .3s var(--ease)}
+.step-badge.ok{background:#22c55e;box-shadow:0 0 8px rgba(34,197,94,.3)}
 @media(max-width:700px){.how-steps{flex-wrap:nowrap}.how-steps li{min-width:130px}}
 
 /* ── Video embed ── */
@@ -314,16 +317,16 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
     <div class="calc-content" id="calcContent"></div>
   </section>
 
-  <!-- Video -->
-  <div class="video-embed">
-    <iframe src="https://www.youtube.com/embed/DOB8DXty4GQ" title="Video" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>
-  </div>
-
   <!-- FAQ -->
   <section class="section-card">
     <h2 class="section-title" id="faqTitle">KKK</h2>
     <div id="faqList"></div>
   </section>
+
+  <!-- Video -->
+  <div class="video-embed">
+    <iframe src="https://www.youtube.com/embed/DOB8DXty4GQ" title="Video" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>
+  </div>
 
   <!-- Sources -->
   <section class="section-card section-bare section-bare-bg">
@@ -382,10 +385,9 @@ const T = {
     addCustom:'+ Kohandatud',
     howTitle:'Kuidas kasutada?',
     howSteps:[
-      'Vali sugu — mõjutab Widmarti koefitsienti (mees 0,70 / naine 0,60).',
-      'Sisesta kehakaal kilogrammides.',
-      'Lisa tarbitud joogid eelseadistuste abil. Kogust ja %ABV saab kohapeal muuta.',
-      'Sisesta mitu tundi tagasi alustasid joomist (0 = just nüüd).',
+      'Vali sugu ja sisesta kehakaal.',
+      'Lisa tarbitud joogid eelseadistuste abil.',
+      'Sisesta mitu tundi tagasi alustasid joomist.',
       'Promillid ja ajagraafik ilmuvad koheselt.',
     ],
     calcTitle:'Kuidas promillid arvutatakse?',
@@ -442,10 +444,9 @@ const T = {
     addCustom:'+ Custom',
     howTitle:'How to use',
     howSteps:[
-      'Select gender — affects the Widmark factor (male 0.70 / female 0.60).',
-      'Enter your body weight in kilograms.',
-      'Add drinks using the presets. You can edit volume and ABV% inline.',
-      'Enter how many hours ago you started drinking (0 = right now).',
+      'Select gender and enter your body weight.',
+      'Add drinks using the presets.',
+      'Enter how many hours ago you started drinking.',
       'BAC and timeline appear instantly.',
     ],
     calcTitle:'How is BAC calculated?',
@@ -502,10 +503,9 @@ const T = {
     addCustom:'+ Свой напиток',
     howTitle:'Как пользоваться?',
     howSteps:[
-      'Выберите пол — влияет на коэффициент Видмарка (мужской 0,70 / женский 0,60).',
-      'Введите массу тела в килограммах.',
-      'Добавьте напитки из предустановок. Объём и %ABV можно изменить.',
-      'Введите, сколько часов назад вы начали пить (0 = прямо сейчас).',
+      'Выберите пол и введите массу тела.',
+      'Добавьте напитки из предустановок.',
+      'Введите, сколько часов назад вы начали пить.',
       'Промилле и график появятся мгновенно.',
     ],
     calcTitle:'Как рассчитываются промилле?',
@@ -555,10 +555,9 @@ const T = {
     addCustom:'+ Oma juoma',
     howTitle:'Kuinka käyttää?',
     howSteps:[
-      'Valitse sukupuoli — vaikuttaa Widmarkin kertoimeen (mies 0,70 / nainen 0,60).',
-      'Syötä paino kilogrammoina.',
-      'Lisää juomat esiasetuksista. Tilavuus ja ABV% ovat muokattavissa.',
-      'Syötä kuinka monta tuntia sitten aloitit juomisen (0 = juuri nyt).',
+      'Valitse sukupuoli ja syötä paino.',
+      'Lisää juomat esiasetuksista.',
+      'Syötä kuinka monta tuntia sitten aloitit juomisen.',
       'Promillet ja aikataulu näkyvät välittömästi.',
     ],
     calcTitle:'Miten promillet lasketaan?',
@@ -636,7 +635,7 @@ function applyLang(){
 
   // How-steps
   document.getElementById('howSteps').innerHTML =
-    tr.howSteps.map((step,i)=>`<li><span class="step-badge">${i+1}</span><span>${step}</span></li>`).join('');
+    tr.howSteps.map((step,i)=>`<li><span class="step-badge" id="stepBadge${i}">${i+1}</span><span>${step}</span></li>`).join('');
 
   // Calc content
   document.getElementById('calcContent').innerHTML = tr.calcHTML;
@@ -667,11 +666,11 @@ function renderPresets(){
 function addPreset(pid){
   const p = PRESETS.find(x=>x.id===pid);
   if(!p) return;
-  drinks.push({uid:++uid, icon:p.icon, name:p.name[lang]||p.name.et, ml:p.ml, abv:p.abv});
+  drinks.push({uid:++uid, icon:p.icon, name:p.name[lang]||p.name.et, ml:p.ml, abv:p.abv, qty:1});
   renderDrinks(); calc();
 }
 function addCustom(){
-  drinks.push({uid:++uid, icon:'🍶', name:'Custom', ml:100, abv:5.0});
+  drinks.push({uid:++uid, icon:'🍶', name:'Custom', ml:100, abv:5.0, qty:1});
   renderDrinks(); calc();
 }
 function removeDrink(id){
@@ -680,10 +679,10 @@ function removeDrink(id){
 }
 function updateDrink(id, field, val){
   const d = drinks.find(x=>x.uid===id);
-  if(d){ d[field]=parseFloat(val)||0; refreshGrams(d); }
+  if(d){ d[field]=field==='qty'?Math.max(1,parseInt(val)||1):parseFloat(val)||0; refreshGrams(d); }
   calc();
 }
-function grams(d){ return d.ml*(d.abv/100)*0.789; }
+function grams(d){ return (d.qty||1)*d.ml*(d.abv/100)*0.789; }
 function refreshGrams(d){
   const el=document.getElementById('g-'+d.uid);
   if(el) el.textContent=grams(d).toFixed(1)+'g';
@@ -695,6 +694,9 @@ function renderDrinks(){
     <div class="drink-card">
       <span class="drink-icon">${d.icon}</span>
       <span class="drink-name">${d.name}</span>
+      <input class="drink-inp drink-qty" type="number" value="${d.qty||1}" min="1" max="50"
+        onchange="updateDrink(${d.uid},'qty',this.value)" title="×">
+      <span class="drink-unit">×</span>
       <input class="drink-inp" type="number" value="${d.ml}" min="1" max="2000" step="10"
         onchange="updateDrink(${d.uid},'ml',this.value)" title="ml">
       <span class="drink-unit">ml</span>
@@ -729,9 +731,18 @@ function updateDots(){
   const w=parseFloat(document.getElementById('iWeight').value)||0;
   const h=document.getElementById('iHours').value;
   const set=(id,ok)=>{const el=document.getElementById(id);if(el)el.classList.toggle('ok',ok);};
-  set('dotWeight', w>=30&&w<=250);
-  set('dotDrinks', drinks.length>0);
-  set('dotHours',  h!==''&&parseFloat(h)>=0);
+  const s1=w>=30&&w<=250, s2=drinks.length>0, s3=h!==''&&parseFloat(h)>=0;
+  set('dotWeight', s1);
+  set('dotDrinks', s2);
+  set('dotHours',  s3);
+  set('stepBadge0', s1);
+  set('stepBadge1', s2);
+  set('stepBadge2', s3);
+  set('stepBadge3', s1&&s2&&s3);
+  // Green connecting lines
+  const steps = document.querySelectorAll('.how-steps li');
+  const done = [s1, s2, s3, s1&&s2&&s3];
+  steps.forEach((li,i) => li.classList.toggle('step-done', !!done[i]));
 }
 
 // ── Clear ──────────────────────────────────────────────────────────────────────
