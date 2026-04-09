@@ -178,35 +178,18 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
     <!-- Emissions separator -->
     <div class="form-sep" id="sepEmissions"></div>
 
-    <!-- Mode -->
-    <div class="grow" id="rowMode">
-      <label id="modeLbl">Andmete allikas</label>
-      <div class="pill-group">
-        <button class="pill pill-sm active" data-mode="co2" onclick="setMode(this)">CO₂</button>
-        <button class="pill pill-sm"        data-mode="alt" onclick="setMode(this)" id="modeAltBtn">Mootor</button>
-      </div>
-    </div>
-
     <!-- CO₂ input -->
     <div class="grow" id="rowCO2">
-      <label for="iCO2"><span id="co2Lbl">CO₂ heitkogus</span> <span class="req-dot" id="dotCO2"></span></label>
+      <label for="iCO2"><span id="co2Lbl">CO₂ heide</span> <span class="req-dot" id="dotCO2"></span></label>
       <div class="input-wrap">
         <input type="number" id="iCO2" min="0" max="600" placeholder="130" oninput="calc()">
         <span class="unit">g/km</span>
       </div>
     </div>
 
-    <!-- Engine inputs (alt mode) -->
-    <div class="grow" id="rowDispl" style="display:none">
-      <label for="iDispl"><span id="displLbl">Mootori töömaht</span> <span class="req-dot" id="dotDispl"></span></label>
-      <div class="input-wrap">
-        <input type="number" id="iDispl" min="0" max="10000" placeholder="1598" oninput="calc()">
-        <span class="unit">cm³</span>
-      </div>
-    </div>
-
-    <div class="grow" id="rowPower" style="display:none">
-      <label for="iPower"><span id="powerLbl">Võimsus</span> <span class="req-dot" id="dotPower"></span></label>
+    <!-- Power input -->
+    <div class="grow" id="rowPower">
+      <label for="iPower"><span id="powerLbl">Mootori võimsus</span> <span class="req-dot" id="dotPower"></span></label>
       <div class="input-wrap">
         <input type="number" id="iPower" min="0" max="1500" placeholder="110" oninput="calc()">
         <span class="unit">kW</span>
@@ -302,7 +285,6 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
 // ── State ──────────────────────────────────────────────────────────────────────
 let lang = 'et';
 let fuel = 'ice'; // ice | mhev | phev | ev
-let mode = 'co2'; // co2 | alt
 
 // ── Translations ───────────────────────────────────────────────────────────────
 const T = {
@@ -310,8 +292,7 @@ const T = {
     pgTitle:'Automaks', pgSub:'Mootorsõidukimaks 2025 · M1 kategooria',
     fuelLbl:'Kütuse tüüp',
     fuel_ice:'Bensiin / Diisel', fuel_mhev:'Hübriid', fuel_phev:'PHEV', fuel_ev:'⚡ Elekter',
-    modeLbl:'Andmete allikas', mode_co2:'CO₂', mode_alt:'Mootor',
-    co2Lbl:'CO₂ heitkogus', displLbl:'Mootori töömaht', powerLbl:'Võimsus',
+    co2Lbl:'CO₂ heide', powerLbl:'Mootori võimsus',
     yearLbl:'Esmane registreerimine', massLbl:'Täismass',
     annLbl:'AASTAMAKS', tmlLbl:'MAKSEGRAAFIK',
     chipBase:'Põhimäär', chipCO2:'CO₂ komponent', chipEngine:'Mootori komponent',
@@ -323,7 +304,7 @@ const T = {
     howTitle:'Kuidas kasutada?',
     howSteps:[
       'Vali kütuse tüüp: bensiin/diisel, hübriid, PHEV või elekter.',
-      'Sisesta CO₂ heitkogus g/km (registreerimistunnistuse punkt V.7). Puudub? Vali „Mootor" ja sisesta töömaht ning võimsus.',
+      'Sisesta CO₂ heide g/km (registreerimistunnistuse punkt V.7). Kui CO₂ andmed puuduvad, sisesta mootori võimsus kW.',
       'Sisesta sõiduki esmane registreerimisaasta.',
       'Sisesta sõiduki täismass kg (vabatahtlik — mõjutab ainult üle 2 000 kg sõidukeid).',
       'Aastamaks ja maksegraafik ilmuvad koheselt.',
@@ -374,8 +355,7 @@ const T = {
     pgTitle:'Car Tax', pgSub:'Motor vehicle tax 2025 · Category M1',
     fuelLbl:'Fuel type',
     fuel_ice:'Petrol / Diesel', fuel_mhev:'Hybrid', fuel_phev:'PHEV', fuel_ev:'⚡ Electric',
-    modeLbl:'Data source', mode_co2:'CO₂', mode_alt:'Engine',
-    co2Lbl:'CO₂ emissions', displLbl:'Engine displacement', powerLbl:'Power',
+    co2Lbl:'CO₂ emissions', powerLbl:'Engine power',
     yearLbl:'First registration', massLbl:'Gross mass',
     annLbl:'ANNUAL TAX', tmlLbl:'PAYMENT SCHEDULE',
     chipBase:'Base rate', chipCO2:'CO₂ component', chipEngine:'Engine component',
@@ -387,7 +367,7 @@ const T = {
     howTitle:'How to use',
     howSteps:[
       'Select the fuel type: petrol/diesel, hybrid, PHEV or electric.',
-      'Enter CO₂ emissions in g/km (registration certificate, point V.7). Not available? Select "Engine" and enter displacement and power.',
+      'Enter CO₂ emissions in g/km (registration certificate, point V.7). If CO₂ data is unavailable, enter engine power in kW instead.',
       'Enter the vehicle\'s first registration year.',
       'Enter the vehicle\'s gross mass in kg (optional — only affects vehicles over 2 000 kg).',
       'Annual tax and payment schedule appear instantly.',
@@ -436,8 +416,7 @@ const T = {
     pgTitle:'Автоналог', pgSub:'Налог на транспортное средство 2025 · Категория M1',
     fuelLbl:'Тип топлива',
     fuel_ice:'Бензин / Дизель', fuel_mhev:'Гибрид', fuel_phev:'PHEV', fuel_ev:'⚡ Электро',
-    modeLbl:'Источник данных', mode_co2:'CO₂', mode_alt:'Двигатель',
-    co2Lbl:'Выбросы CO₂', displLbl:'Объём двигателя', powerLbl:'Мощность',
+    co2Lbl:'Выбросы CO₂', powerLbl:'Мощность двигателя',
     yearLbl:'Первая регистрация', massLbl:'Полная масса',
     annLbl:'ГОДОВОЙ НАЛОГ', tmlLbl:'ГРАФИК ПЛАТЕЖЕЙ',
     chipBase:'Базовая ставка', chipCO2:'Компонент CO₂', chipEngine:'Компонент двигателя',
@@ -449,7 +428,7 @@ const T = {
     howTitle:'Как пользоваться?',
     howSteps:[
       'Выберите тип топлива: бензин/дизель, гибрид, PHEV или электро.',
-      'Введите выбросы CO₂ в г/км (свидетельство о регистрации, пункт V.7). Нет данных? Выберите «Двигатель» и введите объём и мощность.',
+      'Введите выбросы CO₂ в г/км (свидетельство о регистрации, пункт V.7). Если данные CO₂ недоступны, введите мощность двигателя в кВт.',
       'Введите год первой регистрации автомобиля.',
       'Введите полную массу в кг (необязательно — влияет только на авто свыше 2 000 кг).',
       'Годовой налог и график платежей появятся мгновенно.',
@@ -494,8 +473,7 @@ const T = {
     pgTitle:'Autovero', pgSub:'Moottoriajoneuvovero 2025 · Luokka M1',
     fuelLbl:'Polttoainetyyppi',
     fuel_ice:'Bensiini / Diesel', fuel_mhev:'Hybridi', fuel_phev:'PHEV', fuel_ev:'⚡ Sähkö',
-    modeLbl:'Tietolähde', mode_co2:'CO₂', mode_alt:'Moottori',
-    co2Lbl:'CO₂-päästöt', displLbl:'Moottorin tilavuus', powerLbl:'Teho',
+    co2Lbl:'CO₂-päästöt', powerLbl:'Moottorin teho',
     yearLbl:'Ensimmäinen rekisteröinti', massLbl:'Kokonaismassa',
     annLbl:'VUOSIVERO', tmlLbl:'MAKSUAIKATAULU',
     chipBase:'Perusmaksu', chipCO2:'CO₂-komponentti', chipEngine:'Moottorikomponentti',
@@ -507,7 +485,7 @@ const T = {
     howTitle:'Kuinka käyttää?',
     howSteps:[
       'Valitse polttoainetyyppi: bensiini/diesel, hybridi, PHEV tai sähkö.',
-      'Syötä CO₂-päästöt g/km (rekisteröintitodistus, kohta V.7). Ei saatavilla? Valitse "Moottori" ja syötä tilavuus ja teho.',
+      'Syötä CO₂-päästöt g/km (rekisteröintitodistus, kohta V.7). Jos CO₂-tiedot puuttuvat, syötä moottorin teho kW.',
       'Syötä ajoneuvon ensimmäinen rekisteröintivuosi.',
       'Syötä kokonaismassa kg (vapaaehtoinen — vaikuttaa vain yli 2 000 kg ajoneuvoihin).',
       'Vuosivero ja maksuaikataulu näkyvät välittömästi.',
@@ -565,8 +543,8 @@ function massComponent(mass) {
   return mass > 2000 ? Math.min((mass - 2000) * 0.4, 400) : 0;
 }
 
-function engineComponent(displ, power) {
-  return (displ || 0) * 0.05 + (power || 0) * 0.80;
+function powerComponent(power) {
+  return (power || 0) * 0.80;
 }
 
 // ── Format helpers ─────────────────────────────────────────────────────────────
@@ -602,8 +580,8 @@ function applyLang() {
   const tr = t();
   const s = (id, txt) => { const el = document.getElementById(id); if (el) el.textContent = txt; };
   s('pgTitle', tr.pgTitle); s('pgSub', tr.pgSub);
-  s('fuelLbl', tr.fuelLbl); s('modeLbl', tr.modeLbl);
-  s('co2Lbl', tr.co2Lbl); s('displLbl', tr.displLbl); s('powerLbl', tr.powerLbl);
+  s('fuelLbl', tr.fuelLbl);
+  s('co2Lbl', tr.co2Lbl); s('powerLbl', tr.powerLbl);
   s('yearLbl', tr.yearLbl); s('massLbl', tr.massLbl);
   s('annLbl', tr.annLbl); s('tmlLbl', tr.tmlLbl);
   s('howTitle', tr.howTitle); s('calcTitle', tr.calcTitle);
@@ -615,9 +593,6 @@ function applyLang() {
   document.querySelector('[data-fuel="mhev"]').textContent = tr.fuel_mhev;
   document.querySelector('[data-fuel="phev"]').textContent = tr.fuel_phev;
   document.querySelector('[data-fuel="ev"]').textContent   = tr.fuel_ev;
-  // Mode buttons
-  document.querySelector('[data-mode="co2"]').textContent  = tr.mode_co2;
-  document.querySelector('[data-mode="alt"]').textContent  = tr.mode_alt;
   // Months
   const sel = document.getElementById('iMonth');
   if (sel) {
@@ -649,47 +624,22 @@ function setFuel(btn) {
   btn.classList.add('active');
   fuel = btn.dataset.fuel;
   const isEV = fuel === 'ev';
-  ['rowMode','rowCO2','rowDispl','rowPower','sepEmissions'].forEach(id => {
+  ['rowCO2','rowPower','sepEmissions'].forEach(id => {
     const el = document.getElementById(id); if (el) el.style.display = isEV ? 'none' : '';
   });
-  if (isEV) {
-    document.querySelectorAll('[data-mode]').forEach(b => b.classList.remove('active'));
-    document.querySelector('[data-mode="co2"]').classList.add('active');
-    mode = 'co2';
-  }
-  applyMode(); calc();
-}
-
-function setMode(btn) {
-  document.querySelectorAll('[data-mode]').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  mode = btn.dataset.mode;
-  applyMode(); calc();
-}
-
-function applyMode() {
-  const isAlt = mode === 'alt';
-  document.getElementById('rowCO2').style.display   = isAlt ? 'none' : (fuel === 'ev' ? 'none' : '');
-  document.getElementById('rowDispl').style.display = isAlt ? '' : 'none';
-  document.getElementById('rowPower').style.display = isAlt ? '' : 'none';
-  const co2el = document.getElementById('iCO2');
-  co2el.disabled = isAlt;
-  if (isAlt) co2el.value = '';
+  calc();
 }
 
 // ── Dots ───────────────────────────────────────────────────────────────────────
 function updateDots() {
-  const isEV  = fuel === 'ev';
-  const isAlt = mode === 'alt' && !isEV;
+  const isEV = fuel === 'ev';
   const y   = parseInt(document.getElementById('iYear').value);
   const co2 = parseFloat(document.getElementById('iCO2').value);
-  const d   = parseFloat(document.getElementById('iDispl').value) || 0;
   const pw  = parseFloat(document.getElementById('iPower').value) || 0;
   const set = (id, ok) => { const el = document.getElementById(id); if (el) el.classList.toggle('ok', ok); };
   set('dotYear',  !!(y && y >= 1950 && y <= 2030));
-  set('dotCO2',   !isEV && !isAlt && !isNaN(co2) && co2 >= 0);
-  set('dotDispl', isAlt && d > 0);
-  set('dotPower', isAlt && pw > 0);
+  set('dotCO2',   !isEV && !isNaN(co2) && co2 >= 0);
+  set('dotPower', !isEV && pw > 0);
 }
 
 // ── Clear ──────────────────────────────────────────────────────────────────────
@@ -705,10 +655,8 @@ function clearResult() {
 function calc() {
   const tr     = t();
   const isEV   = fuel === 'ev';
-  const isAlt  = mode === 'alt' && !isEV;
   const y      = parseInt(document.getElementById('iYear').value);
   const co2Val = parseFloat(document.getElementById('iCO2').value);
-  const d      = parseFloat(document.getElementById('iDispl').value) || 0;
   const pw     = parseFloat(document.getElementById('iPower').value) || 0;
   const mass   = parseFloat(document.getElementById('iMass').value) || 0;
   const regYear = parseInt(document.getElementById('iRegYear').value);
@@ -717,15 +665,16 @@ function calc() {
   updateDots();
 
   if (!y || y < 1950 || y > 2030)              { clearResult(); return; }
-  if (!isEV && !isAlt && isNaN(co2Val))         { clearResult(); return; }
-  if (isAlt && (!d || !pw))                     { clearResult(); return; }
+  // Need either CO₂ or power (unless EV)
+  if (!isEV && isNaN(co2Val) && !pw)            { clearResult(); return; }
 
   const af     = ageFactor(y);
-  const co2c   = isEV ? 0 : isAlt ? 0 : co2Component(co2Val);
-  const altc   = isAlt ? engineComponent(d, pw) : 0;
+  // Use CO₂ if provided; fall back to power component
+  const hasCO2 = !isNaN(co2Val) && co2Val >= 0;
+  const co2c   = isEV ? 0 : hasCO2 ? co2Component(co2Val) : powerComponent(pw);
   const massc  = massComponent(mass);
   const base   = 50;
-  const annTax = base + af * (co2c + altc + massc);
+  const annTax = base + af * (co2c + massc);
 
   // Ann number
   const numEl = document.getElementById('annNum');
@@ -735,10 +684,10 @@ function calc() {
   // Chips
   const chips = [
     `<span class="chip">${tr.chipBase}: ${eur(base)}</span>`,
-    isAlt
-      ? `<span class="chip">${tr.chipEngine}: ${eur(af * altc)}</span>`
-      : `<span class="chip">${tr.chipCO2}: ${eur(af * co2c)}</span>`,
-  ];
+    !isEV && co2c > 0
+      ? `<span class="chip">${hasCO2 ? tr.chipCO2 : tr.chipEngine}: ${eur(af * co2c)}</span>`
+      : null,
+  ].filter(Boolean);
   if (mass > 2000) chips.push(`<span class="chip">${tr.chipMass}: ${eur(af * massc)}</span>`);
   chips.push(`<span class="chip">${tr.chipAge}: ${fmt(af)}</span>`);
   document.getElementById('annChips').innerHTML = chips.join('');
