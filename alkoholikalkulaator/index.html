@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Alkoholikalkulaator — vere alkoholisisaldus (promillid) 2025</title>
+<meta name="description" content="Tasuta alkoholikalkulaator: arvuta oma vere alkoholisisaldus (promillid) Widmarti valemi järgi. Sisesta sugu, kaal ja tarbitud joogid — tulemus kohe.">
+<meta name="keywords" content="alkoholikalkulaator, promillikalkulaator, vere alkoholisisaldus, BAC kalkulaator, millal saan rooli, promillid alkohol, alkohol juhtimine Eesti 2025">
+<link rel="canonical" href="https://alkoholikalkulaator.ee/">
+<meta property="og:title" content="Alkoholikalkulaator — vere alkoholisisaldus promillides">
+<meta property="og:description" content="Arvuta vere alkoholisisaldus Widmarti valemi järgi. Tasuta, kohene tulemus.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://alkoholikalkulaator.ee/">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f2f2f7;--card:#fff;--label:#1c1c1e;--label2:#6d6d72;--label3:#aeaeb2;
+  --sep:rgba(60,60,67,.12);--tint:#007aff;--radius:16px;
+  --font:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Helvetica,sans-serif;
+}
+@media(prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){--bg:#1c1c1e;--card:#2c2c2e;--label:#fff;--label2:#aeaeb2;--label3:#636366;--sep:rgba(255,255,255,.1)}
+}
+:root[data-theme="dark"]{--bg:#1c1c1e;--card:#2c2c2e;--label:#fff;--label2:#aeaeb2;--label3:#636366;--sep:rgba(255,255,255,.1)}
+body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-font-smoothing:antialiased}
+.page{max-width:600px;margin:0 auto;padding:20px 16px 60px}
+
+/* ── Header ── */
+.header{margin-bottom:24px}
+.header-inner{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.header-title-group{display:flex;align-items:center;gap:12px}
+.header-icon{font-size:2rem;line-height:1}
+.header-title{font-size:1.5rem;font-weight:700;letter-spacing:-.3px}
+.header-sub{font-size:.85rem;color:var(--label2);margin-top:2px}
+
+/* ── Lang switcher ── */
+.header-controls{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.lang-switcher{display:flex;background:var(--sep);border-radius:8px;padding:2px;gap:2px}
+.lang-btn{background:none;border:none;padding:4px 8px;border-radius:6px;font-size:.78rem;font-weight:600;color:var(--label2);cursor:pointer;font-family:var(--font);transition:.15s}
+.lang-btn.active{background:var(--card);color:var(--tint);box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.theme-btn{background:var(--sep);border:none;width:32px;height:32px;border-radius:8px;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.15s;-webkit-tap-highlight-color:transparent}
+.theme-btn:hover{opacity:.8}
+
+/* ── Form card ── */
+.form-card{background:var(--card);border-radius:var(--radius);padding:20px;margin-bottom:12px;display:flex;flex-direction:column;gap:20px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+
+/* ── Segmented control ── */
+.seg-group{display:flex;flex-direction:column;gap:8px}
+.seg-label{font-size:.78rem;font-weight:600;color:var(--label3);text-transform:uppercase;letter-spacing:.5px}
+.seg-ctrl{display:flex;background:var(--bg);border-radius:10px;padding:2px;gap:2px}
+.seg-btn{flex:1;background:none;border:none;padding:9px 12px;border-radius:8px;font-size:.95rem;font-weight:500;color:var(--label2);cursor:pointer;font-family:var(--font);transition:.18s}
+.seg-btn.active{background:var(--card);color:var(--label);box-shadow:0 1px 4px rgba(0,0,0,.12)}
+
+/* ── Input row ── */
+.grow{display:flex;flex-direction:column;gap:6px}
+.grow>label{font-size:.93rem;color:var(--label2);display:flex;align-items:center;gap:7px;font-weight:500}
+.input-wrap{display:flex;align-items:center;background:var(--bg);border-radius:10px;overflow:hidden}
+.input-wrap input{flex:1;border:none;background:none;padding:10px 12px;font-size:1rem;font-family:var(--font);color:var(--label);outline:none;min-width:0}
+.input-wrap input::placeholder{color:var(--label3)}
+.unit{padding:10px 12px 10px 0;font-size:.85rem;color:var(--label3);white-space:nowrap}
+
+/* ── Req dot ── */
+.req-dot{width:16px;height:16px;border-radius:50%;flex-shrink:0;background:var(--label3);transition:background .2s;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:transparent;line-height:1}
+.req-dot::after{content:'✓'}
+.req-dot.ok{background:#34c759;color:#fff}
+
+/* ── Drinks section ── */
+.drinks-section{display:flex;flex-direction:column;gap:10px}
+.drinks-header{display:flex;align-items:center;gap:7px;font-size:.93rem;color:var(--label2);font-weight:500}
+.drink-presets{display:flex;flex-wrap:wrap;gap:7px}
+.preset-btn{display:flex;align-items:center;gap:5px;background:var(--bg);border:none;border-radius:20px;padding:7px 13px;font-size:.85rem;font-weight:500;color:var(--label);cursor:pointer;font-family:var(--font);transition:.15s;white-space:nowrap;-webkit-tap-highlight-color:transparent}
+.preset-btn:active{transform:scale(.95);opacity:.8}
+.drinks-list{display:flex;flex-direction:column;gap:6px}
+.drink-card{display:flex;align-items:center;gap:7px;background:var(--bg);border-radius:10px;padding:8px 10px}
+.drink-icon{font-size:1.1rem;flex-shrink:0}
+.drink-name{flex:1;font-size:.83rem;font-weight:500;color:var(--label);min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.drink-inp{width:52px;border:none;background:var(--card);border-radius:6px;padding:4px 6px;font-size:.83rem;font-family:var(--font);color:var(--label);text-align:center;outline:none}
+.drink-unit{font-size:.75rem;color:var(--label3);white-space:nowrap}
+.drink-grams{font-size:.75rem;color:var(--label2);white-space:nowrap;min-width:36px;text-align:right}
+.drink-rm{background:none;border:none;color:var(--label3);cursor:pointer;font-size:1.1rem;padding:2px 4px;line-height:1;transition:color .15s;-webkit-tap-highlight-color:transparent}
+.drink-rm:hover{color:#ff3b30}
+
+/* ── Bento ── */
+.bento{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:12px}
+
+.c-ann{
+  background:#000;
+  background-image:
+    radial-gradient(ellipse at 20% 80%,rgba(52,199,89,.18) 0%,transparent 55%),
+    radial-gradient(ellipse at 80% 10%,rgba(0,122,255,.12) 0%,transparent 50%);
+  border-radius:var(--radius);padding:24px;min-height:160px;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  transition:background-image .35s;
+}
+.c-ann.st-warn{
+  background:#0d0a00;
+  background-image:
+    radial-gradient(ellipse at 20% 80%,rgba(255,149,0,.22) 0%,transparent 55%),
+    radial-gradient(ellipse at 80% 10%,rgba(255,200,0,.10) 0%,transparent 50%);
+}
+.c-ann.st-danger{
+  background:#0d0000;
+  background-image:
+    radial-gradient(ellipse at 20% 80%,rgba(255,59,48,.25) 0%,transparent 55%),
+    radial-gradient(ellipse at 80% 10%,rgba(255,80,0,.12) 0%,transparent 50%);
+}
+.ann-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.chip{background:rgba(255,255,255,.1);color:rgba(255,255,255,.8);padding:4px 10px;border-radius:20px;font-size:.78rem;font-weight:500;display:inline-flex;align-items:center;gap:5px}
+.chip-green{background:rgba(52,199,89,.25);color:#34c759}
+.chip-orange{background:rgba(255,149,0,.28);color:#ff9f0a}
+.chip-red{background:rgba(255,59,48,.28);color:#ff453a}
+.ann-num{font-size:3.6rem;font-weight:700;color:#fff;letter-spacing:-1.5px;line-height:1}
+.ann-num.e{color:rgba(255,255,255,.15)}
+.ann-lbl{font-size:.85rem;color:rgba(255,255,255,.4);margin-top:4px}
+
+/* ── Timeline ── */
+.c-tml{background:var(--card);border-radius:var(--radius);padding:20px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.tml-sub{font-size:.75rem;font-weight:600;color:var(--label3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px}
+.tml-table{width:100%;border-collapse:collapse}
+.tml-table th{font-size:.73rem;font-weight:600;color:var(--label3);text-align:left;padding:0 0 8px;text-transform:uppercase;letter-spacing:.4px}
+.tml-table th:last-child{text-align:right}
+.tml-table td{font-size:.9rem;padding:6px 0;border-top:.5px solid var(--sep)}
+.tml-table td:last-child{text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
+.tml-now td{color:var(--tint)}
+.bar-wrap{display:flex;align-items:center}
+.bar{height:4px;border-radius:2px;min-width:2px}
+.bar.safe{background:#34c759}
+.bar.warn{background:#ff9500}
+.bar.danger{background:#ff3b30}
+
+/* ── Section cards ── */
+.section-card{background:var(--card);border-radius:var(--radius);padding:20px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.section-title{font-size:1.1rem;font-weight:700;margin-bottom:16px}
+
+/* ── How steps ── */
+.how-steps{list-style:none;display:flex;flex-direction:column;gap:12px}
+.how-steps li{display:flex;align-items:flex-start;gap:14px;font-size:.93rem;line-height:1.55;color:var(--label2)}
+.step-badge{flex-shrink:0;width:28px;height:28px;border-radius:50%;background:var(--tint);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;margin-top:1px}
+
+/* ── Calc content ── */
+.calc-content h3{font-size:.95rem;font-weight:700;margin:14px 0 6px}
+.calc-content h3:first-child{margin-top:0}
+.calc-content p{font-size:.9rem;line-height:1.65;color:var(--label2);margin-bottom:8px}
+.calc-content ul{padding-left:18px;margin-bottom:8px}
+.calc-content li{font-size:.9rem;line-height:1.65;color:var(--label2);margin-bottom:2px}
+.calc-content code{background:var(--bg);border-radius:4px;padding:1px 5px;font-size:.85rem;font-family:'SF Mono',monospace}
+.calc-content strong{color:var(--label)}
+
+/* ── FAQ ── */
+.faq-item{border-top:.5px solid var(--sep)}
+.faq-item:first-child{border-top:none}
+.faq-q{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 0;background:transparent;border:none;cursor:pointer;font-family:var(--font);font-size:.93rem;font-weight:600;color:var(--label);text-align:left;-webkit-tap-highlight-color:transparent}
+.faq-q:hover{opacity:.8}
+.faq-toggle{flex-shrink:0;width:22px;height:22px;border-radius:50%;background:rgba(0,122,255,.1);color:var(--tint);display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:600;line-height:1;padding-bottom:1px;transition:transform .2s,background .2s}
+.faq-item.open .faq-toggle{background:var(--tint);color:#fff;transform:rotate(45deg)}
+.faq-a{display:none;padding:0 0 14px;font-size:.88rem;line-height:1.65;color:var(--label2)}
+.faq-a p{margin-bottom:6px}
+.faq-item.open .faq-a{display:block}
+
+/* ── Sources ── */
+.sources-list{list-style:none;display:flex;flex-direction:column;gap:8px}
+.sources-list a{color:var(--tint);text-decoration:none;font-size:.88rem}
+.sources-list a:hover{text-decoration:underline}
+
+/* ── Info grid ── */
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+@media(max-width:480px){.info-grid{grid-template-columns:1fr}}
+.info-card{border-radius:var(--radius);padding:20px}
+.info-card--amber{background:#fef3c7;background-image:radial-gradient(ellipse at 95% 5%,rgba(251,191,36,.55) 0%,transparent 45%),radial-gradient(ellipse at 5% 95%,rgba(245,158,11,.25) 0%,transparent 40%)}
+.info-card--blue{background:#dbeafe;background-image:radial-gradient(ellipse at 95% 5%,rgba(147,197,253,.7) 0%,transparent 45%),radial-gradient(ellipse at 5% 95%,rgba(99,102,241,.18) 0%,transparent 40%)}
+.info-icon{font-size:1.5rem;margin-bottom:8px}
+.info-card-title{font-size:.93rem;font-weight:700;color:#1c1c1e;margin-bottom:6px}
+.info-card p{font-size:.82rem;line-height:1.55;color:#374151}
+.contact-btn{display:inline-block;margin-top:10px;background:#1d4ed8;color:#fff;border-radius:8px;padding:7px 14px;font-size:.82rem;font-weight:600;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="header">
+    <div class="header-inner">
+      <div class="header-title-group">
+        <div class="header-icon">🍺</div>
+        <div>
+          <h1 class="header-title" id="mainTitle">Alkoholi­kalkulaator</h1>
+          <p class="header-sub" id="mainSub">Vere alkoholisisaldus promillides</p>
+        </div>
+      </div>
+      <div class="header-controls">
+        <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" title="Toggle dark/light mode">🌙</button>
+        <div class="lang-switcher">
+          <button onclick="setLang('et')" class="lang-btn" id="btnET">ET</button>
+          <button onclick="setLang('en')" class="lang-btn" id="btnEN">EN</button>
+          <button onclick="setLang('ru')" class="lang-btn" id="btnRU">RU</button>
+          <button onclick="setLang('fi')" class="lang-btn" id="btnFI">FI</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Form -->
+  <section class="form-card">
+
+    <!-- Gender -->
+    <div class="seg-group">
+      <div class="seg-label" id="genderLabel">SUGU</div>
+      <div class="seg-ctrl">
+        <button class="seg-btn active" id="btnMale"   onclick="setGender('m')">♂ Mees</button>
+        <button class="seg-btn"        id="btnFemale" onclick="setGender('f')">♀ Naine</button>
+      </div>
+    </div>
+
+    <!-- Weight -->
+    <div class="grow">
+      <label for="iWeight"><span id="weightLbl">Kehakaal</span><span class="req-dot" id="dotWeight"></span></label>
+      <div class="input-wrap">
+        <input type="number" id="iWeight" min="30" max="250" placeholder="75" oninput="calc()">
+        <span class="unit">kg</span>
+      </div>
+    </div>
+
+    <!-- Drinks -->
+    <div class="drinks-section">
+      <div class="drinks-header">
+        <span id="drinksLbl">Tarbitud joogid</span>
+        <span class="req-dot" id="dotDrinks"></span>
+      </div>
+      <div class="drink-presets" id="drinkPresets"></div>
+      <div class="drinks-list"   id="drinksList"></div>
+    </div>
+
+    <!-- Hours -->
+    <div class="grow">
+      <label for="iHours"><span id="hoursLbl">Tunde tagasi alustasid</span><span class="req-dot" id="dotHours"></span></label>
+      <div class="input-wrap">
+        <input type="number" id="iHours" min="0" max="48" step="0.5" placeholder="0" oninput="calc()">
+        <span class="unit" id="hoursUnit">tundi</span>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Bento -->
+  <div class="bento">
+    <div class="c-ann" id="annCell">
+      <div class="ann-chips" id="annChips"></div>
+      <div class="ann-num e" id="annNum">—</div>
+      <div class="ann-lbl"   id="annLbl">promilli</div>
+    </div>
+    <div class="c-tml" id="tmlCard" style="display:none">
+      <div class="tml-sub" id="tlSub"></div>
+      <div id="tlContainer"></div>
+    </div>
+  </div>
+
+  <!-- How-to -->
+  <section class="section-card">
+    <h2 class="section-title" id="howTitle">Kuidas kasutada?</h2>
+    <ol class="how-steps" id="howSteps"></ol>
+  </section>
+
+  <!-- How calculated -->
+  <section class="section-card">
+    <h2 class="section-title" id="calcTitle">Kuidas promillid arvutatakse?</h2>
+    <div class="calc-content" id="calcContent"></div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section-card">
+    <h2 class="section-title" id="faqTitle">KKK</h2>
+    <div id="faqList"></div>
+  </section>
+
+  <!-- Sources -->
+  <section class="section-card">
+    <h2 class="section-title" id="sourcesTitle">Allikad</h2>
+    <ul class="sources-list" id="sourcesList"></ul>
+  </section>
+
+  <!-- Info -->
+  <div class="info-grid">
+    <div class="info-card info-card--amber">
+      <div class="info-icon">⚠️</div>
+      <div class="info-card-title" id="disclaimerTitle">Teadaanne</div>
+      <p id="disclaimerText"></p>
+    </div>
+    <div class="info-card info-card--blue">
+      <div class="info-icon">✉️</div>
+      <div class="info-card-title" id="contactTitle">Võta ühendust</div>
+      <p id="contactText"></p>
+      <a href="mailto:laatorid@gmail.com" class="contact-btn" id="contactBtn">Kirjuta meile</a>
+    </div>
+  </div>
+
+</div><!-- .page -->
+
+<script>
+// ── State ──────────────────────────────────────────────────────────────────────
+let lang   = 'et';
+let gender = 'm';
+let drinks = [];
+let uid    = 0;
+
+// ── Drink presets ──────────────────────────────────────────────────────────────
+const PRESETS = [
+  {id:'beer330',  icon:'🍺', ml:330, abv:5.0,  name:{et:'Õlu 330ml',    en:'Beer 330ml',    ru:'Пиво 330мл',    fi:'Olut 330ml'   }},
+  {id:'beer500',  icon:'🍺', ml:500, abv:5.0,  name:{et:'Õlu 500ml',    en:'Beer 500ml',    ru:'Пиво 500мл',    fi:'Olut 500ml'   }},
+  {id:'wine',     icon:'🍷', ml:150, abv:12.0, name:{et:'Vein 150ml',   en:'Wine 150ml',    ru:'Вино 150мл',    fi:'Viini 150ml'  }},
+  {id:'spirits',  icon:'🥃', ml:40,  abv:40.0, name:{et:'Viin 40ml',    en:'Spirit 40ml',   ru:'Водка 40мл',    fi:'Viina 40ml'   }},
+  {id:'cider',    icon:'🍹', ml:330, abv:4.5,  name:{et:'Siider 330ml', en:'Cider 330ml',   ru:'Сидр 330мл',    fi:'Siideri 330ml'}},
+  {id:'longdrink',icon:'🥤', ml:330, abv:5.5,  name:{et:'Long drink',   en:'Long drink',    ru:'Лонгдринк',     fi:'Long drink'   }},
+];
+
+// ── Translations ───────────────────────────────────────────────────────────────
+const T = {
+  et:{
+    mainTitle:'Alkoholi­kalkulaator', mainSub:'Vere alkoholisisaldus promillides',
+    genderLabel:'SUGU', male:'♂ Mees', female:'♀ Naine',
+    weightLbl:'Kehakaal', drinksLbl:'Tarbitud joogid',
+    hoursLbl:'Tunde tagasi alustasid', hoursUnit:'tundi',
+    annLbl:'promilli',
+    chipSober:'Kaine', chipWarn:'Alla piiri', chipDanger:'Ei tohi juhtida',
+    chipDriveIn:'Rooli saab', chipSoberIn:'Kaine',
+    tlSub:'BAC ajagraafik', tlTime:'Aeg', tlBAC:'Promillid',
+    tlNow:'Praegu', tlSober:'Kaine',
+    addCustom:'+ Kohandatud',
+    howTitle:'Kuidas kasutada?',
+    howSteps:[
+      'Vali sugu — mõjutab Widmarti koefitsienti (mees 0,70 / naine 0,60).',
+      'Sisesta kehakaal kilogrammides.',
+      'Lisa tarbitud joogid eelseadistuste abil. Kogust ja %ABV saab kohapeal muuta.',
+      'Sisesta mitu tundi tagasi alustasid joomist (0 = just nüüd).',
+      'Promillid ja ajagraafik ilmuvad koheselt.',
+    ],
+    calcTitle:'Kuidas promillid arvutatakse?',
+    calcHTML:`
+      <h3>Widmarti valem</h3>
+      <p>Vere alkoholisisaldus (BAC) arvutatakse rahvusvaheliselt tunnustatud <strong>Widmarti valemi</strong> järgi:</p>
+      <p><code>BAC (‰) = A / (W × r) − β × t</code></p>
+      <ul>
+        <li><strong>A</strong> — alkoholi kogus grammides: maht (ml) × ABV% × 0,789</li>
+        <li><strong>W</strong> — kehakaal kilogrammides</li>
+        <li><strong>r</strong> — Widmarti koefitsient: <strong>0,70</strong> (mees) / <strong>0,60</strong> (naine)</li>
+        <li><strong>β</strong> — eliminatsiooni kiirus: <strong>0,15 ‰/tund</strong> (keskmine)</li>
+        <li><strong>t</strong> — kulunud aeg tundides</li>
+      </ul>
+      <h3>Eesti seadus</h3>
+      <p>Eesti liiklusseaduse §224 kohaselt on lubatud joobepiir mootorsõiduki juhtimisel <strong>0,19 ‰</strong>. Alates 0,20 ‰ loetakse juhti joobes olevaks.</p>
+      <h3>Näide</h3>
+      <p>80 kg mees joob 500 ml õlut (5%): A = 500 × 0,05 × 0,789 = <strong>19,7 g</strong>. BAC = 19,7 / (80 × 0,70) = <strong>0,35 ‰</strong> kohe pärast joomist. 1 tunni pärast: 0,35 − 0,15 = <strong>0,20 ‰</strong>.</p>
+    `,
+    faqTitle:'Korduma kippuvad küsimused',
+    faqItems:[
+      {q:'Millal saan pärast alkoholi tarbimist rooli istuda?',
+       a:'<p>Keha lagundab alkoholi keskmiselt 0,15 ‰ tunnis. Kui promill on 0,50 ‰, kulub rooli istumiseks (piir 0,19 ‰) ligikaudu 2 tundi 7 minutit. Kalkulaator arvutab täpse aja automaatselt.</p>'},
+      {q:'Miks on mehe ja naise tulemused erinevad?',
+       a:'<p>Naistel on keskmiselt vähem kehavett ja kõrgem rasvasisaldus, mistõttu alkohol kontsentreerub rohkem. Widmarti koefitsient on meestel 0,70 ja naistel 0,60.</p>'},
+      {q:'Kas kalkulaator on täpne?',
+       a:'<p>Kalkulaator kasutab Widmarti valemit, mis annab hea keskmise hinnangu. Tegelik BAC võib varieeruda sõltuvalt ainevahetusest, toidust, väsimusest ja muudest teguritest. <strong>Ärge kasutage tulemust joobes juhtimise ohu hindamiseks</strong> — vältige alkoholi tarbimisel juhtimist täielikult.</p>'},
+      {q:'Mis on alkoholi eliminatsiooni kiirus?',
+       a:'<p>Enamik inimesi lagundab alkoholi kiirusega 0,10–0,20 ‰ tunnis, keskmiselt 0,15 ‰/h. Kiirus sõltub maksafunktsioonist, soost, vanusest ja tarbimisharjumustest.</p>'},
+      {q:'Kas kohv või vesi kiirendavad kainestumist?',
+       a:'<p>Ei. Kohv muudab sind ärksamaks, kuid ei kiirenda alkoholi lagundamist maksa poolt. Ainuke kainestumise viis on aeg.</p>'},
+    ],
+    sourcesTitle:'Allikad',
+    sources:[
+      {name:'Widmark, E.M.P. (1932) — alkoholi jaotumise valem',url:'https://en.wikipedia.org/wiki/Widmark_formula'},
+      {name:'Eesti Liiklusseadus §224 — joobes juhtimine',url:'https://www.riigiteataja.ee/akt/131122010003'},
+      {name:'Tervise Arengu Instituut — alkohol ja liiklus',url:'https://www.tai.ee/et/terviseinfo/alkohol'},
+    ],
+    disclaimerTitle:'Teadaanne',
+    disclaimerText:'Kalkulaator on informatiivsel eesmärgil ega asenda meditsiinilist nõuannet. Ärge kunagi juhtige mootorsõidukit pärast alkoholi tarbimist.',
+    contactTitle:'Võta ühendust', contactText:'Küsimused, tagasiside või vead?', contactBtn:'Kirjuta meile',
+  },
+  en:{
+    mainTitle:'Alcohol Calculator', mainSub:'Blood Alcohol Content (BAC) in promille',
+    genderLabel:'GENDER', male:'♂ Male', female:'♀ Female',
+    weightLbl:'Body weight', drinksLbl:'Drinks consumed',
+    hoursLbl:'Hours since first drink', hoursUnit:'hours',
+    annLbl:'promille (‰)',
+    chipSober:'Sober', chipWarn:'Below limit', chipDanger:'Do not drive',
+    chipDriveIn:'Can drive in', chipSoberIn:'Sober in',
+    tlSub:'BAC timeline', tlTime:'Time', tlBAC:'BAC (‰)',
+    tlNow:'Now', tlSober:'Sober',
+    addCustom:'+ Custom',
+    howTitle:'How to use',
+    howSteps:[
+      'Select gender — affects the Widmark factor (male 0.70 / female 0.60).',
+      'Enter your body weight in kilograms.',
+      'Add drinks using the presets. You can edit volume and ABV% inline.',
+      'Enter how many hours ago you started drinking (0 = right now).',
+      'BAC and timeline appear instantly.',
+    ],
+    calcTitle:'How is BAC calculated?',
+    calcHTML:`
+      <h3>Widmark formula</h3>
+      <p>Blood alcohol content is calculated using the internationally recognised <strong>Widmark formula</strong>:</p>
+      <p><code>BAC (‰) = A / (W × r) − β × t</code></p>
+      <ul>
+        <li><strong>A</strong> — alcohol in grams: volume (ml) × ABV% × 0.789</li>
+        <li><strong>W</strong> — body weight in kg</li>
+        <li><strong>r</strong> — Widmark factor: <strong>0.70</strong> (male) / <strong>0.60</strong> (female)</li>
+        <li><strong>β</strong> — elimination rate: <strong>0.15 ‰/hour</strong> (average)</li>
+        <li><strong>t</strong> — time elapsed in hours</li>
+      </ul>
+      <h3>Estonian law</h3>
+      <p>Under Estonian Traffic Act §224, the legal BAC limit for drivers is <strong>0.19 ‰</strong>. At 0.20 ‰ or above the driver is considered intoxicated.</p>
+      <h3>Example</h3>
+      <p>An 80 kg male drinks 500 ml beer (5%): A = 500 × 0.05 × 0.789 = <strong>19.7 g</strong>. BAC = 19.7 / (80 × 0.70) = <strong>0.35 ‰</strong> immediately after. After 1 hour: 0.35 − 0.15 = <strong>0.20 ‰</strong>.</p>
+    `,
+    faqTitle:'Frequently asked questions',
+    faqItems:[
+      {q:'When can I drive after drinking?',
+       a:'<p>The body eliminates alcohol at about 0.15 ‰ per hour. If your BAC is 0.50 ‰, you need roughly 2 hours 7 minutes to reach the legal limit of 0.19 ‰. The calculator computes this automatically.</p>'},
+      {q:'Why are results different for men and women?',
+       a:'<p>Women generally have less body water and higher fat content, so alcohol concentrates more. The Widmark factor is 0.70 for men and 0.60 for women.</p>'},
+      {q:'How accurate is the calculator?',
+       a:'<p>The Widmark formula gives a good average estimate. Actual BAC can vary with metabolism, food intake, fatigue and other factors. <strong>Never use this to judge whether it is safe to drive</strong> — avoid driving after any alcohol consumption.</p>'},
+      {q:'What is the alcohol elimination rate?',
+       a:'<p>Most people eliminate alcohol at 0.10–0.20 ‰ per hour, averaging 0.15 ‰/h. The rate depends on liver function, sex, age and drinking habits.</p>'},
+      {q:'Does coffee or water speed up sobering?',
+       a:'<p>No. Coffee makes you feel more alert but does not accelerate liver metabolism. The only way to sober up is time.</p>'},
+    ],
+    sourcesTitle:'Sources',
+    sources:[
+      {name:'Widmark, E.M.P. (1932) — alcohol distribution formula',url:'https://en.wikipedia.org/wiki/Widmark_formula'},
+      {name:'Estonian Traffic Act §224 — drunk driving',url:'https://www.riigiteataja.ee/akt/131122010003'},
+      {name:'National Institute for Health Development — alcohol',url:'https://www.tai.ee/en/'},
+    ],
+    disclaimerTitle:'Disclaimer',
+    disclaimerText:'For informational purposes only. Never drive after consuming alcohol.',
+    contactTitle:'Contact us', contactText:'Questions, feedback or bugs?', contactBtn:'Write to us',
+  },
+  ru:{
+    mainTitle:'Калькулятор алкоголя', mainSub:'Содержание алкоголя в крови (промилле)',
+    genderLabel:'ПОЛ', male:'♂ Мужской', female:'♀ Женский',
+    weightLbl:'Масса тела', drinksLbl:'Выпитые напитки',
+    hoursLbl:'Часов назад начали пить', hoursUnit:'часов',
+    annLbl:'промилле (‰)',
+    chipSober:'Трезв', chipWarn:'Ниже предела', chipDanger:'Нельзя водить',
+    chipDriveIn:'За руль через', chipSoberIn:'Трезв через',
+    tlSub:'График BAC', tlTime:'Время', tlBAC:'Промилле (‰)',
+    tlNow:'Сейчас', tlSober:'Трезв',
+    addCustom:'+ Свой напиток',
+    howTitle:'Как пользоваться?',
+    howSteps:[
+      'Выберите пол — влияет на коэффициент Видмарка (мужской 0,70 / женский 0,60).',
+      'Введите массу тела в килограммах.',
+      'Добавьте напитки из предустановок. Объём и %ABV можно изменить.',
+      'Введите, сколько часов назад вы начали пить (0 = прямо сейчас).',
+      'Промилле и график появятся мгновенно.',
+    ],
+    calcTitle:'Как рассчитываются промилле?',
+    calcHTML:`
+      <h3>Формула Видмарка</h3>
+      <p>Содержание алкоголя в крови рассчитывается по <strong>формуле Видмарка</strong>:</p>
+      <p><code>BAC (‰) = A / (W × r) − β × t</code></p>
+      <ul>
+        <li><strong>A</strong> — алкоголь в граммах: объём (мл) × ABV% × 0,789</li>
+        <li><strong>W</strong> — масса тела в кг</li>
+        <li><strong>r</strong> — коэффициент Видмарка: <strong>0,70</strong> (мужской) / <strong>0,60</strong> (женский)</li>
+        <li><strong>β</strong> — скорость элиминации: <strong>0,15 ‰/час</strong></li>
+        <li><strong>t</strong> — прошедшее время в часах</li>
+      </ul>
+      <h3>Закон Эстонии</h3>
+      <p>По §224 Закона о дорожном движении Эстонии допустимый предел BAC — <strong>0,19 ‰</strong>. При 0,20 ‰ и выше водитель считается нетрезвым.</p>
+    `,
+    faqTitle:'Часто задаваемые вопросы',
+    faqItems:[
+      {q:'Когда можно сесть за руль после алкоголя?',
+       a:'<p>Организм выводит алкоголь со скоростью около 0,15 ‰ в час. Если BAC — 0,50 ‰, до законного предела (0,19 ‰) потребуется около 2 часов 7 минут.</p>'},
+      {q:'Почему результаты разные для мужчин и женщин?',
+       a:'<p>У женщин в среднем меньше воды в организме, поэтому алкоголь концентрируется сильнее. Коэффициент Видмарка: мужской 0,70, женский 0,60.</p>'},
+      {q:'Насколько точен калькулятор?',
+       a:'<p>Формула Видмарка даёт хорошую среднюю оценку. Фактический BAC может варьироваться. <strong>Никогда не садитесь за руль после употребления алкоголя.</strong></p>'},
+    ],
+    sourcesTitle:'Источники',
+    sources:[
+      {name:'Видмарк, E.M.P. (1932) — формула распределения алкоголя',url:'https://en.wikipedia.org/wiki/Widmark_formula'},
+      {name:'Закон о дорожном движении Эстонии §224',url:'https://www.riigiteataja.ee/akt/131122010003'},
+    ],
+    disclaimerTitle:'Предупреждение',
+    disclaimerText:'Только для информационных целей. Никогда не садитесь за руль после употребления алкоголя.',
+    contactTitle:'Связаться', contactText:'Вопросы, отзывы или ошибки?', contactBtn:'Написать нам',
+  },
+  fi:{
+    mainTitle:'Alkoholilaskuri', mainSub:'Veren alkoholipitoisuus promilleina',
+    genderLabel:'SUKUPUOLI', male:'♂ Mies', female:'♀ Nainen',
+    weightLbl:'Paino', drinksLbl:'Nautitut juomat',
+    hoursLbl:'Tuntia sitten aloitit', hoursUnit:'tuntia',
+    annLbl:'promillea (‰)',
+    chipSober:'Selvin päin', chipWarn:'Alle rajan', chipDanger:'Ei saa ajaa',
+    chipDriveIn:'Voittaa ajaa', chipSoberIn:'Selvin päin',
+    tlSub:'BAC-aikataulu', tlTime:'Aika', tlBAC:'Promillea (‰)',
+    tlNow:'Nyt', tlSober:'Selvin',
+    addCustom:'+ Oma juoma',
+    howTitle:'Kuinka käyttää?',
+    howSteps:[
+      'Valitse sukupuoli — vaikuttaa Widmarkin kertoimeen (mies 0,70 / nainen 0,60).',
+      'Syötä paino kilogrammoina.',
+      'Lisää juomat esiasetuksista. Tilavuus ja ABV% ovat muokattavissa.',
+      'Syötä kuinka monta tuntia sitten aloitit juomisen (0 = juuri nyt).',
+      'Promillet ja aikataulu näkyvät välittömästi.',
+    ],
+    calcTitle:'Miten promillet lasketaan?',
+    calcHTML:`
+      <h3>Widmarkin kaava</h3>
+      <p>Veren alkoholipitoisuus lasketaan <strong>Widmarkin kaavalla</strong>:</p>
+      <p><code>BAC (‰) = A / (W × r) − β × t</code></p>
+      <ul>
+        <li><strong>A</strong> — alkoholi grammoina: tilavuus (ml) × ABV% × 0,789</li>
+        <li><strong>W</strong> — paino kg</li>
+        <li><strong>r</strong> — Widmarkin kerroin: <strong>0,70</strong> (mies) / <strong>0,60</strong> (nainen)</li>
+        <li><strong>β</strong> — eliminaationopeus: <strong>0,15 ‰/tunti</strong></li>
+        <li><strong>t</strong> — kulunut aika tunteina</li>
+      </ul>
+    `,
+    faqTitle:'Usein kysytyt kysymykset',
+    faqItems:[
+      {q:'Milloin voin ajaa juomisen jälkeen?',
+       a:'<p>Keho poistaa alkoholia noin 0,15 ‰ tunnissa. Jos promillesi on 0,50 ‰, tarvitset noin 2 tuntia 7 minuuttia saavuttaaksesi laillisen rajan 0,19 ‰.</p>'},
+      {q:'Miksi tulokset eroavat miehille ja naisille?',
+       a:'<p>Naisilla on vähemmän kehon vettä, joten alkoholi konsentroituu enemmän. Widmarkin kerroin: mies 0,70, nainen 0,60.</p>'},
+    ],
+    sourcesTitle:'Lähteet',
+    sources:[
+      {name:'Widmark, E.M.P. (1932) — alkoholin jakautumiskaava',url:'https://en.wikipedia.org/wiki/Widmark_formula'},
+    ],
+    disclaimerTitle:'Huomautus',
+    disclaimerText:'Vain tiedottamistarkoituksiin. Älä aja auton jälkeen alkoholin nauttimisen jälkeen.',
+    contactTitle:'Ota yhteyttä', contactText:'Kysymykset tai palaute?', contactBtn:'Kirjoita meille',
+  },
+};
+
+function t(){ return T[lang]||T.et; }
+
+// ── Lang & Gender ──────────────────────────────────────────────────────────────
+function setLang(l){
+  lang = l;
+  ['ET','EN','RU','FI'].forEach(x=>document.getElementById('btn'+x).classList.toggle('active',x.toLowerCase()===l));
+  applyLang(); renderPresets(); renderDrinks(); calc();
+}
+
+function setGender(g){
+  gender = g;
+  document.getElementById('btnMale').classList.toggle('active', g==='m');
+  document.getElementById('btnFemale').classList.toggle('active', g==='f');
+  calc();
+}
+
+function applyLang(){
+  const tr = t();
+  const s = (id,txt)=>{ const el=document.getElementById(id); if(el) el.textContent=txt; };
+  s('mainTitle',  tr.mainTitle);  s('mainSub',    tr.mainSub);
+  s('genderLabel',tr.genderLabel);
+  document.getElementById('btnMale').textContent   = tr.male;
+  document.getElementById('btnFemale').textContent = tr.female;
+  s('weightLbl',  tr.weightLbl);  s('drinksLbl',  tr.drinksLbl);
+  s('hoursLbl',   tr.hoursLbl);   s('hoursUnit',  tr.hoursUnit);
+  s('annLbl',     tr.annLbl);
+  s('howTitle',   tr.howTitle);   s('calcTitle',  tr.calcTitle);
+  s('faqTitle',   tr.faqTitle);   s('sourcesTitle',tr.sourcesTitle);
+  s('disclaimerTitle',tr.disclaimerTitle); s('disclaimerText',tr.disclaimerText);
+  s('contactTitle',tr.contactTitle); s('contactText',tr.contactText);
+  s('contactBtn', tr.contactBtn);
+
+  // How-steps
+  document.getElementById('howSteps').innerHTML =
+    tr.howSteps.map((step,i)=>`<li><span class="step-badge">${i+1}</span><span>${step}</span></li>`).join('');
+
+  // Calc content
+  document.getElementById('calcContent').innerHTML = tr.calcHTML;
+
+  // FAQ
+  document.getElementById('faqList').innerHTML = tr.faqItems.map((item,i)=>`
+    <div class="faq-item" id="faq-${i}">
+      <button class="faq-q" onclick="toggleFaq(${i})" aria-expanded="false">
+        <span>${item.q}</span><span class="faq-toggle">+</span>
+      </button>
+      <div class="faq-a">${item.a}</div>
+    </div>`).join('');
+
+  // Sources
+  document.getElementById('sourcesList').innerHTML =
+    tr.sources.map(s=>`<li><a href="${s.url}" target="_blank" rel="noopener">${s.name}</a></li>`).join('');
+}
+
+// ── Presets ────────────────────────────────────────────────────────────────────
+function renderPresets(){
+  const tr = t();
+  document.getElementById('drinkPresets').innerHTML =
+    PRESETS.map(p=>`<button class="preset-btn" onclick="addPreset('${p.id}')">${p.icon} ${p.name[lang]||p.name.et}</button>`).join('') +
+    `<button class="preset-btn" onclick="addCustom()">➕ ${tr.addCustom.replace(/^\+\s*/,'')}</button>`;
+}
+
+// ── Drink list ─────────────────────────────────────────────────────────────────
+function addPreset(pid){
+  const p = PRESETS.find(x=>x.id===pid);
+  if(!p) return;
+  drinks.push({uid:++uid, icon:p.icon, name:p.name[lang]||p.name.et, ml:p.ml, abv:p.abv});
+  renderDrinks(); calc();
+}
+function addCustom(){
+  drinks.push({uid:++uid, icon:'🍶', name:'Custom', ml:100, abv:5.0});
+  renderDrinks(); calc();
+}
+function removeDrink(id){
+  drinks = drinks.filter(d=>d.uid!==id);
+  renderDrinks(); calc();
+}
+function updateDrink(id, field, val){
+  const d = drinks.find(x=>x.uid===id);
+  if(d){ d[field]=parseFloat(val)||0; refreshGrams(d); }
+  calc();
+}
+function grams(d){ return d.ml*(d.abv/100)*0.789; }
+function refreshGrams(d){
+  const el=document.getElementById('g-'+d.uid);
+  if(el) el.textContent=grams(d).toFixed(1)+'g';
+}
+
+function renderDrinks(){
+  const list = document.getElementById('drinksList');
+  list.innerHTML = drinks.map(d=>`
+    <div class="drink-card">
+      <span class="drink-icon">${d.icon}</span>
+      <span class="drink-name">${d.name}</span>
+      <input class="drink-inp" type="number" value="${d.ml}" min="1" max="2000" step="10"
+        onchange="updateDrink(${d.uid},'ml',this.value)" title="ml">
+      <span class="drink-unit">ml</span>
+      <input class="drink-inp" type="number" value="${d.abv}" min="0.5" max="96" step="0.5"
+        onchange="updateDrink(${d.uid},'abv',this.value)" title="%">
+      <span class="drink-unit">%</span>
+      <span class="drink-grams" id="g-${d.uid}">${grams(d).toFixed(1)}g</span>
+      <button class="drink-rm" onclick="removeDrink(${d.uid})">×</button>
+    </div>`).join('');
+}
+
+// ── BAC ────────────────────────────────────────────────────────────────────────
+function calcBAC(w, g, ds, h){
+  const r=g==='m'?0.70:0.60, beta=0.15;
+  const totalG = ds.reduce((s,d)=>s+grams(d),0);
+  if(totalG<=0||w<=0) return {bac:0,totalG:0};
+  const raw = totalG/(w*r);
+  return {bac:Math.max(0,raw-beta*h), raw, totalG, r};
+}
+
+function fmtTime(h){
+  if(h<=0) return '0 min';
+  const hrs=Math.floor(h), mins=Math.round((h-hrs)*60);
+  if(hrs===0) return mins+'min';
+  if(mins===0) return hrs+'h';
+  return hrs+'h '+mins+'min';
+}
+function fmtBac(v){ return v.toFixed(2).replace('.',','); }
+
+// ── Dots ───────────────────────────────────────────────────────────────────────
+function updateDots(){
+  const w=parseFloat(document.getElementById('iWeight').value)||0;
+  const h=document.getElementById('iHours').value;
+  const set=(id,ok)=>{const el=document.getElementById(id);if(el)el.classList.toggle('ok',ok);};
+  set('dotWeight', w>=30&&w<=250);
+  set('dotDrinks', drinks.length>0);
+  set('dotHours',  h!==''&&parseFloat(h)>=0);
+}
+
+// ── Clear ──────────────────────────────────────────────────────────────────────
+function clearResult(){
+  const el=document.getElementById('annNum');
+  el.textContent='—'; el.classList.add('e');
+  document.getElementById('annChips').innerHTML='';
+  document.getElementById('annCell').className='c-ann';
+  document.getElementById('tmlCard').style.display='none';
+  updateDots();
+}
+
+// ── Calc ───────────────────────────────────────────────────────────────────────
+function calc(){
+  const tr = t();
+  const w  = parseFloat(document.getElementById('iWeight').value)||0;
+  const h  = parseFloat(document.getElementById('iHours').value)||0;
+  updateDots();
+  if(w<30||drinks.length===0){ clearResult(); return; }
+
+  const {bac, totalG} = calcBAC(w, gender, drinks, h);
+  const beta = 0.15;
+
+  // Ann number
+  const numEl = document.getElementById('annNum');
+  numEl.textContent = fmtBac(bac);
+  numEl.classList.remove('e');
+
+  // Ann cell color
+  const cell = document.getElementById('annCell');
+  cell.className = 'c-ann' + (bac>=0.20?' st-danger': bac>0?' st-warn':'');
+
+  // Chips
+  const chips=[];
+  if(bac<=0){
+    chips.push(`<span class="chip chip-green">✓ ${tr.chipSober}</span>`);
+  } else if(bac<0.20){
+    chips.push(`<span class="chip chip-orange">⚠ ${tr.chipWarn}</span>`);
+  } else {
+    chips.push(`<span class="chip chip-red">🚫 ${tr.chipDanger}</span>`);
+    chips.push(`<span class="chip chip-orange">🚗 ${tr.chipDriveIn}: ${fmtTime((bac-0.19)/beta)}</span>`);
+  }
+  if(bac>0){
+    chips.push(`<span class="chip">⏱ ${tr.chipSoberIn}: ${fmtTime(bac/beta)}</span>`);
+  }
+  chips.push(`<span class="chip">${totalG.toFixed(1)}g EtOH</span>`);
+  document.getElementById('annChips').innerHTML = chips.join('');
+
+  // Timeline
+  renderTimeline(bac, beta, tr);
+}
+
+function renderTimeline(bac, beta, tr){
+  const card = document.getElementById('tmlCard');
+  card.style.display = 'block';
+  document.getElementById('tlSub').textContent = tr.tlSub;
+
+  const maxH = Math.min(Math.ceil(bac/beta)+1, 14);
+  const rows = [{label:tr.tlNow, bac, now:true}];
+  for(let i=1;i<=maxH;i++){
+    const fb = Math.max(0,bac-beta*i);
+    rows.push({label:'+'+i+'h', bac:fb});
+    if(fb===0) break;
+  }
+
+  document.getElementById('tlContainer').innerHTML = `
+    <table class="tml-table">
+      <thead><tr><th>${tr.tlTime}</th><th></th><th>${tr.tlBAC}</th></tr></thead>
+      <tbody>${rows.map(r=>{
+        const lvl = r.bac>=0.20?'danger':r.bac>0?'warn':'safe';
+        const w   = bac>0?Math.round((r.bac/bac)*100):0;
+        const val = r.bac===0?`<span style="color:#34c759">${tr.tlSober}</span>`:fmtBac(r.bac)+' ‰';
+        return `<tr class="${r.now?'tml-now':''}">
+          <td>${r.label}</td>
+          <td><div class="bar-wrap"><div class="bar ${lvl}" style="width:${w}px"></div></div></td>
+          <td>${val}</td>
+        </tr>`;
+      }).join('')}</tbody>
+    </table>`;
+}
+
+// ── FAQ ────────────────────────────────────────────────────────────────────────
+function toggleFaq(i){
+  const item=document.getElementById('faq-'+i);
+  item.classList.toggle('open');
+  item.querySelector('.faq-q').setAttribute('aria-expanded',item.classList.contains('open'));
+}
+
+// ── Theme ──────────────────────────────────────────────────────────────────────
+function isDark(){
+  const saved = localStorage.getItem('theme');
+  if(saved) return saved==='dark';
+  return window.matchMedia('(prefers-color-scheme:dark)').matches;
+}
+function applyTheme(dark){
+  document.documentElement.setAttribute('data-theme', dark?'dark':'light');
+  document.getElementById('themeBtn').textContent = dark?'☀️':'🌙';
+}
+function toggleTheme(){
+  const nowDark = document.documentElement.getAttribute('data-theme')==='dark';
+  localStorage.setItem('theme', nowDark?'light':'dark');
+  applyTheme(!nowDark);
+}
+
+// ── Init ───────────────────────────────────────────────────────────────────────
+(function(){
+  applyTheme(isDark());
+  setLang('et');
+})();
+</script>
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"WebApplication",
+  "name":"Alkoholikalkulaator",
+  "url":"https://alkoholikalkulaator.ee",
+  "description":"Tasuta alkoholikalkulaator: arvuta vere alkoholisisaldus (promillid) Widmarti valemi järgi.",
+  "applicationCategory":"HealthApplication",
+  "operatingSystem":"Any",
+  "inLanguage":["et","en","ru","fi"],
+  "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"}
+}
+</script>
+</body>
+</html>

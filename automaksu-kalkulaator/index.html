@@ -84,45 +84,30 @@
     }
 
     /* ── Fuel segmented control ── */
-    .fuel-seg {
-      position: relative; display: flex; width: 100%;
-      background: rgba(118,118,128,.12); border-radius: 10px; padding: 2px;
-    }
-    .fuel-slider {
-      position: absolute; top: 2px; height: calc(100% - 4px);
-      background: var(--card); border-radius: 8px;
-      box-shadow: 0 1px 4px rgba(0,0,0,.14), 0 0 0 .5px rgba(0,0,0,.04);
-      transition: left .2s cubic-bezier(.4,.14,.3,1), width .2s cubic-bezier(.4,.14,.3,1);
-      pointer-events: none;
+    .fuel-pills {
+      display: flex; flex-wrap: wrap; gap: 8px;
     }
     .fuel-btn {
-      flex: 1; padding: 8px 4px; border: none; background: transparent;
-      font-family: var(--font); font-size: .83rem; font-weight: 500; color: var(--label);
-      cursor: pointer; z-index: 1; position: relative;
-      -webkit-tap-highlight-color: transparent; border-radius: 8px;
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      background: rgba(118,118,128,.12); border: none; border-radius: 20px;
+      padding: 8px 16px; font-family: var(--font); font-size: .88rem; font-weight: 500;
+      color: var(--label); cursor: pointer; white-space: nowrap;
+      transition: background .18s, color .18s;
+      -webkit-tap-highlight-color: transparent;
     }
-    .fuel-btn:active { opacity: .7; }
+    .fuel-btn.active { background: var(--tint); color: #fff; }
+    .fuel-btn:active { opacity: .75; }
 
-    /* ── Mini segmented control ── */
-    .mini-seg {
-      position: relative; display: inline-flex;
-      background: rgba(118,118,128,.12); border-radius: 7px; padding: 2px; flex-shrink: 0;
-    }
-    .mini-slider {
-      position: absolute; top: 2px; height: calc(100% - 4px);
-      background: var(--card); border-radius: 5px;
-      box-shadow: 0 1px 3px rgba(0,0,0,.14);
-      transition: left .2s cubic-bezier(.4,.14,.3,1), width .2s cubic-bezier(.4,.14,.3,1);
-      pointer-events: none;
-    }
+    /* ── Mini mode pills ── */
+    .mini-seg { display: inline-flex; gap: 6px; flex-shrink: 0; }
     .mini-btn {
-      padding: 4px 10px; border: none; background: transparent;
-      font-family: var(--font); font-size: .8rem; font-weight: 500; color: var(--label);
-      cursor: pointer; z-index: 1; position: relative;
-      -webkit-tap-highlight-color: transparent; border-radius: 5px; white-space: nowrap;
+      background: rgba(118,118,128,.12); border: none; border-radius: 20px;
+      padding: 5px 12px; font-family: var(--font); font-size: .8rem; font-weight: 500;
+      color: var(--label); cursor: pointer; white-space: nowrap;
+      transition: background .18s, color .18s;
+      -webkit-tap-highlight-color: transparent;
     }
-    .mini-btn:active { opacity: .7; }
+    .mini-btn.active { background: var(--tint); color: #fff; }
+    .mini-btn:active { opacity: .75; }
 
     /* ── Grouped list ── */
     .group { background: var(--card); border-radius: var(--r-card); overflow: hidden; }
@@ -289,10 +274,10 @@
       --label3: rgba(235,235,245,.18);
       --sep:    rgba(84,84,88,.65);
     }
-    html.dark .fuel-seg,
-    html.dark .mini-seg { background: rgba(118,118,128,.24); }
-    html.dark .fuel-slider,
-    html.dark .mini-slider { background: #3a3a3c; box-shadow: 0 1px 4px rgba(0,0,0,.5); }
+    html.dark .fuel-btn,
+    html.dark .mini-btn { background: rgba(118,118,128,.24); }
+    html.dark .fuel-btn.active,
+    html.dark .mini-btn.active { background: var(--tint); }
 
     html.dark .c-tml { background: #1c1c1e; background-image: none; }
     html.dark .c-tml .clbl    { color: rgba(255,255,255,.38); }
@@ -555,8 +540,7 @@
 
   <!-- Fuel type -->
   <div class="slabel" id="fuelLabel">Kütuse tüüp</div>
-  <div class="fuel-seg" id="fuelSeg">
-    <div class="fuel-slider" id="fuelSlider"></div>
+  <div class="fuel-pills" id="fuelSeg">
     <button class="fuel-btn active" data-fuel="ice"  id="fuelIce"  onclick="setFuel(this)">Bensiin / Diisel</button>
     <button class="fuel-btn"        data-fuel="mhev" id="fuelMhev" onclick="setFuel(this)">Hübriid</button>
     <button class="fuel-btn"        data-fuel="phev" id="fuelPhev" onclick="setFuel(this)">PHEV</button>
@@ -570,7 +554,6 @@
     <div class="grow" id="modeRow">
       <label id="sourceLabel">Andmete allikas</label>
       <div class="mini-seg" id="modeSeg">
-        <div class="mini-slider" id="modeSlider"></div>
         <button class="mini-btn active" data-mode="co2" id="modeCo2" onclick="setMode(this)">CO₂</button>
         <button class="mini-btn"        data-mode="alt" id="modeAlt" onclick="setMode(this)">Mootor</button>
       </div>
@@ -1428,51 +1411,25 @@
     calc();
   }
 
-  /* ── Fuel segmented control ── */
-  function posFuelSlider() {
-    const seg    = document.getElementById('fuelSeg');
-    const active = seg.querySelector('.fuel-btn.active');
-    if (!active) return;
-    const sr = seg.getBoundingClientRect();
-    const br = active.getBoundingClientRect();
-    const sl = document.getElementById('fuelSlider');
-    sl.style.left  = (br.left - sr.left + 2) + 'px';
-    sl.style.width = (br.width - 4) + 'px';
-  }
-  window.addEventListener('resize', posFuelSlider);
-
+  /* ── Fuel pills ── */
   function setFuel(btn) {
     document.querySelectorAll('.fuel-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     fuel = btn.dataset.fuel;
-    requestAnimationFrame(() => requestAnimationFrame(posFuelSlider));
     const isEV = fuel === 'ev';
-    document.getElementById('emissionsLabel').style.display  = isEV ? 'none' : '';
-    document.getElementById('emissionsGroup').style.display  = isEV ? 'none' : '';
-    document.getElementById('modeRow').style.display = isEV ? 'none' : '';
+    document.getElementById('emissionsLabel').style.display = isEV ? 'none' : '';
+    document.getElementById('emissionsGroup').style.display = isEV ? 'none' : '';
+    document.getElementById('modeRow').style.display        = isEV ? 'none' : '';
     if (isEV) setMode(document.querySelector('#modeSeg .mini-btn[data-mode="co2"]'), false);
     applyMode();
     calc();
   }
 
-  /* ── CO₂ / Mootor segmented control ── */
-  function posModeSlider() {
-    const seg    = document.getElementById('modeSeg');
-    const active = seg.querySelector('.mini-btn.active');
-    if (!active) return;
-    const sr = seg.getBoundingClientRect();
-    const br = active.getBoundingClientRect();
-    const sl = document.getElementById('modeSlider');
-    sl.style.left  = (br.left - sr.left + 2) + 'px';
-    sl.style.width = (br.width - 4) + 'px';
-  }
-  window.addEventListener('resize', posModeSlider);
-
+  /* ── Mode pills ── */
   function setMode(btn, doCalc = true) {
     document.querySelectorAll('#modeSeg .mini-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     mode = btn.dataset.mode;
-    requestAnimationFrame(() => requestAnimationFrame(posModeSlider));
     applyMode();
     if (doCalc) calc();
   }
