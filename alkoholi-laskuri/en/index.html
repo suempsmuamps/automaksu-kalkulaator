@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Promillelaskuri — veren alkoholipitoisuus 2025</title>
+<meta name="description" content="Ilmainen promillelaskuri: laske veren alkoholipitoisuus (promillet) Widmarkin kaavalla. Syötä sukupuoli, paino ja nautitut juomat — tulos heti.">
+<meta name="keywords" content="promillelaskuri, alkoholilaskuri, veren alkoholipitoisuus, BAC laskuri, milloin voi ajaa, promille alkoholi, rattijuopumus Suomi 2025">
+<link rel="canonical" href="https://alkoholi-laskuri.fi/">
+<meta property="og:title" content="Promillelaskuri — veren alkoholipitoisuus promilleina">
+<meta property="og:description" content="Laske veren alkoholipitoisuus Widmarkin kaavalla. Ilmainen, tulos heti.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://alkoholi-laskuri.fi/">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#050505;--card:#0f0f0f;--label:#f0f0f0;--label2:#a8a8a8;--label3:#737373;
+  --sep:rgba(255,255,255,.07);--tint:#fff;--radius:18px;
+  --card-border:1px solid rgba(255,255,255,.06);
+  --font:'Space Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --glow:0 0 0 transparent;
+  --ease:cubic-bezier(.4,0,.2,1);
+}
+:root[data-theme="light"]{
+  --bg:#fafafa;--card:#fff;--label:#111;--label2:#4a4a4a;--label3:#636363;
+  --sep:rgba(0,0,0,.06);--tint:#111;--card-border:1px solid rgba(0,0,0,.08);
+  --glow:0 1px 3px rgba(0,0,0,.04);
+}
+@media(prefers-color-scheme:light){
+  :root:not([data-theme="dark"]){
+    --bg:#fafafa;--card:#fff;--label:#111;--label2:#4a4a4a;--label3:#636363;
+    --sep:rgba(0,0,0,.06);--tint:#111;--card-border:1px solid rgba(0,0,0,.08);
+    --glow:0 1px 3px rgba(0,0,0,.04);
+  }
+}
+body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.page{max-width:980px;margin:0 auto;padding:28px 20px 32px;overflow:visible}
+
+/* ── Main 2-col grid ── */
+.main-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start;margin-bottom:48px}
+.main-grid .form-card{margin-bottom:0}
+.main-grid .bento{margin-bottom:0}
+@media(max-width:700px){.main-grid{grid-template-columns:1fr;gap:12px}}
+
+/* ── Header ── */
+.header{margin-bottom:40px}
+.header-inner{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.header-title-group{display:flex;align-items:center;gap:12px}
+.header-icon{font-size:2rem;line-height:1}
+.header-title{font-size:1.75rem;font-weight:700;letter-spacing:-.5px}
+.header-sub{font-size:.82rem;color:var(--label3);margin-top:3px;letter-spacing:.01em}
+
+/* ── Lang switcher ── */
+.header-controls{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.lang-switcher{display:flex;background:var(--sep);border-radius:10px;padding:3px;gap:2px}
+.lang-btn{background:none;border:none;padding:5px 10px;border-radius:8px;font-size:.76rem;font-weight:600;color:var(--label3);cursor:pointer;font-family:var(--font);transition:all .2s var(--ease);letter-spacing:.02em}
+.lang-btn:hover{color:var(--label2)}
+.lang-btn.active{background:var(--card);color:var(--tint);box-shadow:0 1px 4px rgba(0,0,0,.15)}
+.theme-btn{background:var(--sep);border:none;width:34px;height:34px;border-radius:10px;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .2s var(--ease);-webkit-tap-highlight-color:transparent}
+.theme-btn:hover{transform:scale(1.08)}
+.theme-btn:active{transform:scale(.95)}
+
+/* ── Form card ── */
+.form-card{background:var(--card);border:var(--card-border);border-radius:var(--radius);padding:22px;margin-bottom:24px;display:flex;flex-direction:column;gap:22px;box-shadow:var(--glow);transition:box-shadow .3s var(--ease)}
+
+/* ── Segmented control ── */
+.seg-group{display:flex;flex-direction:column;gap:8px}
+.seg-label{font-size:.78rem;font-weight:600;color:var(--label3);text-transform:uppercase;letter-spacing:.5px}
+.seg-ctrl{display:flex;background:var(--bg);border-radius:10px;padding:2px;gap:2px}
+.seg-btn{flex:1;background:none;border:none;padding:9px 12px;border-radius:8px;font-size:.95rem;font-weight:500;color:var(--label2);cursor:pointer;font-family:var(--font);transition:.18s}
+.seg-btn.active{background:var(--label);color:var(--bg);font-weight:600}
+
+/* ── Input row ── */
+.grow{display:flex;flex-direction:column;gap:8px;transition:opacity .25s var(--ease)}
+.grow>label{font-size:.88rem;color:var(--label2);display:flex;align-items:center;gap:7px;font-weight:500;letter-spacing:.01em}
+.input-wrap{display:flex;align-items:center;background:var(--bg);border-radius:12px;overflow:hidden;border:1px solid var(--sep);transition:border-color .25s var(--ease),box-shadow .25s var(--ease)}
+.input-wrap:focus-within{border-color:var(--label3);box-shadow:0 0 0 3px rgba(128,128,128,.08)}
+.input-wrap input{flex:1;border:none;background:none;padding:11px 14px;font-size:1rem;font-family:var(--font);color:var(--label);outline:none;min-width:0;letter-spacing:-.01em}
+.input-wrap input::placeholder{color:var(--label3);opacity:.7}
+.unit{padding:11px 14px 11px 0;font-size:.82rem;color:var(--label3);white-space:nowrap;font-weight:500}
+
+/* ── Req dot ── */
+.req-dot{width:16px;height:16px;border-radius:50%;flex-shrink:0;background:var(--sep);transition:all .3s var(--ease);display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:transparent;line-height:1}
+.req-dot::after{content:'✓'}
+.req-dot.ok{background:#22c55e;color:#fff;box-shadow:0 0 8px rgba(34,197,94,.3)}
+
+/* ── Drinks section ── */
+.drinks-section{display:flex;flex-direction:column;gap:10px}
+.drinks-header{display:flex;align-items:center;gap:7px;font-size:.93rem;color:var(--label2);font-weight:500}
+.drink-presets{display:flex;flex-wrap:wrap;gap:7px}
+.preset-btn{display:flex;align-items:center;gap:5px;background:var(--bg);border:none;border-radius:20px;padding:7px 13px;font-size:.85rem;font-weight:500;color:var(--label);cursor:pointer;font-family:var(--font);transition:.15s;white-space:nowrap;-webkit-tap-highlight-color:transparent}
+.preset-btn:active{transform:scale(.95);opacity:.8}
+.drinks-list{display:flex;flex-direction:column;gap:6px}
+.drink-card{display:flex;align-items:center;gap:7px;background:var(--bg);border-radius:10px;padding:8px 10px}
+.drink-icon{font-size:1.1rem;flex-shrink:0}
+.drink-name{flex:1;font-size:.83rem;font-weight:500;color:var(--label);min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.drink-inp{width:52px;border:none;background:var(--card);border-radius:6px;padding:4px 6px;font-size:.83rem;font-family:var(--font);color:var(--label);text-align:center;outline:none}
+.drink-qty{width:36px;font-weight:600}
+.drink-unit{font-size:.75rem;color:var(--label3);white-space:nowrap}
+.drink-grams{font-size:.75rem;color:var(--label2);white-space:nowrap;min-width:36px;text-align:right}
+.drink-rm{background:none;border:none;color:var(--label3);cursor:pointer;font-size:1.1rem;padding:2px 4px;line-height:1;transition:color .15s;-webkit-tap-highlight-color:transparent}
+.drink-rm:hover{color:#ff3b30}
+
+/* ── Bento ── */
+.bento{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:24px}
+
+.c-ann{
+  background:linear-gradient(135deg,#0a1a0a 0%,#0d2818 40%,#0a3520 100%);
+  border-radius:var(--radius);padding:24px;min-height:160px;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  transition:background .35s;position:relative;overflow:hidden;
+}
+.c-ann::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.06) 1px,transparent 1px);background-size:20px 20px;-webkit-mask-image:radial-gradient(ellipse at 70% 30%,#000 10%,transparent 60%);mask-image:radial-gradient(ellipse at 70% 30%,#000 10%,transparent 60%);pointer-events:none}
+.c-ann.st-warn{background:linear-gradient(135deg,#1a1200 0%,#332200 40%,#4a3000 100%)}
+.c-ann.st-danger{background:linear-gradient(135deg,#1a0000 0%,#3d0a0a 40%,#4a0f0f 100%)}
+.ann-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.chip{background:rgba(255,255,255,.08);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:rgba(255,255,255,.85);padding:5px 12px;border-radius:20px;font-size:.76rem;font-weight:500;display:inline-flex;align-items:center;gap:5px;border:1px solid rgba(255,255,255,.06);transition:background .2s}
+.chip-green{background:rgba(52,199,89,.25);color:#4ade80}
+.chip-orange{background:rgba(255,149,0,.28);color:#fbbf24}
+.chip-red{background:rgba(255,59,48,.28);color:#f87171}
+.ann-num{font-size:3.2rem;font-weight:700;color:#fff;letter-spacing:-1.5px;line-height:1}
+.ann-num.e{color:rgba(255,255,255,.12)}
+.ann-lbl{font-size:.78rem;color:rgba(255,255,255,.65);margin-top:6px;text-transform:uppercase;letter-spacing:.08em;font-weight:500}
+
+/* ── Timeline ── */
+.c-tml{background:var(--card);border:var(--card-border);border-radius:var(--radius);padding:20px}
+.tml-sub{font-size:.75rem;font-weight:600;color:var(--label3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px}
+.tml-table{width:100%;border-collapse:separate;border-spacing:0 4px}
+.tml-table th{font-size:.75rem;font-weight:600;color:var(--label3);text-align:left;padding:0 12px 8px;text-transform:uppercase;letter-spacing:.06em}
+.tml-table th:last-child{text-align:right}
+.tml-table td{font-size:.95rem;padding:12px;background:var(--bg);font-weight:500}
+.tml-table td:first-child{border-radius:10px 0 0 10px;font-weight:600}
+.tml-table td:last-child{text-align:right;font-weight:700;font-variant-numeric:tabular-nums;border-radius:0 10px 10px 0}
+.tml-now td{font-weight:700}
+.bar-wrap{display:flex;align-items:center}
+.bar{height:8px;border-radius:4px;min-width:3px}
+.bar.safe{background:#22c55e}
+.bar.warn{background:#f59e0b}
+.bar.danger{background:#ef4444}
+
+/* ── Section cards ── */
+.section-card{background:var(--card);border:var(--card-border);border-radius:var(--radius);padding:24px;margin-bottom:44px;box-shadow:var(--glow)}
+.section-full{background-color:var(--card);border:none;border-radius:0;box-shadow:none;width:100vw;margin-left:calc(-50vw + 50%);padding:48px calc(50vw - 50% + 20px);margin-bottom:44px;position:relative;overflow:hidden}
+.section-full::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:40px 40px;-webkit-mask-image:linear-gradient(to left,#000 0%,transparent 60%);mask-image:linear-gradient(to left,#000 0%,transparent 60%);pointer-events:none}
+.section-full>.section-title,.section-full>.how-steps,.section-full>.sources-list,.section-full>.calc-content{max-width:940px;margin-left:auto;margin-right:auto;position:relative}
+@media(max-width:1032px){.section-full{padding-left:20px;padding-right:20px}}
+.section-bare{background:none;border:none;padding-left:0;padding-right:0;display:flex;align-items:flex-start;gap:32px;box-shadow:none}
+.section-bare .section-title{flex-shrink:0;max-width:160px;margin-bottom:0;line-height:1.15;font-size:1.35rem;letter-spacing:-.3px;font-weight:700}
+@media(max-width:700px){.section-bare{flex-direction:column;gap:20px}.section-bare .section-title{max-width:none}}
+.section-bare-bg{background:var(--card);border:none;border-radius:0;width:100vw;margin-left:calc(-50vw + 50%);padding:44px calc(50vw - 50% + 20px);box-shadow:none;position:relative;overflow:hidden;gap:60px}
+@media(max-width:700px){.section-bare-bg{padding:28px 20px}}
+:root[data-theme="light"] .section-full::before{background-image:linear-gradient(rgba(0,0,0,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.035) 1px,transparent 1px)}
+@media(prefers-color-scheme:light){:root:not([data-theme="dark"]) .section-full::before{background-image:linear-gradient(rgba(0,0,0,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.035) 1px,transparent 1px)}}
+.section-title{font-size:1.35rem;font-weight:700;letter-spacing:-.3px;margin-bottom:16px}
+
+/* ── How steps ── */
+.how-steps{list-style:none;display:flex;gap:0;overflow-x:auto;padding-bottom:8px;scrollbar-width:none;-ms-overflow-style:none;position:relative}
+.how-steps::-webkit-scrollbar{display:none}
+.how-steps li{flex:1;min-width:150px;display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:8px;font-size:.8rem;line-height:1.55;color:var(--label3);padding:0 20px 0 0;position:relative}
+.how-steps li:not(:last-child)::after{content:'';position:absolute;top:10px;left:22px;width:calc(100% - 22px);height:1px;background:var(--sep);transition:background .3s var(--ease)}
+.how-steps li.step-done:not(:last-child)::after{background:#22c55e}
+.step-badge{flex-shrink:0;width:22px;height:22px;border-radius:50%;background:var(--label2);color:var(--bg);display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:600;position:relative;z-index:1;transition:background .3s var(--ease),box-shadow .3s var(--ease)}
+.step-badge.ok{background:#22c55e;box-shadow:0 0 8px rgba(34,197,94,.3)}
+@media(max-width:700px){.how-steps{flex-direction:column;gap:0;overflow-x:visible;padding-bottom:0}.how-steps li{min-width:0;flex-direction:row;align-items:center;gap:12px;padding:10px 0}.how-steps li:not(:last-child)::after{top:auto;left:10px;width:1px;height:calc(100% - 22px);top:26px}}
+
+/* ── Calc content ── */
+.calc-content h3{font-size:1.05rem;font-weight:700;margin:14px 0 6px}
+.calc-content h3:first-child{margin-top:0}
+.calc-content p{font-size:.9rem;line-height:1.65;color:var(--label2);margin-bottom:8px}
+.calc-content ul{padding-left:18px;margin-bottom:8px}
+.calc-content li{font-size:.9rem;line-height:1.65;color:var(--label2);margin-bottom:2px}
+.calc-content code{background:var(--bg);border-radius:4px;padding:1px 5px;font-size:.85rem;font-family:'SF Mono',monospace}
+.calc-content strong{color:var(--label)}
+
+/* ── FAQ ── */
+.faq-item{border-top:1px solid var(--sep)}
+.faq-item:first-child{border-top:none}
+.faq-q{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 0;background:transparent;border:none;cursor:pointer;font-family:var(--font);font-size:.91rem;font-weight:600;color:var(--label);text-align:left;-webkit-tap-highlight-color:transparent;transition:opacity .15s}
+.faq-q:hover{opacity:.75}
+.faq-toggle{flex-shrink:0;width:28px;height:28px;border-radius:50%;background:var(--sep);color:var(--label2);display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:600;line-height:1;transition:all .25s var(--ease)}
+.faq-item.open .faq-toggle{background:var(--label);color:var(--bg);transform:rotate(45deg)}
+.faq-a{display:none;padding:0 0 14px;font-size:.88rem;line-height:1.65;color:var(--label2)}
+.faq-a p{margin-bottom:6px}
+.faq-item.open .faq-a{display:block}
+
+/* ── Sources ── */
+.sources-list{list-style:none;display:flex;flex-direction:column;gap:10px}
+.sources-list a{color:var(--label2);text-decoration:none;font-size:.86rem;display:inline-flex;align-items:center;gap:6px;transition:color .2s}
+.sources-list a::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--label3);flex-shrink:0}
+.sources-list a:hover{color:var(--label);text-decoration:underline;text-underline-offset:3px}
+
+/* ── Info grid ── */
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:44px}
+@media(max-width:480px){.info-grid{grid-template-columns:1fr}}
+.info-card{border-radius:var(--radius);padding:22px;transition:transform .2s var(--ease)}
+.info-card:hover{transform:translateY(-1px)}
+.info-card--amber{background:linear-gradient(145deg,#2d2200 0%,#3d3000 50%,#231a00 100%);border:1px solid rgba(251,191,36,.12)}
+.info-card--blue{background:linear-gradient(145deg,#0c1a35 0%,#132647 50%,#0c1a35 100%);border:1px solid rgba(100,160,255,.1)}
+:root[data-theme="light"] .info-card--amber{background:linear-gradient(145deg,#fffbeb 0%,#fef3c7 100%);border:1px solid rgba(251,191,36,.15)}
+:root[data-theme="light"] .info-card--blue{background:linear-gradient(145deg,#eff6ff 0%,#dbeafe 100%);border:1px solid rgba(100,160,255,.12)}
+:root[data-theme="light"] .info-card-title{color:#111}
+:root[data-theme="light"] .info-card p{color:#3d4654}
+@media(prefers-color-scheme:light){
+  :root:not([data-theme="dark"]) .info-card--amber{background:linear-gradient(145deg,#fffbeb 0%,#fef3c7 100%);border:1px solid rgba(251,191,36,.15)}
+  :root:not([data-theme="dark"]) .info-card--blue{background:linear-gradient(145deg,#eff6ff 0%,#dbeafe 100%);border:1px solid rgba(100,160,255,.12)}
+  :root:not([data-theme="dark"]) .info-card-title{color:#111}
+  :root:not([data-theme="dark"]) .info-card p{color:#3d4654}
+}
+.info-icon{font-size:1.5rem;margin-bottom:10px}
+.info-card-title{font-size:1.02rem;font-weight:700;color:var(--label);margin-bottom:6px}
+.info-card p{font-size:.82rem;line-height:1.6;color:var(--label2)}
+.contact-btn{display:inline-block;margin-top:12px;background:#fff;color:#000;border-radius:10px;padding:8px 16px;font-size:.82rem;font-weight:600;text-decoration:none;transition:transform .15s var(--ease),box-shadow .15s;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.contact-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.15)}
+.contact-btn:active{transform:translateY(0)}
+
+.footer{text-align:center;font-size:.75rem;color:var(--label3);padding:0;letter-spacing:.01em}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="header">
+    <div class="header-inner">
+      <div class="header-title-group">
+        <div class="header-icon">🍺</div>
+        <div>
+          <h1 class="header-title" id="mainTitle">Promille­laskuri</h1>
+          <p class="header-sub" id="mainSub">Veren alkoholipitoisuus promilleina</p>
+        </div>
+      </div>
+      <div class="header-controls">
+        <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" title="Toggle dark/light mode">🌙</button>
+        <div class="lang-switcher">
+          <button onclick="setLang('fi')" class="lang-btn active" id="btnFI">FI</button>
+          <button onclick="setLang('sv')" class="lang-btn" id="btnSV">SV</button>
+          <button onclick="setLang('en')" class="lang-btn" id="btnEN">EN</button>
+          <button onclick="setLang('ru')" class="lang-btn" id="btnRU">RU</button>
+          <button onclick="setLang('et')" class="lang-btn" id="btnET">ET</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main grid: form left, result right -->
+  <div class="main-grid">
+
+  <!-- Form -->
+  <section class="form-card">
+
+    <!-- Gender -->
+    <div class="seg-group">
+      <div class="seg-label" id="genderLabel">SUKUPUOLI</div>
+      <div class="seg-ctrl">
+        <button class="seg-btn active" id="btnMale"   onclick="setGender('m')">♂ Mies</button>
+        <button class="seg-btn"        id="btnFemale" onclick="setGender('f')">♀ Nainen</button>
+      </div>
+    </div>
+
+    <!-- Weight -->
+    <div class="grow">
+      <label for="iWeight"><span id="weightLbl">Paino</span><span class="req-dot" id="dotWeight"></span></label>
+      <div class="input-wrap">
+        <input type="number" id="iWeight" min="30" max="250" placeholder="75" oninput="calc()">
+        <span class="unit">kg</span>
+      </div>
+    </div>
+
+    <!-- Drinks -->
+    <div class="drinks-section">
+      <div class="drinks-header">
+        <span id="drinksLbl">Nautitut juomat</span>
+        <span class="req-dot" id="dotDrinks"></span>
+      </div>
+      <div class="drink-presets" id="drinkPresets"></div>
+      <div class="drinks-list"   id="drinksList"></div>
+    </div>
+
+    <!-- Hours -->
+    <div class="grow">
+      <label for="iHours"><span id="hoursLbl">Tuntia sitten aloitit</span><span class="req-dot" id="dotHours"></span></label>
+      <div class="input-wrap">
+        <input type="number" id="iHours" min="0" max="48" step="0.5" placeholder="0" oninput="calc()">
+        <span class="unit" id="hoursUnit">tuntia</span>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Bento -->
+  <div class="bento">
+    <div class="c-ann" id="annCell">
+      <div class="ann-chips" id="annChips"></div>
+      <div class="ann-num e" id="annNum">—</div>
+      <div class="ann-lbl"   id="annLbl">promillea (‰)</div>
+    </div>
+    <div class="c-tml" id="tmlCard" style="display:none">
+      <div class="tml-sub" id="tlSub"></div>
+      <div id="tlContainer"></div>
+    </div>
+  </div><!-- /bento -->
+
+  </div><!-- /main-grid -->
+
+  <!-- How-to -->
+  <section class="section-card section-bare">
+    <h2 class="section-title" id="howTitle">Kuinka käyttää?</h2>
+    <ol class="how-steps" id="howSteps"></ol>
+  </section>
+
+  <!-- How calculated -->
+  <section class="section-card section-full">
+    <h2 class="section-title" id="calcTitle">Miten promillet lasketaan?</h2>
+    <div class="calc-content" id="calcContent"></div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section-card">
+    <h2 class="section-title" id="faqTitle">Usein kysytyt kysymykset</h2>
+    <div id="faqList"></div>
+  </section>
+
+  <!-- Sources -->
+  <section class="section-card section-bare section-bare-bg">
+    <h2 class="section-title" id="sourcesTitle">Lähteet</h2>
+    <ul class="sources-list" id="sourcesList"></ul>
+  </section>
+
+  <!-- Info -->
+  <div class="info-grid">
+    <div class="info-card info-card--amber">
+      <div class="info-icon">⚠️</div>
+      <div class="info-card-title" id="disclaimerTitle">Huomautus</div>
+      <p id="disclaimerText"></p>
+    </div>
+    <div class="info-card info-card--blue">
+      <div class="info-icon">✉️</div>
+      <div class="info-card-title" id="contactTitle">Ota yhteyttä</div>
+      <p id="contactText"></p>
+      <a href="mailto:laatorid@gmail.com" class="contact-btn" id="contactBtn">Kirjoita meille</a>
+    </div>
+  </div>
+
+  <footer class="footer" id="footerText"></footer>
+
+</div><!-- .page -->
+
+<script>
+// ── State ──────────────────────────────────────────────────────────────────────
+let lang   = 'fi';
+let gender = 'm';
+let drinks = [];
+let uid    = 0;
+
+// ── Drink presets ──────────────────────────────────────────────────────────────
+const PRESETS = [
+  {id:'beer330',  icon:'🍺', ml:330, abv:5.0,  name:{fi:'Olut 330ml',    sv:'Öl 330ml',    en:'Beer 330ml',    ru:'Пиво 330мл',    et:'Õlu 330ml'   }},
+  {id:'beer500',  icon:'🍺', ml:500, abv:5.0,  name:{fi:'Olut 500ml',    sv:'Öl 500ml',    en:'Beer 500ml',    ru:'Пиво 500мл',    et:'Õlu 500ml'   }},
+  {id:'wine',     icon:'🍷', ml:150, abv:12.0, name:{fi:'Viini 150ml',   sv:'Vin 150ml',   en:'Wine 150ml',    ru:'Вино 150мл',    et:'Vein 150ml'  }},
+  {id:'spirits',  icon:'🥃', ml:40,  abv:40.0, name:{fi:'Viina 40ml',    sv:'Sprit 40ml',  en:'Spirit 40ml',   ru:'Водка 40мл',    et:'Viin 40ml'   }},
+  {id:'cider',    icon:'🍹', ml:330, abv:4.5,  name:{fi:'Siideri 330ml', sv:'Cider 330ml', en:'Cider 330ml',   ru:'Сидр 330мл',    et:'Siider 330ml'}},
+  {id:'longdrink',icon:'🥤', ml:330, abv:5.5,  name:{fi:'Long drink',    sv:'Long drink',  en:'Long drink',    ru:'Лонгдринк',     et:'Long drink'  }},
+];
+
+// ── Translations ───────────────────────────────────────────────────────────────
+const T = {
+  fi:{
+    mainTitle:'Promille\u00ADlaskuri', mainSub:'Veren alkoholipitoisuus promilleina',
+    genderLabel:'SUKUPUOLI', male:'♂ Mies', female:'♀ Nainen',
+    weightLbl:'Paino', drinksLbl:'Nautitut juomat',
+    hoursLbl:'Tuntia sitten aloitit', hoursUnit:'tuntia',
+    annLbl:'promillea (‰)',
+    chipSober:'Selvin päin', chipWarn:'Rattijuopumus', chipDanger:'Törkeä rattijuopumus',
+    chipDriveIn:'Voit ajaa', chipSoberIn:'Selvin päin',
+    tlSub:'AIKATAULU', tlTime:'Aika', tlBAC:'Promille',
+    tlNow:'Nyt', tlSober:'Selvin',
+    addCustom:'+ Lisää oma',
+    howTitle:'Kuinka käyttää?',
+    howSteps:[
+      'Valitse sukupuoli ja syötä paino.',
+      'Lisää juomat esiasetuksista.',
+      'Syötä kuinka monta tuntia sitten aloitit juomisen.',
+      'Promillet ja aikataulu näkyvät välittömästi.',
+    ],
+    calcTitle:'Miten promillet lasketaan?',
+    calcHTML:`
+      <h3>Widmarkin kaava</h3>
+      <p>Veren alkoholipitoisuus lasketaan kansainvälisesti tunnustetulla <strong>Widmarkin kaavalla</strong>:</p>
+      <p><code>BAC (‰) = A / (W × r) − β × t</code></p>
+      <ul>
+        <li><strong>A</strong> — alkoholin kokonaismäärä grammoina: maht (ml) × ABV% × 0,789</li>
+        <li><strong>W</strong> — ruumiinpaino kilogrammoina</li>
+        <li><strong>r</strong> — Widmarkin kerroin: <strong>0,70</strong> (mies) / <strong>0,60</strong> (nainen)</li>
+        <li><strong>β</strong> — eliminaationopeus: <strong>0,15 ‰/tunti</strong> (keskiarvo)</li>
+        <li><strong>t</strong> — kulunut aika tunteina</li>
+      </ul>
+      <h3>Suomen laki</h3>
+      <p>Rikoslaki 23 luku §3–4. <strong>Rattijuopumus</strong> ≥ 0,5 ‰: päiväsakkoja, ajokortin peruuttaminen, enintään 6 kuukautta vankeutta. <strong>Törkeä rattijuopumus</strong> ≥ 1,2 ‰: enintään 2 vuotta vankeutta.</p>
+      <h3>Esimerkki</h3>
+      <p>80 kg mies juo 500 ml olutta (5 %): A = 500 × 0,05 × 0,789 = <strong>19,7 g</strong>. BAC = 19,7 / (80 × 0,70) = <strong>0,35 ‰</strong> heti juomisen jälkeen. 1 tunnin kuluttua: 0,35 − 0,15 = <strong>0,20 ‰</strong>.</p>
+    `,
+    faqTitle:'Usein kysytyt kysymykset',
+    faqItems:[
+      {q:'Mikä on rattijuopumuksen raja Suomessa?',
+       a:'<p>0,5 ‰ on rattijuopumuksen raja. Törkeä rattijuopumus alkaa 1,2 ‰:stä.</p>'},
+      {q:'Milloin voin ajaa juomisen jälkeen?',
+       a:'<p>Keho poistaa alkoholia noin 0,15 ‰ tunnissa. Laskuri näyttää arvion, milloin promillesi laskee nollaan.</p>'},
+      {q:'Miksi tulokset eroavat miehille ja naisille?',
+       a:'<p>Widmarkin kerroin eroaa: miehillä 0,70, naisilla 0,60. Naisilla on keskimäärin vähemmän kehon vettä, joten alkoholi konsentroituu enemmän.</p>'},
+      {q:'Mitä rangaistuksia rattijuopumuksesta seuraa?',
+       a:'<p>Päiväsakkoja, ajokortin peruuttaminen, enintään 6 kuukautta vankeutta. Törkeästä rattijuopumuksesta enintään 2 vuotta vankeutta.</p>'},
+      {q:'Korvaako kahvi tai vesi alkoholin vaikutusta?',
+       a:'<p>Ei. Vain aika poistaa alkoholia elimistöstä. Kahvi saattaa tehdä virkeämmäksi, mutta ei nopeuta alkoholin poistumista.</p>'},
+    ],
+    sourcesTitle:'Lähteet',
+    sources:[
+      {name:'Liikenneturva — alkoholi liikenteessä',url:'https://www.liikenneturva.fi/ajankohtaista/teemat/rattijuopumus/'},
+      {name:'Poliisi — liikennevalvonta',url:'https://poliisi.fi/liikennevalvonta'},
+      {name:'Finlex — Rikoslaki 23 luku',url:'https://www.finlex.fi/fi/laki/ajantasa/1889/18890039001#L23'},
+    ],
+    disclaimerTitle:'Huomautus',
+    disclaimerText:'Itsenäinen laskuri tiedottamistarkoituksiin. Ei ole virallista oikeudellista neuvontaa.',
+    contactTitle:'Ota yhteyttä', contactText:'Kysymykset tai palaute?', contactBtn:'Kirjoita meille',
+    footer:'Kaikki oikeudet pidätetään.',
+  },
+  sv:{
+    mainTitle:'Promille\u00ADkalkylator', mainSub:'Blodalkoholhalt i promille',
+    genderLabel:'KÖN', male:'♂ Man', female:'♀ Kvinna',
+    weightLbl:'Vikt', drinksLbl:'Konsumerade drycker',
+    hoursLbl:'Timmar sedan du började', hoursUnit:'timmar',
+    annLbl:'promille (‰)',
+    chipSober:'Nykter', chipWarn:'Rattfylleri', chipDanger:'Grovt rattfylleri',
+    chipDriveIn:'Kan köra', chipSoberIn:'Nykter',
+    tlSub:'TIDTABELL', tlTime:'Tid', tlBAC:'Promille',
+    tlNow:'Nu', tlSober:'Nykter',
+    addCustom:'+ Lägg till egen',
+    howTitle:'Hur använder man?',
+    howSteps:[
+      'Välj kön och ange vikt.',
+      'Lägg till drycker från förinställningar.',
+      'Ange hur många timmar sedan du började dricka.',
+      'Promille och tidtabell visas direkt.',
+    ],
+    calcTitle:'Hur beräknas promillen?',
+    calcHTML:`
+      <h3>Widmarks formel</h3>
+      <p>Blodalkoholhalten beräknas med den internationellt erkända <strong>Widmarks formel</strong>:</p>
+      <p><code>BAC (‰) = A / (W × r) − β × t</code></p>
+      <ul>
+        <li><strong>A</strong> — alkohol i gram: volym (ml) × ABV% × 0,789</li>
+        <li><strong>W</strong> — kroppsvikt i kg</li>
+        <li><strong>r</strong> — Widmark-koefficient: <strong>0,70</strong> (man) / <strong>0,60</strong> (kvinna)</li>
+        <li><strong>β</strong> — eliminationshastighet: <strong>0,15 ‰/timme</strong> (genomsnitt)</li>
+        <li><strong>t</strong> — förfluten tid i timmar</li>
+      </ul>
+      <h3>Finlands lag</h3>
+      <p>Strafflagen kapitel 23 §3–4. <strong>Rattfylleri</strong> ≥ 0,5 ‰: dagsböter, körkortsindragning, upp till 6 månaders fängelse. <strong>Grovt rattfylleri</strong> ≥ 1,2 ‰: upp till 2 års fängelse.</p>
+      <h3>Exempel</h3>
+      <p>En 80 kg man dricker 500 ml öl (5 %): A = 500 × 0,05 × 0,789 = <strong>19,7 g</strong>. BAC = 19,7 / (80 × 0,70) = <strong>0,35 ‰</strong> direkt efter. Efter 1 timme: 0,35 − 0,15 = <strong>0,20 ‰</strong>.</p>
+    `,
+    faqTitle:'Vanliga frågor',
+    faqItems:[
+      {q:'Vad är gränsen för rattfylleri i Finland?',
+       a:'<p>0,5 ‰ är gränsen för rattfylleri. Grovt rattfylleri börjar vid 1,2 ‰.</p>'},
+      {q:'När kan jag köra efter att ha druckit?',
+       a:'<p>Kroppen bryter ner alkohol ca 0,15 ‰ per timme. Kalkylatorn visar en uppskattning av när promillen når noll.</p>'},
+      {q:'Varför skiljer sig resultaten för män och kvinnor?',
+       a:'<p>Widmark-koefficienten skiljer sig: män 0,70, kvinnor 0,60. Kvinnor har i genomsnitt mindre kroppsvatten.</p>'},
+      {q:'Vilka straff ger rattfylleri?',
+       a:'<p>Dagsböter, körkortsindragning, upp till 6 månaders fängelse. Grovt rattfylleri: upp till 2 års fängelse.</p>'},
+      {q:'Hjälper kaffe eller vatten?',
+       a:'<p>Nej. Bara tid bryter ner alkoholen. Kaffe kan göra dig piggare men påskyndar inte nedbrytningen.</p>'},
+    ],
+    sourcesTitle:'Källor',
+    sources:[
+      {name:'Liikenneturva — alkohol i trafiken',url:'https://www.liikenneturva.fi/ajankohtaista/teemat/rattijuopumus/'},
+      {name:'Polisen — trafikövervakning',url:'https://poliisi.fi/sv/trafikovervakning'},
+      {name:'Finlex — Strafflagen kap. 23',url:'https://www.finlex.fi/sv/laki/ajantasa/1889/18890039001#L23'},
+    ],
+    disclaimerTitle:'Anmärkning',
+    disclaimerText:'Oberoende kalkylator i informationssyfte. Utgör inte officiell juridisk rådgivning.',
+    contactTitle:'Kontakta oss', contactText:'Frågor eller feedback?', contactBtn:'Skriv till oss',
+    footer:'Alla rättigheter förbehållna.',
+  },
+  en:{
+    mainTitle:'Alcohol Calculator', mainSub:'Blood Alcohol Content (BAC) in promille',
+    genderLabel:'GENDER', male:'♂ Male', female:'♀ Female',
+    weightLbl:'Body weight', drinksLbl:'Drinks consumed',
+    hoursLbl:'Hours since first drink', hoursUnit:'hours',
+    annLbl:'promille (‰)',
+    chipSober:'Sober', chipWarn:'Drunk driving', chipDanger:'Aggravated DUI',
+    chipDriveIn:'Can drive in', chipSoberIn:'Sober in',
+    tlSub:'BAC TIMELINE', tlTime:'Time', tlBAC:'BAC (‰)',
+    tlNow:'Now', tlSober:'Sober',
+    addCustom:'+ Custom',
+    howTitle:'How to use',
+    howSteps:[
+      'Select gender and enter your body weight.',
+      'Add drinks using the presets.',
+      'Enter how many hours ago you started drinking.',
+      'BAC and timeline appear instantly.',
+    ],
+    calcTitle:'How is BAC calculated?',
+    calcHTML:`
+      <h3>Widmark formula</h3>
+      <p>Blood alcohol content is calculated using the internationally recognised <strong>Widmark formula</strong>:</p>
+      <p><code>BAC (‰) = A / (W × r) − β × t</code></p>
+      <ul>
+        <li><strong>A</strong> — alcohol in grams: volume (ml) × ABV% × 0.789</li>
+        <li><strong>W</strong> — body weight in kg</li>
+        <li><strong>r</strong> — Widmark factor: <strong>0.70</strong> (male) / <strong>0.60</strong> (female)</li>
+        <li><strong>β</strong> — elimination rate: <strong>0.15 ‰/hour</strong> (average)</li>
+        <li><strong>t</strong> — time elapsed in hours</li>
+      </ul>
+      <h3>Finnish law</h3>
+      <p>Under the Finnish Criminal Code (Rikoslaki) Chapter 23 §3–4, the legal BAC limit for drivers is <strong>0.5 ‰</strong> (drunk driving). At <strong>1.2 ‰</strong> or above it is classified as aggravated drunk driving. Penalties include day-fines, licence suspension, and up to 6 months in prison; aggravated: up to 2 years.</p>
+      <h3>Example</h3>
+      <p>An 80 kg male drinks 500 ml beer (5%): A = 500 × 0.05 × 0.789 = <strong>19.7 g</strong>. BAC = 19.7 / (80 × 0.70) = <strong>0.35 ‰</strong> immediately after. After 1 hour: 0.35 − 0.15 = <strong>0.20 ‰</strong>.</p>
+    `,
+    faqTitle:'Frequently asked questions',
+    faqItems:[
+      {q:'What is the drunk driving limit in Finland?',
+       a:'<p>The BAC limit is 0.5 ‰ (drunk driving). Aggravated drunk driving starts at 1.2 ‰.</p>'},
+      {q:'When can I drive after drinking?',
+       a:'<p>The body eliminates alcohol at about 0.15 ‰ per hour. The calculator shows an estimate of when your BAC reaches zero.</p>'},
+      {q:'Why are results different for men and women?',
+       a:'<p>Women generally have less body water and higher fat content, so alcohol concentrates more. The Widmark factor is 0.70 for men and 0.60 for women.</p>'},
+      {q:'What are the penalties for drunk driving in Finland?',
+       a:'<p>Day-fines, licence suspension, up to 6 months in prison. Aggravated drunk driving: up to 2 years in prison.</p>'},
+      {q:'Does coffee or water speed up sobering?',
+       a:'<p>No. Coffee makes you feel more alert but does not accelerate liver metabolism. The only way to sober up is time.</p>'},
+    ],
+    sourcesTitle:'Sources',
+    sources:[
+      {name:'Liikenneturva — alcohol and traffic',url:'https://www.liikenneturva.fi/ajankohtaista/teemat/rattijuopumus/'},
+      {name:'Finnish Police — traffic enforcement',url:'https://poliisi.fi/en/traffic-enforcement'},
+      {name:'Finlex — Criminal Code Chapter 23',url:'https://www.finlex.fi/fi/laki/ajantasa/1889/18890039001#L23'},
+    ],
+    disclaimerTitle:'Disclaimer',
+    disclaimerText:'Independent calculator for informational purposes. Not official legal advice.',
+    contactTitle:'Contact us', contactText:'Questions or feedback?', contactBtn:'Write to us',
+    footer:'All rights reserved.',
+  },
+  ru:{
+    mainTitle:'Калькулятор алкоголя', mainSub:'Содержание алкоголя в крови (промилле)',
+    genderLabel:'ПОЛ', male:'♂ Мужской', female:'♀ Женский',
+    weightLbl:'Масса тела', drinksLbl:'Выпитые напитки',
+    hoursLbl:'Часов назад начали пить', hoursUnit:'часов',
+    annLbl:'промилле (‰)',
+    chipSober:'Трезв', chipWarn:'Вождение в нетрезвом виде', chipDanger:'Тяжкое опьянение за рулём',
+    chipDriveIn:'За руль через', chipSoberIn:'Трезв через',
+    tlSub:'ГРАФИК BAC', tlTime:'Время', tlBAC:'Промилле (‰)',
+    tlNow:'Сейчас', tlSober:'Трезв',
+    addCustom:'+ Свой напиток',
+    howTitle:'Как пользоваться?',
+    howSteps:[
+      'Выберите пол и введите массу тела.',
+      'Добавьте напитки из предустановок.',
+      'Введите, сколько часов назад вы начали пить.',
+      'Промилле и график появятся мгновенно.',
+    ],
+    calcTitle:'Как рассчитываются промилле?',
+    calcHTML:`
+      <h3>Формула Видмарка</h3>
+      <p>Содержание алкоголя в крови рассчитывается по <strong>формуле Видмарка</strong>:</p>
+      <p><code>BAC (‰) = A / (W × r) − β × t</code></p>
+      <ul>
+        <li><strong>A</strong> — алкоголь в граммах: объём (мл) × ABV% × 0,789</li>
+        <li><strong>W</strong> — масса тела в кг</li>
+        <li><strong>r</strong> — коэффициент Видмарка: <strong>0,70</strong> (мужской) / <strong>0,60</strong> (женский)</li>
+        <li><strong>β</strong> — скорость элиминации: <strong>0,15 ‰/час</strong></li>
+        <li><strong>t</strong> — прошедшее время в часах</li>
+      </ul>
+      <h3>Закон Финляндии</h3>
+      <p>Уголовный кодекс Финляндии (Rikoslaki), глава 23, §3–4. <strong>Вождение в нетрезвом виде</strong> ≥ 0,5 ‰: дневные штрафы, лишение прав, до 6 месяцев лишения свободы. <strong>Тяжкое опьянение за рулём</strong> ≥ 1,2 ‰: до 2 лет лишения свободы.</p>
+    `,
+    faqTitle:'Часто задаваемые вопросы',
+    faqItems:[
+      {q:'Какой предел промилле для вождения в Финляндии?',
+       a:'<p>Предел — 0,5 ‰ (вождение в нетрезвом виде). Тяжкое опьянение за рулём начинается с 1,2 ‰.</p>'},
+      {q:'Когда можно сесть за руль после алкоголя?',
+       a:'<p>Организм выводит алкоголь со скоростью около 0,15 ‰ в час. Калькулятор показывает, когда промилле опустится до нуля.</p>'},
+      {q:'Почему результаты разные для мужчин и женщин?',
+       a:'<p>У женщин в среднем меньше воды в организме, поэтому алкоголь концентрируется сильнее. Коэффициент Видмарка: мужской 0,70, женский 0,60.</p>'},
+      {q:'Какие наказания за вождение в нетрезвом виде в Финляндии?',
+       a:'<p>Дневные штрафы, лишение прав, до 6 месяцев лишения свободы. Тяжкое опьянение: до 2 лет лишения свободы.</p>'},
+      {q:'Помогает ли кофе или вода?',
+       a:'<p>Нет. Только время выводит алкоголь из организма. Кофе может придать бодрости, но не ускоряет вывод алкоголя.</p>'},
+    ],
+    sourcesTitle:'Источники',
+    sources:[
+      {name:'Liikenneturva — алкоголь и дорожное движение',url:'https://www.liikenneturva.fi/ajankohtaista/teemat/rattijuopumus/'},
+      {name:'Полиция Финляндии — контроль дорожного движения',url:'https://poliisi.fi/liikennevalvonta'},
+      {name:'Finlex — Уголовный кодекс, глава 23',url:'https://www.finlex.fi/fi/laki/ajantasa/1889/18890039001#L23'},
+    ],
+    disclaimerTitle:'Предупреждение',
+    disclaimerText:'Независимый калькулятор в информационных целях. Не является официальной юридической консультацией.',
+    contactTitle:'Связаться', contactText:'Вопросы или отзывы?', contactBtn:'Написать нам',
+    footer:'Все права защищены.',
+  },
+  et:{
+    mainTitle:'Alkoholi\u00ADkalkulaator', mainSub:'Vere alkoholisisaldus promillides',
+    genderLabel:'SUGU', male:'♂ Mees', female:'♀ Naine',
+    weightLbl:'Kehakaal', drinksLbl:'Tarbitud joogid',
+    hoursLbl:'Tunde tagasi alustasid', hoursUnit:'tundi',
+    annLbl:'promilli (‰)',
+    chipSober:'Kaine', chipWarn:'Joobes juhtimine', chipDanger:'Raske joobes juhtimine',
+    chipDriveIn:'Rooli saab', chipSoberIn:'Kaine',
+    tlSub:'BAC AJAGRAAFIK', tlTime:'Aeg', tlBAC:'Promillid',
+    tlNow:'Praegu', tlSober:'Kaine',
+    addCustom:'+ Kohandatud',
+    howTitle:'Kuidas kasutada?',
+    howSteps:[
+      'Vali sugu ja sisesta kehakaal.',
+      'Lisa tarbitud joogid eelseadistuste abil.',
+      'Sisesta mitu tundi tagasi alustasid joomist.',
+      'Promillid ja ajagraafik ilmuvad koheselt.',
+    ],
+    calcTitle:'Kuidas promillid arvutatakse?',
+    calcHTML:`
+      <h3>Widmarti valem</h3>
+      <p>Vere alkoholisisaldus (BAC) arvutatakse rahvusvaheliselt tunnustatud <strong>Widmarti valemi</strong> järgi:</p>
+      <p><code>BAC (‰) = A / (W × r) − β × t</code></p>
+      <ul>
+        <li><strong>A</strong> — alkoholi kogus grammides: maht (ml) × ABV% × 0,789</li>
+        <li><strong>W</strong> — kehakaal kilogrammides</li>
+        <li><strong>r</strong> — Widmarti koefitsient: <strong>0,70</strong> (mees) / <strong>0,60</strong> (naine)</li>
+        <li><strong>β</strong> — eliminatsiooni kiirus: <strong>0,15 ‰/tund</strong> (keskmine)</li>
+        <li><strong>t</strong> — kulunud aeg tundides</li>
+      </ul>
+      <h3>Soome seadus</h3>
+      <p>Soome karistusseadustik (Rikoslaki) 23. peatükk §3–4. <strong>Joobes juhtimine</strong> ≥ 0,5 ‰: päevatrahvid, juhiloa äravõtmine, kuni 6 kuud vangistust. <strong>Raske joobes juhtimine</strong> ≥ 1,2 ‰: kuni 2 aastat vangistust.</p>
+      <h3>Näide</h3>
+      <p>80 kg mees joob 500 ml õlut (5%): A = 500 × 0,05 × 0,789 = <strong>19,7 g</strong>. BAC = 19,7 / (80 × 0,70) = <strong>0,35 ‰</strong> kohe pärast joomist. 1 tunni pärast: 0,35 − 0,15 = <strong>0,20 ‰</strong>.</p>
+    `,
+    faqTitle:'Korduma kippuvad küsimused',
+    faqItems:[
+      {q:'Mis on joobes juhtimise piir Soomes?',
+       a:'<p>0,5 ‰ on joobes juhtimise piir. Raske joobes juhtimine algab 1,2 ‰-st.</p>'},
+      {q:'Millal saan pärast alkoholi tarbimist rooli istuda?',
+       a:'<p>Keha lagundab alkoholi keskmiselt 0,15 ‰ tunnis. Kalkulaator näitab, millal promillid langevad nullini.</p>'},
+      {q:'Miks on mehe ja naise tulemused erinevad?',
+       a:'<p>Naistel on keskmiselt vähem kehavett ja kõrgem rasvasisaldus. Widmarti koefitsient on meestel 0,70 ja naistel 0,60.</p>'},
+      {q:'Millised on karistused joobes juhtimise eest Soomes?',
+       a:'<p>Päevatrahvid, juhiloa äravõtmine, kuni 6 kuud vangistust. Raske joobes juhtimine: kuni 2 aastat vangistust.</p>'},
+      {q:'Kas kohv või vesi kiirendavad kainestumist?',
+       a:'<p>Ei. Ainuke kainestumise viis on aeg. Kohv muudab sind ärksamaks, kuid ei kiirenda alkoholi lagundamist.</p>'},
+    ],
+    sourcesTitle:'Allikad',
+    sources:[
+      {name:'Liikenneturva — alkohol liikluses',url:'https://www.liikenneturva.fi/ajankohtaista/teemat/rattijuopumus/'},
+      {name:'Soome politsei — liiklusjärelevalve',url:'https://poliisi.fi/liikennevalvonta'},
+      {name:'Finlex — Karistusseadustik 23. peatükk',url:'https://www.finlex.fi/fi/laki/ajantasa/1889/18890039001#L23'},
+    ],
+    disclaimerTitle:'Teadaanne',
+    disclaimerText:'Sõltumatu kalkulaator informatiivsel eesmärgil. Ei ole ametlik õigusnõuanne.',
+    contactTitle:'Võta ühendust', contactText:'Küsimused või tagasiside?', contactBtn:'Kirjuta meile',
+    footer:'Kõik õigused kaitstud.',
+  },
+};
+
+function t(){ return T[lang]||T.fi; }
+
+// ── Lang & Gender ──────────────────────────────────────────────────────────────
+function getLangFromPath() {
+  const m = window.location.pathname.match(/\/(sv|en|ru|et)(\/|$)/);
+  return m ? m[1] : 'fi';
+}
+function setLang(l, pushState){
+  lang = l;
+  ['FI','SV','EN','RU','ET'].forEach(x=>document.getElementById('btn'+x).classList.toggle('active',x.toLowerCase()===l));
+  if (pushState !== false) {
+    const base = window.location.pathname.replace(/\/(sv|en|ru|et)(\/|$)/, '/');
+    const newPath = l === 'fi' ? base : base.replace(/\/$/, '') + '/' + l + '/';
+    history.pushState(null, '', newPath);
+  }
+  applyLang(); renderPresets(); renderDrinks(); calc();
+}
+
+function setGender(g){
+  gender = g;
+  document.getElementById('btnMale').classList.toggle('active', g==='m');
+  document.getElementById('btnFemale').classList.toggle('active', g==='f');
+  calc();
+}
+
+function applyLang(){
+  const tr = t();
+  const s = (id,txt)=>{ const el=document.getElementById(id); if(el) el.textContent=txt; };
+  s('mainTitle',  tr.mainTitle);  s('mainSub',    tr.mainSub);
+  s('genderLabel',tr.genderLabel);
+  document.getElementById('btnMale').textContent   = tr.male;
+  document.getElementById('btnFemale').textContent = tr.female;
+  s('weightLbl',  tr.weightLbl);  s('drinksLbl',  tr.drinksLbl);
+  s('hoursLbl',   tr.hoursLbl);   s('hoursUnit',  tr.hoursUnit);
+  s('annLbl',     tr.annLbl);
+  s('howTitle',   tr.howTitle);   s('calcTitle',  tr.calcTitle);
+  s('faqTitle',   tr.faqTitle);   s('sourcesTitle',tr.sourcesTitle);
+  s('disclaimerTitle',tr.disclaimerTitle); s('disclaimerText',tr.disclaimerText);
+  s('contactTitle',tr.contactTitle); s('contactText',tr.contactText);
+  s('contactBtn', tr.contactBtn);
+  s('footerText', '© ' + new Date().getFullYear() + '. ' + tr.footer);
+
+  // How-steps
+  document.getElementById('howSteps').innerHTML =
+    tr.howSteps.map((step,i)=>`<li><span class="step-badge" id="stepBadge${i}">${i+1}</span><span>${step}</span></li>`).join('');
+
+  // Calc content
+  document.getElementById('calcContent').innerHTML = tr.calcHTML;
+
+  // FAQ
+  document.getElementById('faqList').innerHTML = tr.faqItems.map((item,i)=>`
+    <div class="faq-item" id="faq-${i}">
+      <button class="faq-q" onclick="toggleFaq(${i})" aria-expanded="false">
+        <span>${item.q}</span><span class="faq-toggle">+</span>
+      </button>
+      <div class="faq-a">${item.a}</div>
+    </div>`).join('');
+
+  // Sources
+  document.getElementById('sourcesList').innerHTML =
+    tr.sources.map(s=>`<li><a href="${s.url}" target="_blank" rel="noopener">${s.name}</a></li>`).join('');
+}
+
+// ── Presets ────────────────────────────────────────────────────────────────────
+function renderPresets(){
+  const tr = t();
+  document.getElementById('drinkPresets').innerHTML =
+    PRESETS.map(p=>`<button class="preset-btn" onclick="addPreset('${p.id}')">${p.icon} ${p.name[lang]||p.name.fi}</button>`).join('') +
+    `<button class="preset-btn" onclick="addCustom()">➕ ${tr.addCustom.replace(/^\+\s*/,'')}</button>`;
+}
+
+// ── Drink list ─────────────────────────────────────────────────────────────────
+function addPreset(pid){
+  const p = PRESETS.find(x=>x.id===pid);
+  if(!p) return;
+  drinks.push({uid:++uid, icon:p.icon, name:p.name[lang]||p.name.fi, ml:p.ml, abv:p.abv, qty:1});
+  renderDrinks(); calc();
+}
+function addCustom(){
+  drinks.push({uid:++uid, icon:'🍶', name:'Custom', ml:100, abv:5.0, qty:1});
+  renderDrinks(); calc();
+}
+function removeDrink(id){
+  drinks = drinks.filter(d=>d.uid!==id);
+  renderDrinks(); calc();
+}
+function updateDrink(id, field, val){
+  const d = drinks.find(x=>x.uid===id);
+  if(d){ d[field]=field==='qty'?Math.max(1,parseInt(val)||1):parseFloat(val)||0; refreshGrams(d); }
+  calc();
+}
+function grams(d){ return (d.qty||1)*d.ml*(d.abv/100)*0.789; }
+function refreshGrams(d){
+  const el=document.getElementById('g-'+d.uid);
+  if(el) el.textContent=grams(d).toFixed(1)+'g';
+}
+
+function renderDrinks(){
+  const list = document.getElementById('drinksList');
+  list.innerHTML = drinks.map(d=>`
+    <div class="drink-card">
+      <span class="drink-icon">${d.icon}</span>
+      <span class="drink-name">${d.name}</span>
+      <input class="drink-inp drink-qty" type="number" value="${d.qty||1}" min="1" max="50"
+        onchange="updateDrink(${d.uid},'qty',this.value)" title="×">
+      <span class="drink-unit">×</span>
+      <input class="drink-inp" type="number" value="${d.ml}" min="1" max="2000" step="10"
+        onchange="updateDrink(${d.uid},'ml',this.value)" title="ml">
+      <span class="drink-unit">ml</span>
+      <input class="drink-inp" type="number" value="${d.abv}" min="0.5" max="96" step="0.5"
+        onchange="updateDrink(${d.uid},'abv',this.value)" title="%">
+      <span class="drink-unit">%</span>
+      <span class="drink-grams" id="g-${d.uid}">${grams(d).toFixed(1)}g</span>
+      <button class="drink-rm" onclick="removeDrink(${d.uid})">×</button>
+    </div>`).join('');
+}
+
+// ── BAC ────────────────────────────────────────────────────────────────────────
+function calcBAC(w, g, ds, h){
+  const r=g==='m'?0.70:0.60, beta=0.15;
+  const totalG = ds.reduce((s,d)=>s+grams(d),0);
+  if(totalG<=0||w<=0) return {bac:0,totalG:0};
+  const raw = totalG/(w*r);
+  return {bac:Math.max(0,raw-beta*h), raw, totalG, r};
+}
+
+function fmtTime(h){
+  if(h<=0) return '0 min';
+  const hrs=Math.floor(h), mins=Math.round((h-hrs)*60);
+  if(hrs===0) return mins+'min';
+  if(mins===0) return hrs+'h';
+  return hrs+'h '+mins+'min';
+}
+function fmtBac(v){ return v.toFixed(2).replace('.',','); }
+
+// ── Dots ───────────────────────────────────────────────────────────────────────
+function updateDots(){
+  const w=parseFloat(document.getElementById('iWeight').value)||0;
+  const h=document.getElementById('iHours').value;
+  const set=(id,ok)=>{const el=document.getElementById(id);if(el)el.classList.toggle('ok',ok);};
+  const s1=w>=30&&w<=250, s2=drinks.length>0, s3=h!==''&&parseFloat(h)>=0;
+  set('dotWeight', s1);
+  set('dotDrinks', s2);
+  set('dotHours',  s3);
+  set('stepBadge0', s1);
+  set('stepBadge1', s2);
+  set('stepBadge2', s3);
+  set('stepBadge3', s1&&s2&&s3);
+  // Green connecting lines
+  const steps = document.querySelectorAll('.how-steps li');
+  const done = [s1, s2, s3, s1&&s2&&s3];
+  steps.forEach((li,i) => li.classList.toggle('step-done', !!done[i]));
+}
+
+// ── Clear ──────────────────────────────────────────────────────────────────────
+function clearResult(){
+  const el=document.getElementById('annNum');
+  el.textContent='—'; el.classList.add('e');
+  document.getElementById('annChips').innerHTML='';
+  document.getElementById('annCell').className='c-ann';
+  document.getElementById('tmlCard').style.display='none';
+  updateDots();
+}
+
+// ── Calc ───────────────────────────────────────────────────────────────────────
+function calc(){
+  const tr = t();
+  const w  = parseFloat(document.getElementById('iWeight').value)||0;
+  const h  = parseFloat(document.getElementById('iHours').value)||0;
+  updateDots();
+  if(w<30||drinks.length===0){ clearResult(); return; }
+
+  const {bac, totalG} = calcBAC(w, gender, drinks, h);
+  const beta = 0.15;
+
+  // Ann number
+  const numEl = document.getElementById('annNum');
+  numEl.textContent = fmtBac(bac);
+  numEl.classList.remove('e');
+
+  // Ann cell color
+  const cell = document.getElementById('annCell');
+  cell.className = 'c-ann' + (bac>=1.2?' st-danger': bac>=0.5?' st-warn':'');
+
+  // Chips
+  const chips=[];
+  if(bac<0.5){
+    chips.push(`<span class="chip chip-green">✓ ${tr.chipSober}</span>`);
+  } else if(bac<1.2){
+    chips.push(`<span class="chip chip-orange">⚠ ${tr.chipWarn}</span>`);
+    chips.push(`<span class="chip chip-orange">🚗 ${tr.chipDriveIn}: ${fmtTime(bac/beta)}</span>`);
+  } else {
+    chips.push(`<span class="chip chip-red">🚫 ${tr.chipDanger}</span>`);
+    chips.push(`<span class="chip chip-orange">🚗 ${tr.chipDriveIn}: ${fmtTime(bac/beta)}</span>`);
+  }
+  if(bac>0){
+    chips.push(`<span class="chip">⏱ ${tr.chipSoberIn}: ${fmtTime(bac/beta)}</span>`);
+  }
+  chips.push(`<span class="chip">${totalG.toFixed(1)}g EtOH</span>`);
+  document.getElementById('annChips').innerHTML = chips.join('');
+
+  // Timeline
+  renderTimeline(bac, beta, tr);
+}
+
+function renderTimeline(bac, beta, tr){
+  const card = document.getElementById('tmlCard');
+  card.style.display = 'block';
+  document.getElementById('tlSub').textContent = tr.tlSub;
+
+  const maxH = Math.min(Math.ceil(bac/beta)+1, 14);
+  const rows = [{label:tr.tlNow, bac, now:true}];
+  for(let i=1;i<=maxH;i++){
+    const fb = Math.max(0,bac-beta*i);
+    rows.push({label:'+'+i+'h', bac:fb});
+    if(fb===0) break;
+  }
+
+  document.getElementById('tlContainer').innerHTML = `
+    <table class="tml-table">
+      <thead><tr><th>${tr.tlTime}</th><th></th><th>${tr.tlBAC}</th></tr></thead>
+      <tbody>${rows.map(r=>{
+        const lvl = r.bac>=1.2?'danger':r.bac>=0.5?'warn':'safe';
+        const w   = bac>0?Math.round((r.bac/bac)*100):0;
+        const val = r.bac===0?`<span style="color:#34c759">${tr.tlSober}</span>`:fmtBac(r.bac)+' ‰';
+        return `<tr class="${r.now?'tml-now':''}">
+          <td>${r.label}</td>
+          <td><div class="bar-wrap"><div class="bar ${lvl}" style="width:${w}px"></div></div></td>
+          <td>${val}</td>
+        </tr>`;
+      }).join('')}</tbody>
+    </table>`;
+}
+
+// ── FAQ ────────────────────────────────────────────────────────────────────────
+function toggleFaq(i){
+  const item=document.getElementById('faq-'+i);
+  item.classList.toggle('open');
+  item.querySelector('.faq-q').setAttribute('aria-expanded',item.classList.contains('open'));
+}
+
+// ── Theme ──────────────────────────────────────────────────────────────────────
+function isDark(){
+  const saved = localStorage.getItem('theme');
+  if(saved) return saved==='dark';
+  return window.matchMedia('(prefers-color-scheme:dark)').matches;
+}
+function applyTheme(dark){
+  document.documentElement.setAttribute('data-theme', dark?'dark':'light');
+  document.getElementById('themeBtn').textContent = dark?'☀️':'🌙';
+}
+function toggleTheme(){
+  const nowDark = document.documentElement.getAttribute('data-theme')==='dark';
+  localStorage.setItem('theme', nowDark?'light':'dark');
+  applyTheme(!nowDark);
+}
+
+// ── Init ───────────────────────────────────────────────────────────────────────
+(function(){
+  applyTheme(isDark());
+  setLang(getLangFromPath(), false);
+  window.addEventListener('popstate', () => setLang(getLangFromPath(), false));
+})();
+</script>
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"WebApplication",
+  "name":"Promillelaskuri",
+  "url":"https://alkoholi-laskuri.fi",
+  "description":"Ilmainen promillelaskuri: laske veren alkoholipitoisuus (promillet) Widmarkin kaavalla.",
+  "applicationCategory":"HealthApplication",
+  "operatingSystem":"Any",
+  "inLanguage":["fi","sv","en","ru","et"],
+  "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"}
+}
+</script>
+</body>
+</html>

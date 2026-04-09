@@ -5,7 +5,12 @@
 
 set -e
 
-LANGS="en ru fi"
+get_langs() {
+  case "$1" in
+    alkoholi-laskuri) echo "sv en ru et" ;;
+    *)                echo "en ru fi" ;;
+  esac
+}
 
 deploy_calc() {
   local dir="$1"
@@ -13,17 +18,19 @@ deploy_calc() {
     echo "Skip $dir (no index.html)"
     return
   fi
-  for lang in $LANGS; do
+  local langs=$(get_langs "$dir")
+  for lang in $langs; do
     mkdir -p "$dir/$lang"
     cp "$dir/index.html" "$dir/$lang/index.html"
   done
-  echo "Deployed $dir -> $LANGS"
+  echo "Deployed $dir -> $langs"
 }
 
 if [ -n "$1" ]; then
   deploy_calc "$1"
 else
   for dir in */; do
+    dir="${dir%/}"
     [ -f "$dir/index.html" ] && deploy_calc "$dir"
   done
 fi
