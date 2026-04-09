@@ -740,7 +740,7 @@ function addPreset(pid){
   renderDrinks(); calc();
 }
 function addCustom(){
-  drinks.push({uid:++uid, icon:'🍶', name:'Custom', ml:100, abv:5.0, qty:1});
+  drinks.push({uid:++uid, icon:'🍶', name:t().addCustom.replace(/^\+\s*/,''), ml:100, abv:5.0, qty:1});
   renderDrinks(); calc();
 }
 function removeDrink(id){
