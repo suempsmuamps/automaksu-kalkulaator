@@ -400,6 +400,7 @@ const ICO={
   ban:_i('<circle cx="12" cy="12" r="10"/><path d="M4.93 4.93l14.14 14.14"/>'),
   clock:_i('<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>'),
   plus:_i('<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>'),
+  phone:_i('<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>'),
 };
 
 // ── Drink presets ──────────────────────────────────────────────────────────────
@@ -420,7 +421,7 @@ const T = {
     weightLbl:'Paino', drinksLbl:'Nautitut juomat',
     hoursLbl:'Tuntia sitten aloitit', hoursUnit:'tuntia',
     annLbl:'promillea (‰)',
-    chipSober:'Selvin päin', chipWarn:'Rattijuopumus', chipDanger:'Törkeä rattijuopumus',
+    chipSober:'Selvin päin', chipWarn:'Rattijuopumus', chipDanger:'Törkeä rattijuopumus', chipEmergency:'Hengenvaarallista! Soita 112',
     chipDriveIn:'Voit ajaa', chipSoberIn:'Selvin päin',
     tlSub:'AIKATAULU', tlTime:'Aika', tlBAC:'Promille',
     tlNow:'Nyt', tlSober:'Selvin',
@@ -479,7 +480,7 @@ const T = {
     weightLbl:'Vikt', drinksLbl:'Konsumerade drycker',
     hoursLbl:'Timmar sedan du började', hoursUnit:'timmar',
     annLbl:'promille (‰)',
-    chipSober:'Nykter', chipWarn:'Rattfylleri', chipDanger:'Grovt rattfylleri',
+    chipSober:'Nykter', chipWarn:'Rattfylleri', chipDanger:'Grovt rattfylleri', chipEmergency:'Livshotande! Ring 112',
     chipDriveIn:'Kan köra', chipSoberIn:'Nykter',
     tlSub:'TIDTABELL', tlTime:'Tid', tlBAC:'Promille',
     tlNow:'Nu', tlSober:'Nykter',
@@ -538,7 +539,7 @@ const T = {
     weightLbl:'Body weight', drinksLbl:'Drinks consumed',
     hoursLbl:'Hours since first drink', hoursUnit:'hours',
     annLbl:'promille (‰)',
-    chipSober:'Sober', chipWarn:'Drunk driving', chipDanger:'Aggravated DUI',
+    chipSober:'Sober', chipWarn:'Drunk driving', chipDanger:'Aggravated DUI', chipEmergency:'Life-threatening! Call 112',
     chipDriveIn:'Can drive in', chipSoberIn:'Sober in',
     tlSub:'BAC TIMELINE', tlTime:'Time', tlBAC:'BAC (‰)',
     tlNow:'Now', tlSober:'Sober',
@@ -597,7 +598,7 @@ const T = {
     weightLbl:'Масса тела', drinksLbl:'Выпитые напитки',
     hoursLbl:'Часов назад начали пить', hoursUnit:'часов',
     annLbl:'промилле (‰)',
-    chipSober:'Трезв', chipWarn:'Вождение в нетрезвом виде', chipDanger:'Тяжкое опьянение за рулём',
+    chipSober:'Трезв', chipWarn:'Вождение в нетрезвом виде', chipDanger:'Тяжкое опьянение за рулём', chipEmergency:'Опасно для жизни! Звоните 112',
     chipDriveIn:'За руль через', chipSoberIn:'Трезв через',
     tlSub:'ГРАФИК BAC', tlTime:'Время', tlBAC:'Промилле (‰)',
     tlNow:'Сейчас', tlSober:'Трезв',
@@ -654,7 +655,7 @@ const T = {
     weightLbl:'Kehakaal', drinksLbl:'Tarbitud joogid',
     hoursLbl:'Tunde tagasi alustasid', hoursUnit:'tundi',
     annLbl:'promilli (‰)',
-    chipSober:'Kaine', chipWarn:'Joobes juhtimine', chipDanger:'Raske joobes juhtimine',
+    chipSober:'Kaine', chipWarn:'Joobes juhtimine', chipDanger:'Raske joobes juhtimine', chipEmergency:'Eluohtlik! Helista 112',
     chipDriveIn:'Rooli saab', chipSoberIn:'Kaine',
     tlSub:'BAC AJAGRAAFIK', tlTime:'Aeg', tlBAC:'Promillid',
     tlNow:'Praegu', tlSober:'Kaine',
@@ -922,6 +923,10 @@ function calc(){
   } else {
     chips.push(`<span class="chip chip-red">${ICO.ban} ${tr.chipDanger}</span>`);
     chips.push(`<span class="chip chip-orange">${ICO.car} ${tr.chipDriveIn}: ${fmtTime(bac/beta)}</span>`);
+  }
+  if(bac>=3.0){
+    chips.push(`<span class="chip chip-red" style="animation:none">${ICO.alert} ${tr.chipEmergency}</span>`);
+    chips.push(`<a href="tel:112" class="chip chip-red" style="animation:none;text-decoration:none;font-weight:700">${ICO.phone||'☎'} 112</a>`);
   }
   if(bac>0){
     chips.push(`<span class="chip">${ICO.clock} ${tr.chipSoberIn}: ${fmtTime(bac/beta)}</span>`);
