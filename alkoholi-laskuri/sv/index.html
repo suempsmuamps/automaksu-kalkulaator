@@ -104,6 +104,9 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
 .preset-btn:hover{opacity:.85}
 .preset-btn{display:flex;align-items:center;gap:5px;background:var(--bg);border:2px solid transparent;border-radius:20px;padding:7px 13px;font-size:.85rem;font-weight:500;color:var(--label);cursor:pointer;font-family:var(--font);transition:.15s;white-space:nowrap;-webkit-tap-highlight-color:transparent}
 .preset-btn:active{transform:scale(.95);opacity:.8}
+.reset-calc-btn{width:100%;padding:10px;border:1px solid var(--sep);border-radius:10px;background:none;color:var(--label3);font-family:var(--font);font-size:.84rem;font-weight:500;cursor:pointer;transition:opacity .15s;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:8px}
+.reset-calc-btn:hover{opacity:.85}
+.reset-calc-btn svg{width:16px;height:16px}
 .drinks-list{display:flex;flex-direction:column;gap:6px}
 .drink-card{display:flex;flex-direction:column;gap:6px;background:var(--bg);border-radius:10px;padding:8px 10px}
 .drink-top{display:flex;align-items:center;gap:7px}
@@ -332,6 +335,8 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
       </div>
     </div>
 
+    <button class="reset-calc-btn" id="resetBtn" onclick="resetCalc()"></button>
+
   </section>
 
   <!-- Bento -->
@@ -447,7 +452,7 @@ const T = {
     annLbl:'promillea (‰)',
     chipSober:'Selvin päin', chipCaution:'Alkoholia veressä', chipWarn:'Rattijuopumus', chipDanger:'Törkeä rattijuopumus', chipEmergency:'Hengenvaarallista! Soita 112',
     tlShow:'Näytä aikataulu', tlHide:'Piilota aikataulu', tlRows:'riviä',
-    shareCopied:'Linkki kopioitu!', emergencyText:'Hengenvaarallinen taso!', emergencyCall:'Soita 112',
+    shareCopied:'Linkki kopioitu!', emergencyText:'Hengenvaarallinen taso!', emergencyCall:'Soita 112', resetBtn:'Aloita alusta',
     chipDriveIn:'Voit ajaa', chipSoberIn:'Selvin päin',
     tlSub:'AIKATAULU', tlTime:'Aika', tlBAC:'Promille',
     tlNow:'Nyt', tlSober:'Selvin',
@@ -508,7 +513,7 @@ const T = {
     annLbl:'promille (‰)',
     chipSober:'Nykter', chipCaution:'Alkohol i blodet', chipWarn:'Rattfylleri', chipDanger:'Grovt rattfylleri', chipEmergency:'Livshotande! Ring 112',
     tlShow:'Visa tidslinje', tlHide:'Dölj tidslinje', tlRows:'rader',
-    shareCopied:'Länk kopierad!', emergencyText:'Livshotande nivå!', emergencyCall:'Ring 112',
+    shareCopied:'Länk kopierad!', emergencyText:'Livshotande nivå!', emergencyCall:'Ring 112', resetBtn:'Börja om',
     chipDriveIn:'Kan köra', chipSoberIn:'Nykter',
     tlSub:'TIDTABELL', tlTime:'Tid', tlBAC:'Promille',
     tlNow:'Nu', tlSober:'Nykter',
@@ -569,7 +574,7 @@ const T = {
     annLbl:'promille (‰)',
     chipSober:'Sober', chipCaution:'Alcohol detected', chipWarn:'Drunk driving', chipDanger:'Aggravated DUI', chipEmergency:'Life-threatening! Call 112',
     tlShow:'Show timeline', tlHide:'Hide timeline', tlRows:'rows',
-    shareCopied:'Link copied!', emergencyText:'Life-threatening level!', emergencyCall:'Call 112',
+    shareCopied:'Link copied!', emergencyText:'Life-threatening level!', emergencyCall:'Call 112', resetBtn:'Start over',
     chipDriveIn:'Can drive in', chipSoberIn:'Sober in',
     tlSub:'BAC TIMELINE', tlTime:'Time', tlBAC:'BAC (‰)',
     tlNow:'Now', tlSober:'Sober',
@@ -630,7 +635,7 @@ const T = {
     annLbl:'промилле (‰)',
     chipSober:'Трезв', chipCaution:'Алкоголь в крови', chipWarn:'Вождение в нетрезвом виде', chipDanger:'Тяжкое опьянение за рулём', chipEmergency:'Опасно для жизни! Звоните 112',
     tlShow:'Показать график', tlHide:'Скрыть график', tlRows:'строк',
-    shareCopied:'Ссылка скопирована!', emergencyText:'Опасный для жизни уровень!', emergencyCall:'Звоните 112',
+    shareCopied:'Ссылка скопирована!', emergencyText:'Опасный для жизни уровень!', emergencyCall:'Звоните 112', resetBtn:'Начать заново',
     chipDriveIn:'За руль через', chipSoberIn:'Трезв через',
     tlSub:'ГРАФИК BAC', tlTime:'Время', tlBAC:'Промилле (‰)',
     tlNow:'Сейчас', tlSober:'Трезв',
@@ -689,7 +694,7 @@ const T = {
     annLbl:'promilli (‰)',
     chipSober:'Kaine', chipCaution:'Alkohol veres', chipWarn:'Joobes juhtimine', chipDanger:'Raske joobes juhtimine', chipEmergency:'Eluohtlik! Helista 112',
     tlShow:'Näita ajagraafikut', tlHide:'Peida ajagraafik', tlRows:'rida',
-    shareCopied:'Link kopeeritud!', emergencyText:'Eluohtlik tase!', emergencyCall:'Helista 112',
+    shareCopied:'Link kopeeritud!', emergencyText:'Eluohtlik tase!', emergencyCall:'Helista 112', resetBtn:'Alusta uuesti',
     chipDriveIn:'Rooli saab', chipSoberIn:'Kaine',
     tlSub:'BAC AJAGRAAFIK', tlTime:'Aeg', tlBAC:'Promillid',
     tlNow:'Praegu', tlSober:'Kaine',
@@ -785,6 +790,7 @@ function applyLang(){
   s('disclaimerTitle',tr.disclaimerTitle); s('disclaimerText',tr.disclaimerText);
   s('contactTitle',tr.contactTitle); s('contactText',tr.contactText);
   s('contactBtn', tr.contactBtn);
+  document.getElementById('resetBtn').innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9"/><polyline points="3 3 3 7 7 7"/></svg>' + tr.resetBtn;
   s('footerText', '© ' + new Date().getFullYear() + '. ' + tr.footer);
 
   // How-steps
@@ -931,6 +937,15 @@ function clearResult(){
   stateToURL();
 }
 
+function resetCalc(){
+  document.getElementById('iWeight').value='';
+  document.getElementById('iHours').value='';
+  drinks.length=0;
+  gender='m'; setGender('m');
+  renderDrinks(); clearResult();
+  history.replaceState(null,'',window.location.pathname);
+}
+
 // ── Calc ───────────────────────────────────────────────────────────────────────
 function calc(){
   const tr = t();
@@ -1046,7 +1061,8 @@ function toggleTheme(){
 }
 
 // ── URL State ─────────────────────────────────────────────────────────────────
-function stateToURL(){
+var _initDone=false;
+function stateToURL(){if(!_initDone)return;
   const p = new URLSearchParams();
   if(gender!=='m') p.set('g',gender);
   const w=document.getElementById('iWeight').value; if(w) p.set('w',w);
@@ -1086,7 +1102,7 @@ function loadFromURL(){
 (function(){
   applyTheme(isDark());
   setLang(getLangFromPath(), false);
-  loadFromURL();
+  loadFromURL();_initDone=true;
   window.addEventListener('popstate', () => setLang(getLangFromPath(), false));
 
   // Share button
@@ -1273,7 +1289,9 @@ html.a11y-high-contrast .chip-green,html.a11y-high-contrast .chip-orange,html.a1
 html.a11y-high-contrast .bar.safe,html.a11y-high-contrast .bar.warn,html.a11y-high-contrast .bar.danger{background:var(--label)!important}
 html.a11y-high-contrast .tml-table td{border:2px solid var(--label)!important}
 html.a11y-high-contrast .c-ann,html.a11y-high-contrast .c-ann.st-yellow{background:linear-gradient(135deg,#1a1a00 0%,#2d2d00 40%,#3a3a00 100%)}
-.c-ann.st-warn,html.a11y-high-contrast .c-ann.st-danger{background:var(--bg)!important;border:2px solid var(--label)!important}
+html.a11y-high-contrast[data-theme="light"] .c-ann,html.a11y-high-contrast[data-theme="light"] .c-ann.st-yellow{background:var(--bg)!important;border:2px solid var(--label)!important}
+@media(prefers-color-scheme:light){html.a11y-high-contrast:not([data-theme="dark"]) .c-ann,html.a11y-high-contrast:not([data-theme="dark"]) .c-ann.st-yellow{background:var(--bg)!important;border:2px solid var(--label)!important}}
+html.a11y-high-contrast .c-ann.st-warn,html.a11y-high-contrast .c-ann.st-danger{background:var(--bg)!important;border:2px solid var(--label)!important}
 html.a11y-high-contrast .c-ann::before{display:none!important}
 html.a11y-high-contrast .ann-num{color:var(--label)!important}
 html.a11y-high-contrast .chip{background:var(--bg)!important;color:var(--label)!important;border:2px solid var(--label)!important;backdrop-filter:none!important}
@@ -1294,7 +1312,7 @@ html.a11y-high-contrast .faq-toggle{background:var(--label)!important;color:var(
 html.a11y-high-contrast .faq-q:hover{opacity:1!important}
 html.a11y-high-contrast [style*="color"]{color:var(--label)!important}
 html.a11y-high-contrast .preset-btn:hover{opacity:.85}
-.preset-btn{background:var(--label)!important;color:var(--bg)!important;border:2px solid var(--label)!important}
+html.a11y-high-contrast .preset-btn{background:var(--label)!important;color:var(--bg)!important;border:2px solid var(--label)!important}
 html.a11y-high-contrast .preset-btn svg{color:var(--bg)!important}
 html.a11y-high-contrast .drink-rm,html.a11y-high-contrast .drink-rm:hover{color:var(--label)!important}
 html.a11y-high-contrast *{box-shadow:none!important}

@@ -123,6 +123,9 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
 .ann-num:not(.e){animation:fadeSlideIn .35s var(--ease)}
 .chip{animation:fadeSlideIn .3s var(--ease) both}.chip:nth-child(2){animation-delay:.06s}.chip:nth-child(3){animation-delay:.12s}.chip:nth-child(4){animation-delay:.18s}
 .pay-col{animation:fadeSlideIn .3s var(--ease) both}.pay-col:nth-child(2){animation-delay:.06s}
+.reset-calc-btn{width:100%;padding:10px;border:1px solid var(--sep);border-radius:10px;background:none;color:var(--label3);font-family:var(--font);font-size:.84rem;font-weight:500;cursor:pointer;transition:opacity .15s;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:8px}
+.reset-calc-btn:hover{opacity:.85}
+.reset-calc-btn svg{width:16px;height:16px}
 @keyframes pulse{0%{transform:scale(1)}30%{transform:scale(1.005)}100%{transform:scale(1)}}
 .ann-num{font-size:3.4rem;font-weight:700;color:#fff;letter-spacing:-2px;line-height:1;position:relative;transition:opacity .35s var(--ease)}
 .ann-num.e{color:rgba(255,255,255,.35)}
@@ -342,6 +345,8 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
       </div>
     </div>
 
+    <button class="reset-calc-btn" id="resetBtn" onclick="resetCalc()"></button>
+
   </div>
 
   <!-- Bento -->
@@ -512,7 +517,7 @@ const T = {
     ],
     disclaimerTitle:'Teadaanne',
     disclaimerText:'Iseseisev kalkulaator informatiivsel eesmärgil. Ei ole seotud EMTA-ga ega kujuta endast ametlikku maksunõuannet.',
-    contactTitle:'Võta ühendust', contactText:'Küsimused, tagasiside või vead?', contactBtn:'Kirjuta meile',
+    contactTitle:'Võta ühendust', contactText:'Küsimused, tagasiside või vead?', contactBtn:'Kirjuta meile', resetBtn:'Alusta uuesti',
     otherTitle:'Teised kalkulaatorid',
     footer:'Kõik õigused kaitstud.',
   },
@@ -578,7 +583,7 @@ const T = {
     ],
     disclaimerTitle:'Disclaimer',
     disclaimerText:'Independent calculator for informational purposes only. Not affiliated with EMTA and does not constitute official tax advice.',
-    contactTitle:'Contact us', contactText:'Questions, feedback or bugs?', contactBtn:'Write to us',
+    contactTitle:'Contact us', contactText:'Questions, feedback or bugs?', contactBtn:'Write to us', resetBtn:'Start over',
     otherTitle:'Other calculators',
     footer:'All rights reserved.',
   },
@@ -640,7 +645,7 @@ const T = {
     ],
     disclaimerTitle:'Предупреждение',
     disclaimerText:'Независимый калькулятор в информационных целях. Не является официальной налоговой консультацией.',
-    contactTitle:'Связаться', contactText:'Вопросы, отзывы или ошибки?', contactBtn:'Написать нам',
+    contactTitle:'Связаться', contactText:'Вопросы, отзывы или ошибки?', contactBtn:'Написать нам', resetBtn:'Начать заново',
     otherTitle:'Другие калькуляторы',
     footer:'Все права защищены.',
   },
@@ -695,7 +700,7 @@ const T = {
     ],
     disclaimerTitle:'Huomautus',
     disclaimerText:'Itsenäinen laskuri tiedottamistarkoituksiin. Ei liity EMTA:han eikä ole virallista veroneuvontaa.',
-    contactTitle:'Ota yhteyttä', contactText:'Kysymykset tai palaute?', contactBtn:'Kirjoita meille',
+    contactTitle:'Ota yhteyttä', contactText:'Kysymykset tai palaute?', contactBtn:'Kirjoita meille', resetBtn:'Aloita alusta',
     otherTitle:'Muut laskurit',
     footer:'Kaikki oikeudet pidätetään.',
   },
@@ -836,6 +841,7 @@ function applyLang() {
   s('faqTitle', tr.faqTitle); s('sourcesTitle', tr.sourcesTitle);
   s('disclaimerTitle', tr.disclaimerTitle); s('disclaimerText', tr.disclaimerText);
   s('contactTitle', tr.contactTitle); s('contactText', tr.contactText); s('contactBtn', tr.contactBtn);
+  document.getElementById('resetBtn').innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9"/><polyline points="3 3 3 7 7 7"/></svg>' + tr.resetBtn;
   s('otherTitle', tr.otherTitle);
   var otherLinks = {
     et:[{url:'https://alkoholikalkulaator.ee',name:'Alkoholikalkulaator'}],
@@ -1110,7 +1116,8 @@ function renderSchedule(annTax, regYear, regMonth, tr) {
 }
 
 // ── URL state ─────────────────────────────────────────────────────────────────
-function stateToURL(){
+var _initDone=false;
+function stateToURL(){if(!_initDone)return;
   const p = new URLSearchParams();
   if(vtype!=='m1') p.set('vt',vtype);
   if(fuel!=='ice') p.set('f',fuel);
@@ -1170,7 +1177,7 @@ function toggleFaq(i) {
   });
 
   setLang(getLangFromPath(), false);
-  loadFromURL();
+  loadFromURL();_initDone=true;
   window.addEventListener('popstate', () => setLang(getLangFromPath(), false));
 
   // Share button
