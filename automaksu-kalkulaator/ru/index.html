@@ -197,6 +197,7 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
 .sources-list a:hover{opacity:.85;text-decoration:underline;text-underline-offset:3px}
 .other-calcs{display:flex;flex-wrap:wrap;gap:10px}
 .other-calcs a{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:10px;background:var(--bg);border:1px solid var(--sep);color:var(--label);text-decoration:none;font-size:.88rem;font-weight:500;transition:border-color .15s,background .15s}
+.other-calcs a svg{width:18px;height:18px;flex-shrink:0}
 .other-calcs a:hover{opacity:.85}
 
 .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:44px}
@@ -805,7 +806,7 @@ function applyLang() {
     fi:[{url:'https://alkoholikalkulaator.ee/fi',name:'Alkoholilaskuri'}],
     ru:[{url:'https://alkoholikalkulaator.ee/ru',name:'Калькулятор алкоголя'}]
   };
-  document.getElementById('otherCalcs').innerHTML = (otherLinks[lang]||otherLinks.et).map(function(l){return '<a href="'+l.url+'">'+l.name+'</a>';}).join('');
+  document.getElementById('otherCalcs').innerHTML = (otherLinks[lang]||otherLinks.et).map(function(l){return '<a href="'+l.url+'">'+'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12c0 7-3 12-6 12s-6-5-6-12z"/><path d="M12 14v5"/><path d="M8 19h8"/></svg> '+l.name+'</a>';}).join('');
   s('footerText', '© ' + new Date().getFullYear() + '. ' + tr.footer);
   // Fuel select
   const fs = document.getElementById('iFuel');
