@@ -1059,10 +1059,10 @@ function calc() {
   const chips = [
     `<span class="chip">${tr.chipBase}: ${eur(base)}</span>`,
     !isEV && co2c > 0
-      ? `<span class="chip">${hasCO2 ? tr.chipCO2 : tr.chipEngine}: ${eur(af * co2c)}</span>`
+      ? `<span class="chip">${hasCO2 ? tr.chipCO2 : tr.chipEngine}: ${eur(co2c)}</span>`
       : null,
   ].filter(Boolean);
-  if (massc > 0) chips.push(`<span class="chip">${tr.chipMass}: ${eur(af * massc)}</span>`);
+  if (massc > 0) chips.push(`<span class="chip">${tr.chipMass}: ${eur(massc)}</span>`);
   chips.push(`<span class="chip">${tr.chipAge}: ${fmt(af)}</span>`);
   document.getElementById('annChips').innerHTML = chips.join('');
 
