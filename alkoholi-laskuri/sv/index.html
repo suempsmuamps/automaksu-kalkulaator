@@ -74,9 +74,11 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
 /* ── Segmented control ── */
 .seg-group{display:flex;flex-direction:column;gap:8px}
 .seg-label{font-size:.78rem;font-weight:600;color:var(--label3);text-transform:uppercase;letter-spacing:.5px}
-.seg-ctrl{display:flex;background:var(--bg);border-radius:10px;padding:2px;gap:2px}
-.seg-btn{flex:1;background:none;border:none;padding:9px 12px;border-radius:8px;font-size:.95rem;font-weight:500;color:var(--label2);cursor:pointer;font-family:var(--font);transition:.18s}
-.seg-btn.active{background:var(--label);color:var(--bg);font-weight:600}
+.seg-ctrl{display:flex;position:relative;background:var(--bg);border-radius:10px;padding:2px;gap:0}
+.seg-slider{position:absolute;top:2px;left:2px;width:calc(50% - 2px);height:calc(100% - 4px);background:var(--label);border-radius:8px;transition:transform .25s var(--ease);pointer-events:none;z-index:0}
+.seg-ctrl.female .seg-slider{transform:translateX(100%)}
+.seg-btn{flex:1;background:none;border:none;padding:9px 12px;border-radius:8px;font-size:.95rem;font-weight:500;color:var(--label2);cursor:pointer;font-family:var(--font);transition:color .18s;position:relative;z-index:1}
+.seg-btn.active{color:var(--bg);font-weight:600}
 
 /* ── Input row ── */
 .grow{display:flex;flex-direction:column;gap:8px;transition:opacity .25s var(--ease)}
@@ -265,7 +267,8 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
     <!-- Gender -->
     <div class="seg-group">
       <div class="seg-label" id="genderLabel">SUKUPUOLI</div>
-      <div class="seg-ctrl">
+      <div class="seg-ctrl" id="segCtrl">
+        <div class="seg-slider"></div>
         <button class="seg-btn active" id="btnMale"   onclick="setGender('m')">♂ Mies</button>
         <button class="seg-btn"        id="btnFemale" onclick="setGender('f')">♀ Nainen</button>
       </div>
@@ -717,6 +720,7 @@ function setGender(g){
   gender = g;
   document.getElementById('btnMale').classList.toggle('active', g==='m');
   document.getElementById('btnFemale').classList.toggle('active', g==='f');
+  document.getElementById('segCtrl').classList.toggle('female', g==='f');
   calc();
 }
 
