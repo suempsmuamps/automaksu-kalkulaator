@@ -1045,12 +1045,12 @@ function loadFromURL(){
 <div class="cc-banner" id="ccBanner">
   <div class="cc-text" id="ccText"></div>
   <div class="cc-btns">
-    <button class="cc-btn cc-decline" id="ccDecline" tabindex="2"></button>
-    <button class="cc-btn cc-accept" id="ccAccept" tabindex="3"></button>
+    <button class="cc-btn cc-decline" id="ccDecline"></button>
+    <button class="cc-btn cc-accept" id="ccAccept"></button>
   </div>
 </div>
 
-<button class="cc-reopen" id="ccReopen" aria-label="Cookie settings" tabindex="4">
+<button class="cc-reopen" id="ccReopen" aria-label="Cookie settings">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="8" cy="9" r="1.5" fill="currentColor" stroke="none"/><circle cx="15" cy="13" r="1" fill="currentColor" stroke="none"/><circle cx="10" cy="15" r="1.2" fill="currentColor" stroke="none"/><circle cx="15" cy="8" r=".8" fill="currentColor" stroke="none"/></svg>
 </button>
 
@@ -1088,7 +1088,17 @@ function loadFromURL(){
     document.getElementById('ccDecline').textContent = ct('decline');
     banner.classList.add('show');
     reopen.classList.remove('show');
+    setTimeout(function(){ document.getElementById('ccDecline').focus(); },100);
   }
+
+  document.addEventListener('keydown', function(e){
+    if(e.key==='Tab' && banner.classList.contains('show')){
+      var els = Array.from(banner.querySelectorAll('button'));
+      var i = els.indexOf(document.activeElement);
+      if(e.shiftKey){ i = i<=0?els.length-1:i-1; } else { i = i>=els.length-1?0:i+1; }
+      els[i].focus(); e.preventDefault();
+    }
+  });
 
   if(consent === 'accepted'){
     loadGTM();
@@ -1298,11 +1308,21 @@ html.a11y-focus-outline .input-wrap:focus-within{outline:3px solid #f59e0b!impor
       fab.classList.add('open');
       fab.setAttribute('aria-expanded','true');
       render();
+      var first = panel.querySelector('.a11y-btn');
+      if(first) first.focus();
     }
   }
 
   fab.addEventListener('click', togglePanel);
-  document.addEventListener('keydown', e=>{ if(e.key==='Escape' && panel.classList.contains('open')) togglePanel(); });
+  document.addEventListener('keydown', function(e){
+    if(e.key==='Escape' && panel.classList.contains('open')) togglePanel();
+    if(e.key==='Tab' && panel.classList.contains('open')){
+      var els = [fab].concat(Array.from(panel.querySelectorAll('button')));
+      var i = els.indexOf(document.activeElement);
+      if(e.shiftKey){ i = i<=0?els.length-1:i-1; } else { i = i>=els.length-1?0:i+1; }
+      els[i].focus(); e.preventDefault();
+    }
+  });
 
   // Observe lang changes
   const origSetLang = window.setLang;
