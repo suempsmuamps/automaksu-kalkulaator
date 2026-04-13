@@ -848,6 +848,19 @@ function fmtTime(h){
   return hrs+'h '+mins+'min';
 }
 function fmtBac(v){ return v.toFixed(2).replace('.',','); }
+var _prevBac=0;
+function animateNum(el,from,to,fmt,ms){
+  if(from===to){el.textContent=fmt(to);return;}
+  var start=null,d=to-from;
+  function step(ts){
+    if(!start)start=ts;
+    var p=Math.min((ts-start)/ms,1);
+    p=1-Math.pow(1-p,3);
+    el.textContent=fmt(from+d*p);
+    if(p<1)requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
 
 // ── Dots ───────────────────────────────────────────────────────────────────────
 function updateDots(){
@@ -871,7 +884,7 @@ function updateDots(){
 // ── Clear ──────────────────────────────────────────────────────────────────────
 function clearResult(){
   const el=document.getElementById('annNum');
-  el.textContent='—'; el.classList.add('e');
+  el.textContent='—'; el.classList.add('e'); _prevBac=0;
   document.getElementById('annChips').innerHTML='';
   document.getElementById('annCell').className='c-ann';
   document.getElementById('tmlCard').style.display='none';
@@ -892,7 +905,7 @@ function calc(){
 
   // Ann number
   const numEl = document.getElementById('annNum');
-  numEl.textContent = fmtBac(bac);
+  animateNum(numEl,_prevBac,bac,fmtBac,400);_prevBac=bac;
   numEl.classList.remove('e');
 
   // Ann cell color

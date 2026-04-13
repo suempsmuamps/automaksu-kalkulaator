@@ -754,6 +754,19 @@ function regFeeCO2(co2) {
 // ── Format helpers ─────────────────────────────────────────────────────────────
 const eur = n => n.toLocaleString('et-EE', {style:'currency', currency:'EUR', minimumFractionDigits:2});
 const fmt = n => n.toFixed(2).replace('.',',');
+var _prevTax=0;
+function animateNum(el,from,to,fmt,ms){
+  if(from===to){el.textContent=fmt(to);return;}
+  var start=null,d=to-from;
+  function step(ts){
+    if(!start)start=ts;
+    var p=Math.min((ts-start)/ms,1);
+    p=1-Math.pow(1-p,3);
+    el.textContent=fmt(from+d*p);
+    if(p<1)requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
 
 // ── Theme ──────────────────────────────────────────────────────────────────────
 function isDark() {
@@ -936,7 +949,7 @@ function updateRegFee(co2, firstYear, isEV, tr) {
 
 function clearResult() {
   const el = document.getElementById('annNum');
-  el.textContent = '—'; el.classList.add('e');
+  el.textContent = '—'; el.classList.add('e'); _prevTax=0;
   document.getElementById('annChips').innerHTML = '';
   document.getElementById('tmlCard').style.display = 'none';
   const rn = document.getElementById('regNum');
@@ -967,7 +980,7 @@ function calc() {
     if (!d) { clearResult(); return; }
     const annTax = lCategoryTax(d, y);
     const numEl = document.getElementById('annNum');
-    numEl.textContent = eur(annTax);
+    animateNum(numEl,_prevTax,annTax,eur,400);_prevTax=annTax;
     numEl.classList.remove('e');
     document.getElementById('annChips').innerHTML = annTax === 0
       ? `<span class="chip">Vabastatud (üle 20 a)</span>`
@@ -994,7 +1007,7 @@ function calc() {
   // For N1 EV: flat €30, no mass component
   if (isN1 && isEV) {
     const numEl = document.getElementById('annNum');
-    numEl.textContent = eur(30);
+    animateNum(numEl,_prevTax,30,eur,400);_prevTax=30;
     numEl.classList.remove('e');
     document.getElementById('annChips').innerHTML = `<span class="chip">${tr.chipBase}: ${eur(30)}</span>`;
     renderSchedule(30, regYear, regMonth, tr);
@@ -1010,7 +1023,7 @@ function calc() {
 
   // Ann number
   const numEl = document.getElementById('annNum');
-  numEl.textContent = eur(annTax);
+  animateNum(numEl,_prevTax,annTax,eur,400);_prevTax=annTax;
   numEl.classList.remove('e');
 
   // Chips
