@@ -394,7 +394,7 @@ const PRESETS = [
   {id:'beer500',  icon:ICO.beer,     ml:500, abv:5.0,  name:{fi:'Olut 500ml',    sv:'Öl 500ml',    en:'Beer 500ml',    ru:'Пиво 500мл',    et:'Õlu 500ml'   }},
   {id:'wine',     icon:ICO.wine,     ml:150, abv:12.0, name:{fi:'Viini 150ml',   sv:'Vin 150ml',   en:'Wine 150ml',    ru:'Вино 150мл',    et:'Vein 150ml'  }},
   {id:'spirits',  icon:ICO.spirits,  ml:40,  abv:40.0, name:{fi:'Viina 40ml',    sv:'Sprit 40ml',  en:'Spirit 40ml',   ru:'Водка 40мл',    et:'Viin 40ml'   }},
-  {id:'cider',    icon:ICO.can, ml:330, abv:4.5,  name:{fi:'Siideri 330ml', sv:'Cider 330ml', en:'Cider 330ml',   ru:'Сидр 330мл',    et:'Siider 330ml'}},
+  {id:'cider',    icon:ICO.bottle, ml:330, abv:4.5,  name:{fi:'Siideri 330ml', sv:'Cider 330ml', en:'Cider 330ml',   ru:'Сидр 330мл',    et:'Siider 330ml'}},
   {id:'longdrink',icon:ICO.soda,     ml:330, abv:5.5,  name:{fi:'Long drink',    sv:'Long drink',  en:'Long drink',    ru:'Лонгдринк',     et:'Long drink'  }},
 ];
 
@@ -774,7 +774,7 @@ function addPreset(pid){
   renderDrinks(); calc();
 }
 function addCustom(){
-  drinks.push({uid:++uid, icon:ICO.bottle, name:t().addCustom.replace(/^\+\s*/,''), ml:100, abv:5.0, qty:1});
+  drinks.push({uid:++uid, icon:ICO.plus, name:t().addCustom.replace(/^\+\s*/,''), ml:100, abv:5.0, qty:1});
   renderDrinks(); calc();
 }
 function removeDrink(id){
