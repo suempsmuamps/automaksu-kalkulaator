@@ -949,13 +949,13 @@ function calc(){
 
   // Ann cell color + pulse
   const cell = document.getElementById('annCell');
-  cell.className = 'c-ann' + (bac>=1.2?' st-danger': bac>=0.5?' st-warn': bac>0?' st-yellow':'');
+  cell.className = 'c-ann' + (bac>=0.5?' st-danger': bac>0?' st-yellow':'');
   cell.style.animation='pulse .5s ease';setTimeout(()=>cell.style.animation='',550);
 
   // Contextual number color
   numEl.classList.remove('clr-green','clr-yellow','clr-orange','clr-red');
   if(bac<=0) numEl.classList.add('clr-green'); else if(bac<0.5) numEl.classList.add('clr-yellow');
-  else if(bac<1.2) numEl.classList.add('clr-orange');
+  else if(bac<1.2) numEl.classList.add('clr-red');
   else numEl.classList.add('clr-red');
 
   // Chips
