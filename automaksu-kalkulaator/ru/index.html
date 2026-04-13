@@ -947,6 +947,7 @@ function calc() {
     renderSchedule(annTax, regYear, regMonth, tr);
     updateRegFee(NaN, y, false, tr);
     updateDots();
+    stateToURL();
     return;
   }
   if (!isEV && isNaN(co2Val) && !pw) { clearResult(); return; }
@@ -971,6 +972,7 @@ function calc() {
     renderSchedule(30, regYear, regMonth, tr);
     updateRegFee(NaN, y, true, tr);
     updateDots();
+    stateToURL();
     return;
   }
   const evMassThreshold = isN1 ? 2000 : (isEV ? 2400 : 2000);
@@ -999,6 +1001,7 @@ function calc() {
 
   // Registration fee
   updateRegFee(co2Val, y, isEV, tr);
+  stateToURL();
 }
 
 // ── Payment schedule ───────────────────────────────────────────────────────────
@@ -1023,6 +1026,36 @@ function renderSchedule(annTax, regYear, regMonth, tr) {
   html += '</div>';
   document.getElementById('payContainer').innerHTML = html;
   document.getElementById('tmlNote').textContent = isFullYear ? tr.tlFull : tr.tlPro(months, hasJune);
+}
+
+// ── URL state ─────────────────────────────────────────────────────────────────
+function stateToURL(){
+  const p = new URLSearchParams();
+  if(vtype!=='m1') p.set('vt',vtype);
+  if(fuel!=='ice') p.set('f',fuel);
+  const y=document.getElementById('iYear').value; if(y) p.set('y',y);
+  const co2=document.getElementById('iCO2').value; if(co2) p.set('co2',co2);
+  const pw=document.getElementById('iPower').value; if(pw) p.set('pw',pw);
+  const mass=document.getElementById('iMass').value; if(mass) p.set('m',mass);
+  const displ=document.getElementById('iDispl'); if(displ&&displ.value) p.set('d',displ.value);
+  const ry=document.getElementById('iRegYear').value; if(ry) p.set('ry',ry);
+  const rm=document.getElementById('iMonth').value; if(rm) p.set('rm',rm);
+  const qs=p.toString();
+  const base=window.location.pathname;
+  history.replaceState(null,'',qs?base+'?'+qs:base);
+}
+function loadFromURL(){
+  const p=new URLSearchParams(window.location.search);
+  if(p.has('vt')) setVtype(p.get('vt'));
+  if(p.has('f')) setFuel(p.get('f'));
+  if(p.has('y')) document.getElementById('iYear').value=p.get('y');
+  if(p.has('co2')) document.getElementById('iCO2').value=p.get('co2');
+  if(p.has('pw')) document.getElementById('iPower').value=p.get('pw');
+  if(p.has('m')) document.getElementById('iMass').value=p.get('m');
+  const displ=document.getElementById('iDispl'); if(p.has('d')&&displ) displ.value=p.get('d');
+  if(p.has('ry')) document.getElementById('iRegYear').value=p.get('ry');
+  if(p.has('rm')) document.getElementById('iMonth').value=p.get('rm');
+  calc();
 }
 
 // ── FAQ ────────────────────────────────────────────────────────────────────────
@@ -1056,6 +1089,7 @@ function toggleFaq(i) {
   });
 
   setLang(getLangFromPath(), false);
+  loadFromURL();
   window.addEventListener('popstate', () => setLang(getLangFromPath(), false));
 })();
 </script>
