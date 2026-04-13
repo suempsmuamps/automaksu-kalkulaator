@@ -955,7 +955,7 @@ function calc(){
   // Contextual number color
   numEl.classList.remove('clr-green','clr-yellow','clr-orange','clr-red');
   if(bac<=0) numEl.classList.add('clr-green'); else if(bac<0.5) numEl.classList.add('clr-yellow');
-  else if(bac<1.2) numEl.classList.add('clr-red');
+  /* over limit = red */
   else numEl.classList.add('clr-red');
 
   // Chips
@@ -963,7 +963,7 @@ function calc(){
   if(bac<=0){
     chips.push(`<span class="chip chip-green">${ICO.check} ${tr.chipSober}</span>`);} else if(bac<0.5){chips.push(`<span class="chip chip-orange">${ICO.alert} ${tr.chipCaution}</span>`);
   } else if(bac<1.2){
-    chips.push(`<span class="chip chip-orange">${ICO.alert} ${tr.chipWarn}</span>`);
+    chips.push(`<span class="chip chip-red">${ICO.alert} ${tr.chipWarn}</span>`);
     chips.push(`<span class="chip chip-orange">${ICO.car} ${tr.chipDriveIn}: ${fmtTime(bac/beta)}</span>`);
   } else {
     chips.push(`<span class="chip chip-red">${ICO.ban} ${tr.chipDanger}</span>`);
