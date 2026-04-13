@@ -953,7 +953,7 @@ function calc(){
 
   // Contextual number color
   numEl.classList.remove('clr-green','clr-orange','clr-red');
-  if(bac<0.5) numEl.classList.add('clr-green');
+  if(bac<=0) numEl.classList.add('clr-green');
   else if(bac<1.2) numEl.classList.add('clr-orange');
   else numEl.classList.add('clr-red');
 
