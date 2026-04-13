@@ -144,7 +144,7 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
 .c-tml{animation:fadeSlideIn .4s var(--ease)}
 .tml-table tr{animation:fadeSlideIn .3s var(--ease) both;animation-delay:calc(var(--i,0) * .04s)}
 .preset-btn:active{transform:scale(.95);transition:transform .1s}
-@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.01)}}
+@keyframes pulse{0%{transform:scale(1)}30%{transform:scale(1.005)}100%{transform:scale(1)}}
 .ann-num{font-size:3.2rem;font-weight:700;color:#fff;letter-spacing:-1.5px;line-height:1;transition:color .4s}
 .ann-num.e{color:rgba(255,255,255,.35)}
 .ann-num.clr-green{color:#22c55e}.ann-num.clr-orange{color:#f59e0b}.ann-num.clr-red{color:#ef4444}
@@ -159,8 +159,10 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
 .share-btn svg{width:18px;height:18px}
 .share-btn .share-toast{position:absolute;top:-32px;left:50%;transform:translateX(-50%);background:var(--label);color:var(--bg);padding:4px 10px;border-radius:6px;font-size:.72rem;font-weight:600;white-space:nowrap;opacity:0;transition:opacity .2s}
 .share-btn .share-toast.show{opacity:1}
-.emergency-banner{background:#ef4444;color:#fff;border-radius:12px;padding:16px;margin-top:12px;text-align:center;font-weight:700;font-size:1.1rem;animation:emergencyPulse 1s ease infinite}
-.emergency-banner a{color:#fff;text-decoration:none;font-size:1.5rem;display:inline-flex;align-items:center;gap:8px;margin-top:8px;padding:10px 24px;background:rgba(255,255,255,.2);border-radius:10px;font-weight:800}
+.emergency-banner{background:#ef4444;color:#fff;border-radius:12px;padding:16px 20px;margin-top:12px;display:flex;align-items:center;gap:14px;font-weight:700;font-size:1rem;animation:emergencyPulse 1s ease infinite}
+.emergency-banner svg{width:24px;height:24px;flex-shrink:0}
+.emergency-banner a{color:#fff;text-decoration:none;font-size:1.1rem;display:inline-flex;align-items:center;gap:6px;margin-left:auto;padding:8px 18px;background:rgba(255,255,255,.2);border-radius:10px;font-weight:800;white-space:nowrap;flex-shrink:0}
+.emergency-banner a svg{width:18px;height:18px}
 @keyframes emergencyPulse{0%,100%{opacity:1}50%{opacity:.85}}
 .ann-lbl{font-size:.78rem;color:rgba(255,255,255,.65);margin-top:6px;text-transform:uppercase;letter-spacing:.08em;font-weight:500}
 
@@ -903,7 +905,7 @@ function calc(){
   // Ann cell color + pulse
   const cell = document.getElementById('annCell');
   cell.className = 'c-ann' + (bac>=0.20?' st-danger': bac>0?' st-warn':'');
-  cell.style.animation='pulse .25s var(--ease)';setTimeout(()=>cell.style.animation='',300);
+  cell.style.animation='pulse .5s ease';setTimeout(()=>cell.style.animation='',550);
 
   // Contextual number color
   numEl.classList.remove('clr-green','clr-orange','clr-red');
@@ -924,7 +926,7 @@ function calc(){
   // Emergency banner
   const eBanner = document.getElementById('emergencyBanner');
   if(bac>=3.0){
-    eBanner.innerHTML = `<div class="emergency-banner">${ICO.alert} ${tr.emergencyText}<br><a href="tel:112">${ICO.phone} ${tr.emergencyCall}</a></div>`;
+    eBanner.innerHTML = `<div class="emergency-banner">${ICO.alert} ${tr.emergencyText} <a href="tel:112">${ICO.phone} ${tr.emergencyCall}</a></div>`;
   } else { eBanner.innerHTML = ''; }
   if(bac>0){
     chips.push(`<span class="chip">${ICO.clock} ${tr.chipSoberIn}: ${fmtTime(bac/beta)}</span>`);
