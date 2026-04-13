@@ -119,6 +119,10 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
 .c-ann::after{content:'';position:absolute;top:-40%;right:-20%;width:60%;height:80%;background:radial-gradient(ellipse,rgba(56,120,200,.08) 0%,transparent 70%);pointer-events:none}
 .ann-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;position:relative}
 .chip{background:rgba(255,255,255,.08);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:rgba(255,255,255,.85);padding:5px 12px;border-radius:20px;font-size:.76rem;font-weight:500;display:inline-flex;align-items:center;gap:5px;border:1px solid rgba(255,255,255,.06);transition:background .2s}
+@keyframes fadeSlideIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.ann-num:not(.e){animation:fadeSlideIn .35s var(--ease)}
+.chip{animation:fadeSlideIn .3s var(--ease) both}.chip:nth-child(2){animation-delay:.06s}.chip:nth-child(3){animation-delay:.12s}.chip:nth-child(4){animation-delay:.18s}
+.pay-col{animation:fadeSlideIn .3s var(--ease) both}.pay-col:nth-child(2){animation-delay:.06s}
 .ann-num{font-size:3.4rem;font-weight:700;color:#fff;letter-spacing:-2px;line-height:1;position:relative;transition:opacity .35s var(--ease)}
 .ann-num.e{color:rgba(255,255,255,.35)}
 .ann-lbl{font-size:.78rem;color:rgba(255,255,255,.65);margin-top:6px;text-transform:uppercase;letter-spacing:.08em;font-weight:500}
