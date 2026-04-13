@@ -237,7 +237,7 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
   <header class="header">
     <div class="header-inner">
       <div class="header-title-group">
-        <div class="header-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12c0 7-3 12-6 12s-6-5-6-12z"/><path d="M7 6h10"/><path d="M12 14v5"/><path d="M8 19h8"/></svg></div>
+        <div class="header-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12c0 7-3 12-6 12s-6-5-6-12z"/><path d="M12 14v5"/><path d="M8 19h8"/></svg></div>
         <div>
           <h1 class="header-title" id="mainTitle">Alkoholi­laskuri</h1>
           <p class="header-sub" id="mainSub">Veren alkoholipitoisuus promilleina</p>
@@ -369,10 +369,10 @@ let uid    = 0;
 // ── SVG Icons (Lucide-style) ──────────────────────────────────────────────────
 const _i=d=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
 const ICO={
-  beer:_i('<path d="M7 2h10l-1 5c-.3 2-.8 4-1 6-.2 2 0 4 .5 5.5a2 2 0 0 1-1.5 2.5h-4a2 2 0 0 1-1.5-2.5c.5-1.5.7-3.5.5-5.5-.2-2-.7-4-1-6L7 2z"/><path d="M7 5h10"/>'),
-  wine:_i('<path d="M6 2h12c0 7-3 12-6 12s-6-5-6-12z"/><path d="M7 6h10"/><path d="M12 14v5"/><path d="M8 19h8"/>'),
-  spirits:_i('<path d="M6 2h12l-2 14a2 2 0 0 1-2 1.5h-4A2 2 0 0 1 8 16L6 2z"/><path d="M6 5h12"/><rect x="8" y="19" width="8" height="3" rx="1"/>'),
-  can:_i('<path d="M7 5c0-1.5 2.2-3 5-3s5 1.5 5 3v14c0 1.5-2.2 3-5 3s-5-1.5-5-3V5z"/><ellipse cx="12" cy="5" rx="5" ry="3"/><path d="M10 4l2-2 2 1"/>'),
+  beer:_i('<path d="M7 2h10l-1 5c-.3 2-.8 4-1 6-.2 2 0 4 .5 5.5a2 2 0 0 1-1.5 2.5h-4a2 2 0 0 1-1.5-2.5c.5-1.5.7-3.5.5-5.5-.2-2-.7-4-1-6L7 2z"/>'),
+  wine:_i('<path d="M6 2h12c0 7-3 12-6 12s-6-5-6-12z"/><path d="M12 14v5"/><path d="M8 19h8"/>'),
+  spirits:_i('<path d="M6 2h12l-2.5 14h-7L6 2z"/><rect x="8" y="18" width="8" height="4" rx="1"/>'),
+  can:_i('<rect x="7" y="2" width="10" height="20" rx="3"/><path d="M7 5h10"/><path d="M7 19h10"/><circle cx="14" cy="3.5" r="1.5"/>'),
   soda:_i('<circle cx="5" cy="5" r="4"/><path d="M7 6h10c0 5-2.5 9-5 9s-5-4-5-9z"/><path d="M8 9h8"/><path d="M12 15v5"/><path d="M9 20h6"/><path d="M14 9l3-5 2-1"/>'),
   bottle:_i('<path d="M10 2h4v4l2 3v11a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2V9l2-3V2z"/>'),
   car:_i('<path d="M7 10l2-4h6l2 4"/><rect x="3" y="10" width="18" height="7" rx="2"/><circle cx="7.5" cy="17.5" r="2.5"/><circle cx="16.5" cy="17.5" r="2.5"/>'),
