@@ -987,6 +987,18 @@ function clearResult() {
   updateDots();
 }
 
+function resetCalc(){
+  document.getElementById('iYear').value='';
+  document.getElementById('iCO2').value='';
+  document.getElementById('iPower').value='';
+  document.getElementById('iMass').value='';
+  var displ=document.getElementById('iDispl'); if(displ) displ.value='';
+  vtype='m1'; setVtype('m1');
+  fuel='ice'; setFuel('ice');
+  clearResult();
+  history.replaceState(null,'',window.location.pathname);
+}
+
 // ── Main calc ──────────────────────────────────────────────────────────────────
 function calc() {
   const tr     = t();
