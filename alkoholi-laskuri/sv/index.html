@@ -1017,6 +1017,85 @@ function loadFromURL(){
   "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"}
 }
 </script>
+<!-- ── Cookie Consent ──────────────────────────────────────────────────────── -->
+<style>
+.cc-banner{position:fixed;bottom:0;left:0;right:0;z-index:9990;background:var(--card);border-top:var(--card-border);box-shadow:0 -2px 16px rgba(0,0,0,.12);padding:16px 20px;display:none;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;font-family:var(--font)}
+.cc-banner.show{display:flex}
+.cc-text{font-size:.84rem;color:var(--label2);max-width:600px;line-height:1.5}
+.cc-btns{display:flex;gap:8px;flex-shrink:0}
+.cc-btn{padding:8px 18px;border-radius:10px;font-family:var(--font);font-size:.82rem;font-weight:600;cursor:pointer;border:1px solid var(--sep);transition:opacity .15s}
+.cc-btn:hover{opacity:.85}
+.cc-accept{background:var(--tint);color:var(--bg);border-color:var(--tint)}
+.cc-decline{background:none;color:var(--label3)}
+</style>
+
+<div class="cc-banner" id="ccBanner">
+  <div class="cc-text" id="ccText"></div>
+  <div class="cc-btns">
+    <button class="cc-btn cc-decline" id="ccDecline"></button>
+    <button class="cc-btn cc-accept" id="ccAccept"></button>
+  </div>
+</div>
+
+<script>
+(function(){
+  const CC_T = {
+    et:{text:'Kasutame küpsiseid, et analüüsida veebiliiklust ja parandada kasutajakogemust.',accept:'Nõustun',decline:'Keeldun'},
+    en:{text:'We use cookies to analyze traffic and improve your experience.',accept:'Accept',decline:'Decline'},
+    ru:{text:'Мы используем файлы cookie для анализа трафика и улучшения вашего опыта.',accept:'Принять',decline:'Отклонить'},
+    fi:{text:'Käytämme evästeitä liikenteen analysointiin ja käyttökokemuksen parantamiseen.',accept:'Hyväksy',decline:'Hylkää'},
+    sv:{text:'Vi använder cookies för att analysera trafik och förbättra din upplevelse.',accept:'Acceptera',decline:'Avvisa'}
+  };
+
+  const GTM_ID = 'GTM-XXXXXXX'; // ← Replace with your GTM container ID
+
+  function ct(k){ return (CC_T[lang]||CC_T.fi)[k] || CC_T.fi[k]; }
+
+  function loadGTM(){
+    if(document.getElementById('gtm-script')) return;
+    var s = document.createElement('script');
+    s.id = 'gtm-script';
+    s.src = 'https://www.googletagmanager.com/gtm.js?id=' + GTM_ID;
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({'gtm.start': new Date().getTime(), event: 'gtm.js'});
+  }
+
+  var banner = document.getElementById('ccBanner');
+  var consent = localStorage.getItem('cookie-consent');
+
+  if(consent === 'accepted'){
+    loadGTM();
+  } else if(consent !== 'declined'){
+    document.getElementById('ccText').textContent = ct('text');
+    document.getElementById('ccAccept').textContent = ct('accept');
+    document.getElementById('ccDecline').textContent = ct('decline');
+    banner.classList.add('show');
+  }
+
+  document.getElementById('ccAccept').addEventListener('click', function(){
+    localStorage.setItem('cookie-consent','accepted');
+    banner.classList.remove('show');
+    loadGTM();
+  });
+  document.getElementById('ccDecline').addEventListener('click', function(){
+    localStorage.setItem('cookie-consent','declined');
+    banner.classList.remove('show');
+  });
+
+  // Update text on lang change
+  var origSetLang2 = window.setLang;
+  if(origSetLang2){
+    window.setLang = function(){
+      origSetLang2.apply(this, arguments);
+      document.getElementById('ccText').textContent = ct('text');
+      document.getElementById('ccAccept').textContent = ct('accept');
+      document.getElementById('ccDecline').textContent = ct('decline');
+    };
+  }
+})();
+</script>
+
 <!-- ── Accessibility Widget ─────────────────────────────────────────────────── -->
 <style>
 .a11y-fab{position:fixed;bottom:20px;right:20px;z-index:9998;width:48px;height:48px;border-radius:50%;border:none;background:var(--card);color:var(--label);box-shadow:0 2px 12px rgba(0,0,0,.18);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .2s var(--ease),box-shadow .2s var(--ease)}
