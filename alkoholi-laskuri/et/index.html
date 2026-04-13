@@ -147,7 +147,7 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
 @keyframes pulse{0%{transform:scale(1)}30%{transform:scale(1.005)}100%{transform:scale(1)}}
 .ann-num{font-size:3.2rem;font-weight:700;color:#fff;letter-spacing:-1.5px;line-height:1;transition:color .4s}
 .ann-num.e{color:rgba(255,255,255,.35)}
-.ann-num.clr-green{color:#22c55e}.ann-num.clr-orange{color:#f59e0b}.ann-num.clr-red{color:#ef4444}
+.ann-num.clr-green{color:#22c55e}.ann-num.clr-yellow{color:#eab308}.ann-num.clr-orange{color:#f59e0b}.ann-num.clr-red{color:#ef4444}
 .tml-toggle{width:100%;padding:10px;border:1px solid var(--sep);border-radius:10px;background:var(--bg);color:var(--label2);font-family:var(--font);font-size:.84rem;font-weight:500;cursor:pointer;margin-bottom:12px;transition:opacity .15s;display:flex;align-items:center;justify-content:center;gap:6px}
 .tml-toggle:hover{opacity:.85}
 .tml-toggle svg{width:16px;height:16px;transition:transform .3s var(--ease)}
@@ -919,7 +919,7 @@ function updateDots(){
 function clearResult(){
   const el=document.getElementById('annNum');
   el.textContent='—'; el.classList.add('e'); _prevBac=0;
-  el.classList.remove('clr-green','clr-orange','clr-red');
+  el.classList.remove('clr-green','clr-yellow','clr-orange','clr-red');
   document.getElementById('annChips').innerHTML='';
   document.getElementById('emergencyBanner').innerHTML='';
   document.getElementById('annCell').className='c-ann';
@@ -952,8 +952,8 @@ function calc(){
   cell.style.animation='pulse .5s ease';setTimeout(()=>cell.style.animation='',550);
 
   // Contextual number color
-  numEl.classList.remove('clr-green','clr-orange','clr-red');
-  if(bac<=0) numEl.classList.add('clr-green');
+  numEl.classList.remove('clr-green','clr-yellow','clr-orange','clr-red');
+  if(bac<=0) numEl.classList.add('clr-green'); else if(bac<0.5) numEl.classList.add('clr-yellow');
   else if(bac<1.2) numEl.classList.add('clr-orange');
   else numEl.classList.add('clr-red');
 
