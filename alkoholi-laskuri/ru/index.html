@@ -831,6 +831,7 @@ function clearResult(){
   document.getElementById('annCell').className='c-ann';
   document.getElementById('tmlCard').style.display='none';
   updateDots();
+  stateToURL();
 }
 
 // ── Calc ───────────────────────────────────────────────────────────────────────
@@ -872,6 +873,7 @@ function calc(){
 
   // Timeline
   renderTimeline(bac, beta, tr);
+  stateToURL();
 }
 
 function renderTimeline(bac, beta, tr){
@@ -926,10 +928,48 @@ function toggleTheme(){
   applyTheme(!nowDark);
 }
 
+// ── URL State ─────────────────────────────────────────────────────────────────
+function stateToURL(){
+  const p = new URLSearchParams();
+  if(gender!=='m') p.set('g',gender);
+  const w=document.getElementById('iWeight').value; if(w) p.set('w',w);
+  const h=document.getElementById('iHours').value;  if(h) p.set('h',h);
+  if(drinks.length){
+    p.set('d', drinks.map(d=>{
+      const preset=PRESETS.find(x=>x.ml===d.ml&&x.abv===d.abv&&x.icon===d.icon);
+      if(preset) return (d.qty||1)>1 ? preset.id+':'+(d.qty||1) : preset.id;
+      return 'c:'+(d.qty||1)+':'+d.ml+':'+d.abv;
+    }).join(','));
+  }
+  const qs=p.toString();
+  const base=window.location.pathname;
+  history.replaceState(null,'',qs?base+'?'+qs:base);
+}
+function loadFromURL(){
+  const p=new URLSearchParams(window.location.search);
+  if(p.has('g')){ gender=p.get('g'); setGender(gender); }
+  if(p.has('w')) document.getElementById('iWeight').value=p.get('w');
+  if(p.has('h')) document.getElementById('iHours').value=p.get('h');
+  if(p.has('d')){
+    p.get('d').split(',').forEach(s=>{
+      const parts=s.split(':');
+      if(parts[0]==='c'){
+        drinks.push({uid:++uid,icon:'🍶',name:t().addCustom.replace(/^\+\s*/,''),qty:parseInt(parts[1])||1,ml:parseFloat(parts[2])||100,abv:parseFloat(parts[3])||5});
+      } else {
+        const preset=PRESETS.find(x=>x.id===parts[0]);
+        if(preset) drinks.push({uid:++uid,icon:preset.icon,name:preset.name[lang]||preset.name.fi,ml:preset.ml,abv:preset.abv,qty:parseInt(parts[1])||1});
+      }
+    });
+    renderDrinks();
+  }
+  calc();
+}
+
 // ── Init ───────────────────────────────────────────────────────────────────────
 (function(){
   applyTheme(isDark());
   setLang(getLangFromPath(), false);
+  loadFromURL();
   window.addEventListener('popstate', () => setLang(getLangFromPath(), false));
 })();
 </script>
