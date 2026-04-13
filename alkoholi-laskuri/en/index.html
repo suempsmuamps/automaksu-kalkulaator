@@ -1017,5 +1017,202 @@ function loadFromURL(){
   "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"}
 }
 </script>
+<!-- ── Accessibility Widget ─────────────────────────────────────────────────── -->
+<style>
+.a11y-fab{position:fixed;bottom:20px;right:20px;z-index:9998;width:48px;height:48px;border-radius:50%;border:none;background:var(--card);color:var(--label);box-shadow:0 2px 12px rgba(0,0,0,.18);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .2s var(--ease),box-shadow .2s var(--ease)}
+.a11y-fab:hover{transform:scale(1.08);box-shadow:0 4px 20px rgba(0,0,0,.25)}
+.a11y-fab svg{width:26px;height:26px}
+.a11y-panel{position:fixed;top:0;right:-360px;z-index:9999;width:340px;max-width:92vw;height:100vh;background:var(--bg);border-left:var(--card-border);box-shadow:-4px 0 24px rgba(0,0,0,.15);transition:right .3s var(--ease);display:flex;flex-direction:column;overflow:hidden}
+.a11y-panel.open{right:0}
+.a11y-panel-hdr{display:flex;align-items:center;justify-content:space-between;padding:18px 20px 14px;border-bottom:1px solid var(--sep)}
+.a11y-panel-hdr h2{font-size:1.1rem;font-weight:700;margin:0;color:var(--label)}
+.a11y-close{background:none;border:none;color:var(--label3);cursor:pointer;padding:4px;border-radius:8px;display:flex;align-items:center;justify-content:center;transition:color .15s}
+.a11y-close:hover{color:var(--label)}
+.a11y-close svg{width:20px;height:20px}
+.a11y-body{flex:1;overflow-y:auto;padding:16px 20px 24px}
+.a11y-group{margin-bottom:20px}
+.a11y-group-title{font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--label3);margin-bottom:10px}
+.a11y-btn{display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;border:1px solid var(--sep);border-radius:12px;background:var(--card);color:var(--label);font-family:var(--font);font-size:.85rem;font-weight:500;cursor:pointer;transition:border-color .15s,background .15s;margin-bottom:6px;text-align:left}
+.a11y-btn:hover{border-color:var(--label3)}
+.a11y-btn.active{border-color:var(--tint);background:color-mix(in srgb,var(--tint) 8%,var(--card))}
+.a11y-btn svg{width:18px;height:18px;flex-shrink:0;opacity:.7}
+.a11y-btn.active svg{opacity:1}
+.a11y-reset{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:10px;border:1px solid var(--sep);border-radius:12px;background:none;color:var(--label3);font-family:var(--font);font-size:.82rem;font-weight:500;cursor:pointer;transition:color .15s,border-color .15s;margin-top:8px}
+.a11y-reset:hover{color:var(--label);border-color:var(--label3)}
+.a11y-reset svg{width:16px;height:16px}
+.a11y-overlay{position:fixed;inset:0;z-index:9998;background:rgba(0,0,0,.3);opacity:0;pointer-events:none;transition:opacity .3s var(--ease)}
+.a11y-overlay.open{opacity:1;pointer-events:auto}
+
+/* ── Reading guide ── */
+.a11y-reading-guide-bar{position:fixed;left:0;right:0;height:12px;background:rgba(255,200,0,.18);pointer-events:none;z-index:9997;display:none;transition:top .05s linear}
+html.a11y-reading-guide .a11y-reading-guide-bar{display:block}
+
+/* ── Accessibility effect classes ── */
+html.a11y-big-text{font-size:125%}
+html.a11y-line-height *{line-height:1.85!important}
+html.a11y-readable-font,html.a11y-readable-font *{font-family:Verdana,Geneva,Tahoma,sans-serif!important}
+html.a11y-text-left *{text-align:left!important}
+html.a11y-high-contrast{--bg:#000!important;--card:#111!important;--label:#ffdd00!important;--label2:#ffdd00!important;--label3:#e6c800!important;--sep:#ffdd00!important;--tint:#ffdd00!important;--card-border:2px solid #ffdd00!important}
+html.a11y-high-contrast[data-theme="light"]{--bg:#ffdd00!important;--card:#fff200!important;--label:#000!important;--label2:#000!important;--label3:#222!important;--sep:#000!important;--tint:#000!important;--card-border:2px solid #000!important}
+@media(prefers-color-scheme:light){html.a11y-high-contrast:not([data-theme="dark"]){--bg:#ffdd00!important;--card:#fff200!important;--label:#000!important;--label2:#000!important;--label3:#222!important;--sep:#000!important;--tint:#000!important;--card-border:2px solid #000!important}}
+html.a11y-grayscale{filter:grayscale(1)}
+html.a11y-hide-images img,html.a11y-hide-images svg:not(.a11y-icon),html.a11y-hide-images video,html.a11y-hide-images iframe{visibility:hidden!important}
+html.a11y-no-motion,html.a11y-no-motion *,html.a11y-no-motion *::before,html.a11y-no-motion *::after{animation-duration:0s!important;animation-delay:0s!important;transition-duration:0s!important}
+html.a11y-highlight-links a{outline:2px solid currentColor!important;outline-offset:2px!important;text-decoration:underline!important}
+html.a11y-focus-outline *:focus{outline:3px solid #f59e0b!important;outline-offset:2px!important}
+</style>
+
+<div class="a11y-overlay" id="a11yOverlay"></div>
+<div class="a11y-reading-guide-bar" id="a11yGuide"></div>
+
+<button class="a11y-fab" id="a11yFab" aria-label="Saavutettavuusasetukset">
+  <svg class="a11y-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="4.5" r="2"/><path d="M12 7.5v5m0 0l-3.5 5.5m3.5-5.5l3.5 5.5"/><path d="M6 10.5c2-.7 4-1 6-1s4 .3 6 1"/></svg>
+</button>
+
+<aside class="a11y-panel" id="a11yPanel" role="dialog" aria-label="Saavutettavuusasetukset">
+  <div class="a11y-panel-hdr">
+    <h2 id="a11yTitle">Saavutettavuus</h2>
+    <button class="a11y-close" id="a11yClose" aria-label="Sulje">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="a11y-body" id="a11yBody"></div>
+</aside>
+
+<script>
+(function(){
+  const A11Y_T = {
+    et:{title:'Ligipääsetavus',text:'Tekst',visual:'Visuaalne',nav:'Navigeerimine',
+      bigText:'Suurem tekst',lineH:'Suurem reavahe',readFont:'Loetav font',textLeft:'Vasakjoondus',
+      highContrast:'Kõrge kontrastsus',grayscale:'Halltoonid',hideImg:'Peida pildid',noMotion:'Peata animatsioonid',
+      hiLinks:'Tõsta lingid esile',readGuide:'Lugemisabi',focusOut:'Fookuse rõngad',reset:'Lähtesta'},
+    en:{title:'Accessibility',text:'Text',visual:'Visual',nav:'Navigation',
+      bigText:'Larger text',lineH:'Line spacing',readFont:'Readable font',textLeft:'Left-align text',
+      highContrast:'High contrast',grayscale:'Grayscale',hideImg:'Hide images',noMotion:'Pause animations',
+      hiLinks:'Highlight links',readGuide:'Reading guide',focusOut:'Focus outlines',reset:'Reset all'},
+    ru:{title:'Доступность',text:'Текст',visual:'Визуальное',nav:'Навигация',
+      bigText:'Крупный текст',lineH:'Межстрочный интервал',readFont:'Читаемый шрифт',textLeft:'Выравнивание слева',
+      highContrast:'Высокий контраст',grayscale:'Оттенки серого',hideImg:'Скрыть изображения',noMotion:'Остановить анимации',
+      hiLinks:'Выделить ссылки',readGuide:'Линейка чтения',focusOut:'Контуры фокуса',reset:'Сбросить'},
+    fi:{title:'Saavutettavuus',text:'Teksti',visual:'Visuaalinen',nav:'Navigointi',
+      bigText:'Suurempi teksti',lineH:'Riviväli',readFont:'Luettava fontti',textLeft:'Vasen tasaus',
+      highContrast:'Korkea kontrasti',grayscale:'Harmaasävy',hideImg:'Piilota kuvat',noMotion:'Pysäytä animaatiot',
+      hiLinks:'Korosta linkit',readGuide:'Lukuopas',focusOut:'Korostusrenkaat',reset:'Nollaa'},
+    sv:{title:'Tillgänglighet',text:'Text',visual:'Visuellt',nav:'Navigering',
+      bigText:'Större text',lineH:'Radavstånd',readFont:'Läsbart typsnitt',textLeft:'Vänsterjustera',
+      highContrast:'Hög kontrast',grayscale:'Gråskala',hideImg:'Dölj bilder',noMotion:'Pausa animeringar',
+      hiLinks:'Markera länkar',readGuide:'Läsguide',focusOut:'Fokusringar',reset:'Återställ'}
+  };
+
+  const TOGGLES = [
+    {group:'text', items:[
+      {key:'bigText',    cls:'a11y-big-text',        icon:'<path d="M4 19h16M9 5h6M12 5v14"/>'},
+      {key:'lineH',      cls:'a11y-line-height',     icon:'<path d="M21 10H7M21 6H3M21 14H7M21 18H3"/>'},
+      {key:'readFont',   cls:'a11y-readable-font',   icon:'<path d="M4 7V4h16v3M9 20h6M12 4v16"/>'},
+      {key:'textLeft',   cls:'a11y-text-left',       icon:'<path d="M21 6H3M15 12H3M18 18H3"/>'}
+    ]},
+    {group:'visual', items:[
+      {key:'highContrast',cls:'a11y-high-contrast',  icon:'<circle cx="12" cy="12" r="9"/><path d="M12 3v18a9 9 0 010-18z" fill="currentColor"/>'},
+      {key:'grayscale',   cls:'a11y-grayscale',      icon:'<rect x="3" y="3" width="18" height="18" rx="3"/><path d="M12 3v18"/>'},
+      {key:'hideImg',     cls:'a11y-hide-images',    icon:'<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><path d="M3 3l18 18"/><circle cx="12" cy="12" r="3"/>'},
+      {key:'noMotion',    cls:'a11y-no-motion',      icon:'<rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/>'}
+    ]},
+    {group:'nav', items:[
+      {key:'hiLinks',     cls:'a11y-highlight-links', icon:'<path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/>'},
+      {key:'readGuide',   cls:'a11y-reading-guide',  icon:'<path d="M4 8h16M4 16h16"/><rect x="2" y="11" width="20" height="2" rx="1" fill="currentColor" opacity=".3"/>'},
+      {key:'focusOut',    cls:'a11y-focus-outline',  icon:'<rect x="3" y="3" width="18" height="18" rx="3" stroke-dasharray="4 2"/>'}
+    ]}
+  ];
+
+  const html = document.documentElement;
+  const fab = document.getElementById('a11yFab');
+  const panel = document.getElementById('a11yPanel');
+  const overlay = document.getElementById('a11yOverlay');
+  const body = document.getElementById('a11yBody');
+  const guide = document.getElementById('a11yGuide');
+  let state = {};
+
+  function t(k){ return (A11Y_T[lang]||A11Y_T.fi)[k] || A11Y_T.fi[k]; }
+
+  function load(){
+    try { state = JSON.parse(localStorage.getItem('a11y'))||{}; } catch(e){ state={}; }
+    Object.keys(state).forEach(cls=>{ if(state[cls]) html.classList.add(cls); });
+  }
+  function save(){ localStorage.setItem('a11y', JSON.stringify(state)); }
+
+  function toggle(cls, btn){
+    const on = !html.classList.contains(cls);
+    html.classList.toggle(cls, on);
+    btn.classList.toggle('active', on);
+    state[cls] = on;
+    save();
+  }
+
+  function render(){
+    document.getElementById('a11yTitle').textContent = t('title');
+    fab.setAttribute('aria-label', t('title'));
+    panel.setAttribute('aria-label', t('title'));
+    let h = '';
+    TOGGLES.forEach(g=>{
+      h += '<div class="a11y-group"><div class="a11y-group-title">' + t(g.group) + '</div>';
+      g.items.forEach(it=>{
+        const active = state[it.cls] ? ' active' : '';
+        h += '<button class="a11y-btn'+active+'" data-cls="'+it.cls+'">'
+           + '<svg class="a11y-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' + it.icon + '</svg>'
+           + t(it.key) + '</button>';
+      });
+      h += '</div>';
+    });
+    h += '<button class="a11y-reset" id="a11yReset"><svg class="a11y-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 109-9"/><polyline points="3 3 3 9 9 9"/></svg>' + t('reset') + '</button>';
+    body.innerHTML = h;
+    body.querySelectorAll('.a11y-btn').forEach(btn=>{
+      btn.addEventListener('click', ()=> toggle(btn.dataset.cls, btn));
+    });
+    document.getElementById('a11yReset').addEventListener('click', ()=>{
+      Object.keys(state).forEach(cls=> html.classList.remove(cls));
+      state = {};
+      save();
+      render();
+    });
+  }
+
+  function open(){
+    panel.classList.add('open');
+    overlay.classList.add('open');
+    fab.style.display = 'none';
+    fab.setAttribute('aria-expanded','true');
+    render();
+  }
+  function close(){
+    panel.classList.remove('open');
+    overlay.classList.remove('open');
+    fab.style.display = '';
+    fab.setAttribute('aria-expanded','false');
+  }
+
+  fab.addEventListener('click', open);
+  overlay.addEventListener('click', close);
+  document.getElementById('a11yClose').addEventListener('click', close);
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape' && panel.classList.contains('open')) close(); });
+
+  // Reading guide
+  document.addEventListener('mousemove', e=>{
+    if(html.classList.contains('a11y-reading-guide')){
+      guide.style.top = (e.clientY - 6) + 'px';
+    }
+  });
+
+  // Observe lang changes
+  const origSetLang = window.setLang;
+  if(origSetLang){
+    window.setLang = function(){
+      origSetLang.apply(this, arguments);
+      if(panel.classList.contains('open')) render();
+    };
+  }
+
+  load();
+})();
+</script>
 </body>
 </html>
