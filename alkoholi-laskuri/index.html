@@ -144,8 +144,26 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
 .c-tml{animation:fadeSlideIn .4s var(--ease)}
 .tml-table tr{animation:fadeSlideIn .3s var(--ease) both;animation-delay:calc(var(--i,0) * .04s)}
 .preset-btn:active{transform:scale(.95);transition:transform .1s}
-.ann-num{font-size:3.2rem;font-weight:700;color:#fff;letter-spacing:-1.5px;line-height:1}
+@keyframes pulse{0%{transform:scale(1)}30%{transform:scale(1.005)}100%{transform:scale(1)}}
+.ann-num{font-size:3.2rem;font-weight:700;color:#fff;letter-spacing:-1.5px;line-height:1;transition:color .4s}
 .ann-num.e{color:rgba(255,255,255,.35)}
+.ann-num.clr-green{color:#22c55e}.ann-num.clr-orange{color:#f59e0b}.ann-num.clr-red{color:#ef4444}
+.tml-toggle{width:100%;padding:10px;border:1px solid var(--sep);border-radius:10px;background:var(--bg);color:var(--label2);font-family:var(--font);font-size:.84rem;font-weight:500;cursor:pointer;margin-bottom:12px;transition:opacity .15s;display:flex;align-items:center;justify-content:center;gap:6px}
+.tml-toggle:hover{opacity:.85}
+.tml-toggle svg{width:16px;height:16px;transition:transform .3s var(--ease)}
+.tml-toggle.open svg{transform:rotate(180deg)}
+.c-tml-body{max-height:0;overflow:hidden;transition:max-height .4s var(--ease)}
+.c-tml-body.open{max-height:2000px}
+.share-btn{position:absolute;top:16px;right:16px;background:rgba(255,255,255,.1);border:none;color:rgba(255,255,255,.7);width:36px;height:36px;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:opacity .15s}
+.share-btn:hover{opacity:.85}
+.share-btn svg{width:18px;height:18px}
+.share-btn .share-toast{position:absolute;top:-32px;left:50%;transform:translateX(-50%);background:var(--label);color:var(--bg);padding:4px 10px;border-radius:6px;font-size:.72rem;font-weight:600;white-space:nowrap;opacity:0;transition:opacity .2s}
+.share-btn .share-toast.show{opacity:1}
+.emergency-banner{background:#ef4444;color:#fff;border-radius:12px;padding:16px 20px;margin-top:12px;display:flex;align-items:center;gap:14px;font-weight:700;font-size:1rem;animation:emergencyPulse 1s ease infinite}
+.emergency-banner svg{width:24px;height:24px;flex-shrink:0}
+.emergency-banner a{color:#fff;text-decoration:none;font-size:1.1rem;display:inline-flex;align-items:center;gap:6px;margin-left:auto;padding:8px 18px;background:rgba(255,255,255,.2);border-radius:10px;font-weight:800;white-space:nowrap;flex-shrink:0}
+.emergency-banner a svg{width:18px;height:18px}
+@keyframes emergencyPulse{0%,100%{opacity:1}50%{opacity:.85}}
 .ann-lbl{font-size:.78rem;color:rgba(255,255,255,.65);margin-top:6px;text-transform:uppercase;letter-spacing:.08em;font-weight:500}
 
 /* ── Timeline ── */
@@ -318,13 +336,18 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
   <!-- Bento -->
   <div class="bento">
     <div class="c-ann" id="annCell">
+      <button class="share-btn" id="shareBtn" aria-label="Share"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg><span class="share-toast" id="shareToast"></span></button>
       <div class="ann-chips" id="annChips"></div>
       <div class="ann-num e" id="annNum">—</div>
       <div class="ann-lbl"   id="annLbl">promillea (‰)</div>
+      <div id="emergencyBanner"></div>
     </div>
     <div class="c-tml" id="tmlCard" style="display:none">
-      <div class="tml-sub" id="tlSub"></div>
-      <div id="tlContainer"></div>
+      <button class="tml-toggle" id="tmlToggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg><span id="tmlToggleText"></span></button>
+      <div class="c-tml-body" id="tmlBody">
+        <div class="tml-sub" id="tlSub"></div>
+        <div id="tlContainer"></div>
+      </div>
     </div>
   </div><!-- /bento -->
 
@@ -422,6 +445,8 @@ const T = {
     hoursLbl:'Tuntia sitten aloitit', hoursUnit:'tuntia',
     annLbl:'promillea (‰)',
     chipSober:'Selvin päin', chipWarn:'Rattijuopumus', chipDanger:'Törkeä rattijuopumus', chipEmergency:'Hengenvaarallista! Soita 112',
+    tlShow:'Näytä aikataulu', tlHide:'Piilota aikataulu', tlRows:'riviä',
+    shareCopied:'Linkki kopioitu!', emergencyText:'Hengenvaarallinen taso!', emergencyCall:'Soita 112',
     chipDriveIn:'Voit ajaa', chipSoberIn:'Selvin päin',
     tlSub:'AIKATAULU', tlTime:'Aika', tlBAC:'Promille',
     tlNow:'Nyt', tlSober:'Selvin',
@@ -481,6 +506,8 @@ const T = {
     hoursLbl:'Timmar sedan du började', hoursUnit:'timmar',
     annLbl:'promille (‰)',
     chipSober:'Nykter', chipWarn:'Rattfylleri', chipDanger:'Grovt rattfylleri', chipEmergency:'Livshotande! Ring 112',
+    tlShow:'Visa tidslinje', tlHide:'Dölj tidslinje', tlRows:'rader',
+    shareCopied:'Länk kopierad!', emergencyText:'Livshotande nivå!', emergencyCall:'Ring 112',
     chipDriveIn:'Kan köra', chipSoberIn:'Nykter',
     tlSub:'TIDTABELL', tlTime:'Tid', tlBAC:'Promille',
     tlNow:'Nu', tlSober:'Nykter',
@@ -540,6 +567,8 @@ const T = {
     hoursLbl:'Hours since first drink', hoursUnit:'hours',
     annLbl:'promille (‰)',
     chipSober:'Sober', chipWarn:'Drunk driving', chipDanger:'Aggravated DUI', chipEmergency:'Life-threatening! Call 112',
+    tlShow:'Show timeline', tlHide:'Hide timeline', tlRows:'rows',
+    shareCopied:'Link copied!', emergencyText:'Life-threatening level!', emergencyCall:'Call 112',
     chipDriveIn:'Can drive in', chipSoberIn:'Sober in',
     tlSub:'BAC TIMELINE', tlTime:'Time', tlBAC:'BAC (‰)',
     tlNow:'Now', tlSober:'Sober',
@@ -599,6 +628,8 @@ const T = {
     hoursLbl:'Часов назад начали пить', hoursUnit:'часов',
     annLbl:'промилле (‰)',
     chipSober:'Трезв', chipWarn:'Вождение в нетрезвом виде', chipDanger:'Тяжкое опьянение за рулём', chipEmergency:'Опасно для жизни! Звоните 112',
+    tlShow:'Показать график', tlHide:'Скрыть график', tlRows:'строк',
+    shareCopied:'Ссылка скопирована!', emergencyText:'Опасный для жизни уровень!', emergencyCall:'Звоните 112',
     chipDriveIn:'За руль через', chipSoberIn:'Трезв через',
     tlSub:'ГРАФИК BAC', tlTime:'Время', tlBAC:'Промилле (‰)',
     tlNow:'Сейчас', tlSober:'Трезв',
@@ -656,6 +687,8 @@ const T = {
     hoursLbl:'Tunde tagasi alustasid', hoursUnit:'tundi',
     annLbl:'promilli (‰)',
     chipSober:'Kaine', chipWarn:'Joobes juhtimine', chipDanger:'Raske joobes juhtimine', chipEmergency:'Eluohtlik! Helista 112',
+    tlShow:'Näita ajagraafikut', tlHide:'Peida ajagraafik', tlRows:'rida',
+    shareCopied:'Link kopeeritud!', emergencyText:'Eluohtlik tase!', emergencyCall:'Helista 112',
     chipDriveIn:'Rooli saab', chipSoberIn:'Kaine',
     tlSub:'BAC AJAGRAAFIK', tlTime:'Aeg', tlBAC:'Promillid',
     tlNow:'Praegu', tlSober:'Kaine',
@@ -886,9 +919,13 @@ function updateDots(){
 function clearResult(){
   const el=document.getElementById('annNum');
   el.textContent='—'; el.classList.add('e'); _prevBac=0;
+  el.classList.remove('clr-green','clr-orange','clr-red');
   document.getElementById('annChips').innerHTML='';
+  document.getElementById('emergencyBanner').innerHTML='';
   document.getElementById('annCell').className='c-ann';
   document.getElementById('tmlCard').style.display='none';
+  document.getElementById('tmlBody').classList.remove('open');
+  document.getElementById('tmlToggle').classList.remove('open');
   updateDots();
   stateToURL();
 }
@@ -909,9 +946,16 @@ function calc(){
   animateNum(numEl,_prevBac,bac,fmtBac,400);_prevBac=bac;
   numEl.classList.remove('e');
 
-  // Ann cell color
+  // Ann cell color + pulse
   const cell = document.getElementById('annCell');
   cell.className = 'c-ann' + (bac>=1.2?' st-danger': bac>=0.5?' st-warn':'');
+  cell.style.animation='pulse .5s ease';setTimeout(()=>cell.style.animation='',550);
+
+  // Contextual number color
+  numEl.classList.remove('clr-green','clr-orange','clr-red');
+  if(bac<=0) numEl.classList.add('clr-green');
+  else if(bac<0.5) numEl.classList.add('clr-orange');
+  else numEl.classList.add('clr-red');
 
   // Chips
   const chips=[];
@@ -924,10 +968,11 @@ function calc(){
     chips.push(`<span class="chip chip-red">${ICO.ban} ${tr.chipDanger}</span>`);
     chips.push(`<span class="chip chip-orange">${ICO.car} ${tr.chipDriveIn}: ${fmtTime(bac/beta)}</span>`);
   }
+  // Emergency banner
+  const eBanner = document.getElementById('emergencyBanner');
   if(bac>=3.0){
-    chips.push(`<span class="chip chip-red" style="animation:none">${ICO.alert} ${tr.chipEmergency}</span>`);
-    chips.push(`<a href="tel:112" class="chip chip-red" style="animation:none;text-decoration:none;font-weight:700">${ICO.phone||'☎'} 112</a>`);
-  }
+    eBanner.innerHTML = `<div class="emergency-banner">${ICO.alert} ${tr.emergencyText} <a href="tel:112">${ICO.phone} ${tr.emergencyCall}</a></div>`;
+  } else { eBanner.innerHTML = ''; }
   if(bac>0){
     chips.push(`<span class="chip">${ICO.clock} ${tr.chipSoberIn}: ${fmtTime(bac/beta)}</span>`);
   }
@@ -951,6 +996,16 @@ function renderTimeline(bac, beta, tr){
     rows.push({label:'+'+i+'h', bac:fb});
     if(fb===0) break;
   }
+
+  // Toggle button
+  const toggle = document.getElementById('tmlToggle');
+  const body = document.getElementById('tmlBody');
+  document.getElementById('tmlToggleText').textContent = (body.classList.contains('open')?tr.tlHide:tr.tlShow)+' ('+rows.length+' '+tr.tlRows+')';
+  toggle.onclick = function(){
+    body.classList.toggle('open');
+    toggle.classList.toggle('open');
+    document.getElementById('tmlToggleText').textContent = (body.classList.contains('open')?tr.tlHide:tr.tlShow)+' ('+rows.length+' '+tr.tlRows+')';
+  };
 
   document.getElementById('tlContainer').innerHTML = `
     <table class="tml-table">
@@ -1034,6 +1089,21 @@ function loadFromURL(){
   setLang(getLangFromPath(), false);
   loadFromURL();
   window.addEventListener('popstate', () => setLang(getLangFromPath(), false));
+
+  // Share button
+  document.getElementById('shareBtn').addEventListener('click', function(){
+    var url = window.location.href;
+    if(navigator.share){
+      navigator.share({url:url}).catch(function(){});
+    } else {
+      navigator.clipboard.writeText(url).then(function(){
+        var toast = document.getElementById('shareToast');
+        toast.textContent = t().shareCopied;
+        toast.classList.add('show');
+        setTimeout(function(){ toast.classList.remove('show'); },1500);
+      });
+    }
+  });
 })();
 </script>
 

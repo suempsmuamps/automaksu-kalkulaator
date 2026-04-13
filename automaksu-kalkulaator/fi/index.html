@@ -123,8 +123,20 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
 .ann-num:not(.e){animation:fadeSlideIn .35s var(--ease)}
 .chip{animation:fadeSlideIn .3s var(--ease) both}.chip:nth-child(2){animation-delay:.06s}.chip:nth-child(3){animation-delay:.12s}.chip:nth-child(4){animation-delay:.18s}
 .pay-col{animation:fadeSlideIn .3s var(--ease) both}.pay-col:nth-child(2){animation-delay:.06s}
+@keyframes pulse{0%{transform:scale(1)}30%{transform:scale(1.005)}100%{transform:scale(1)}}
 .ann-num{font-size:3.4rem;font-weight:700;color:#fff;letter-spacing:-2px;line-height:1;position:relative;transition:opacity .35s var(--ease)}
 .ann-num.e{color:rgba(255,255,255,.35)}
+.tml-toggle{width:100%;padding:10px;border:1px solid var(--sep);border-radius:10px;background:var(--bg);color:var(--label2);font-family:var(--font);font-size:.84rem;font-weight:500;cursor:pointer;margin-bottom:12px;transition:opacity .15s;display:flex;align-items:center;justify-content:center;gap:6px}
+.tml-toggle:hover{opacity:.85}
+.tml-toggle svg{width:16px;height:16px;transition:transform .3s var(--ease)}
+.tml-toggle.open svg{transform:rotate(180deg)}
+.c-tml-body{max-height:0;overflow:hidden;transition:max-height .4s var(--ease)}
+.c-tml-body.open{max-height:2000px}
+.share-btn{position:absolute;top:16px;right:16px;background:rgba(255,255,255,.1);border:none;color:rgba(255,255,255,.7);width:36px;height:36px;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:opacity .15s}
+.share-btn:hover{opacity:.85}
+.share-btn svg{width:18px;height:18px}
+.share-btn .share-toast{position:absolute;top:-32px;left:50%;transform:translateX(-50%);background:var(--label);color:var(--bg);padding:4px 10px;border-radius:6px;font-size:.72rem;font-weight:600;white-space:nowrap;opacity:0;transition:opacity .2s}
+.share-btn .share-toast.show{opacity:1}
 .ann-lbl{font-size:.78rem;color:rgba(255,255,255,.65);margin-top:6px;text-transform:uppercase;letter-spacing:.08em;font-weight:500}
 
 /* ── Reg fee card ── */
@@ -335,20 +347,24 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
   <!-- Bento -->
   <div class="bento">
 
-    <div class="c-ann">
+    <div class="c-ann" id="annCell">
+      <button class="share-btn" id="shareBtn" aria-label="Share"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg><span class="share-toast" id="shareToast"></span></button>
       <div class="ann-chips" id="annChips"></div>
       <div class="ann-num e" id="annNum">—</div>
       <div class="ann-lbl" id="annLbl">Aastamaks</div>
       <div class="c-tml" id="tmlCard" style="display:none">
-        <div class="tml-top">
-          <span class="tml-lbl" id="tmlLbl">Maksegraafik</span>
-          <div class="tml-picks">
-            <select class="tml-sel" id="iRegYear" onchange="calc()"></select>
-            <select class="tml-sel" id="iMonth"   onchange="calc()"></select>
+        <button class="tml-toggle" id="tmlToggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg><span id="tmlToggleText"></span></button>
+        <div class="c-tml-body" id="tmlBody">
+          <div class="tml-top">
+            <span class="tml-lbl" id="tmlLbl">Maksegraafik</span>
+            <div class="tml-picks">
+              <select class="tml-sel" id="iRegYear" onchange="calc()"></select>
+              <select class="tml-sel" id="iMonth"   onchange="calc()"></select>
+            </div>
           </div>
+          <div id="payContainer"></div>
+          <div class="tml-note" id="tmlNote"></div>
         </div>
-        <div id="payContainer"></div>
-        <div class="tml-note" id="tmlNote"></div>
       </div>
     </div>
 
@@ -440,6 +456,7 @@ const T = {
     co2Lbl:'CO₂ heide', powerLbl:'Mootori võimsus',
     yearLbl:'Esmane registreerimine', massLbl:'Täismass',
     annLbl:'AASTAMAKS', tmlLbl:'MAKSEGRAAFIK',
+    tlShow:'Näita maksegraafikut', tlHide:'Peida maksegraafik', shareCopied:'Link kopeeritud!',
     regLbl:'REGISTREERIMISTASU', regNote:'Ühekordne tasu esmakordsel registreerimisel Eestis või esimesel omanikuvahetusel.',
     regCO2:'CO₂ komponent', regAge:'Vanusekoefitsient', regExempt:'Vabastatud',
     chipBase:'Põhimäär', chipCO2:'CO₂ komponent', chipEngine:'Mootori komponent',
@@ -507,6 +524,7 @@ const T = {
     co2Lbl:'CO₂ emissions', powerLbl:'Engine power',
     yearLbl:'First registration', massLbl:'Gross mass',
     annLbl:'ANNUAL TAX', tmlLbl:'PAYMENT SCHEDULE',
+    tlShow:'Show payment schedule', tlHide:'Hide payment schedule', shareCopied:'Link copied!',
     regLbl:'REGISTRATION FEE', regNote:'One-time fee upon first registration in Estonia or first change of ownership.',
     regCO2:'CO₂ component', regAge:'Age factor', regExempt:'Exempt',
     chipBase:'Base rate', chipCO2:'CO₂ component', chipEngine:'Engine component',
@@ -572,6 +590,7 @@ const T = {
     co2Lbl:'Выбросы CO₂', powerLbl:'Мощность двигателя',
     yearLbl:'Первая регистрация', massLbl:'Полная масса',
     annLbl:'ГОДОВОЙ НАЛОГ', tmlLbl:'ГРАФИК ПЛАТЕЖЕЙ',
+    tlShow:'Показать график платежей', tlHide:'Скрыть график платежей', shareCopied:'Ссылка скопирована!',
     regLbl:'РЕГИСТРАЦИОННЫЙ СБОР', regNote:'Единовременный сбор при первой регистрации в Эстонии или первой смене владельца.',
     regCO2:'Компонент CO₂', regAge:'Коэффициент возраста', regExempt:'Освобождён',
     chipBase:'Базовая ставка', chipCO2:'Компонент CO₂', chipEngine:'Компонент двигателя',
@@ -633,6 +652,7 @@ const T = {
     co2Lbl:'CO₂-päästöt', powerLbl:'Moottorin teho',
     yearLbl:'Ensimmäinen rekisteröinti', massLbl:'Kokonaismassa',
     annLbl:'VUOSIVERO', tmlLbl:'MAKSUAIKATAULU',
+    tlShow:'Näytä maksuaikataulu', tlHide:'Piilota maksuaikataulu', shareCopied:'Linkki kopioitu!',
     regLbl:'REKISTERÖINTIMAKSU', regNote:'Kertamaksu ensimmäisestä rekisteröinnistä Virossa tai ensimmäisestä omistajan vaihdosta.',
     regCO2:'CO₂-komponentti', regAge:'Ikäkerroin', regExempt:'Vapautettu',
     chipBase:'Perusmaksu', chipCO2:'CO₂-komponentti', chipEngine:'Moottorikomponentti',
@@ -953,6 +973,8 @@ function clearResult() {
   el.textContent = '—'; el.classList.add('e'); _prevTax=0;
   document.getElementById('annChips').innerHTML = '';
   document.getElementById('tmlCard').style.display = 'none';
+  document.getElementById('tmlBody').classList.remove('open');
+  document.getElementById('tmlToggle').classList.remove('open');
   const rn = document.getElementById('regNum');
   rn.textContent = '—'; rn.classList.add('e'); _prevRegFee=0;
   document.getElementById('regChips').innerHTML = '';
@@ -983,6 +1005,8 @@ function calc() {
     const numEl = document.getElementById('annNum');
     animateNum(numEl,_prevTax,annTax,eur,400);_prevTax=annTax;
     numEl.classList.remove('e');
+    const cell = document.getElementById('annCell');
+    cell.style.animation='pulse .5s ease';setTimeout(()=>cell.style.animation='',550);
     document.getElementById('annChips').innerHTML = annTax === 0
       ? `<span class="chip">Vabastatud (üle 20 a)</span>`
       : `<span class="chip">${tr.chipBase}: ${eur(annTax)}</span>`;
@@ -1010,6 +1034,8 @@ function calc() {
     const numEl = document.getElementById('annNum');
     animateNum(numEl,_prevTax,30,eur,400);_prevTax=30;
     numEl.classList.remove('e');
+    const cell = document.getElementById('annCell');
+    cell.style.animation='pulse .5s ease';setTimeout(()=>cell.style.animation='',550);
     document.getElementById('annChips').innerHTML = `<span class="chip">${tr.chipBase}: ${eur(30)}</span>`;
     renderSchedule(30, regYear, regMonth, tr);
     updateRegFee(NaN, y, true, tr);
@@ -1026,6 +1052,8 @@ function calc() {
   const numEl = document.getElementById('annNum');
   animateNum(numEl,_prevTax,annTax,eur,400);_prevTax=annTax;
   numEl.classList.remove('e');
+  const cell = document.getElementById('annCell');
+  cell.style.animation='pulse .5s ease';setTimeout(()=>cell.style.animation='',550);
 
   // Chips
   const chips = [
@@ -1050,6 +1078,17 @@ function calc() {
 function renderSchedule(annTax, regYear, regMonth, tr) {
   const card = document.getElementById('tmlCard');
   card.style.display = '';
+
+  // Toggle button
+  const toggle = document.getElementById('tmlToggle');
+  const body = document.getElementById('tmlBody');
+  document.getElementById('tmlToggleText').textContent = body.classList.contains('open') ? tr.tlHide : tr.tlShow;
+  toggle.onclick = function(){
+    body.classList.toggle('open');
+    toggle.classList.toggle('open');
+    document.getElementById('tmlToggleText').textContent = body.classList.contains('open') ? tr.tlHide : tr.tlShow;
+  };
+
   const months   = 13 - regMonth;
   const proRated = annTax * months / 12;
   const hasJune  = regMonth <= 6;
@@ -1133,6 +1172,21 @@ function toggleFaq(i) {
   setLang(getLangFromPath(), false);
   loadFromURL();
   window.addEventListener('popstate', () => setLang(getLangFromPath(), false));
+
+  // Share button
+  document.getElementById('shareBtn').addEventListener('click', function(){
+    var url = window.location.href;
+    if(navigator.share){
+      navigator.share({url:url}).catch(function(){});
+    } else {
+      navigator.clipboard.writeText(url).then(function(){
+        var toast = document.getElementById('shareToast');
+        toast.textContent = t().shareCopied;
+        toast.classList.add('show');
+        setTimeout(function(){ toast.classList.remove('show'); },1500);
+      });
+    }
+  });
 })();
 </script>
 
