@@ -142,7 +142,7 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
 .ann-num:not(.e){animation:fadeSlideIn .35s var(--ease)}
 .chip{animation:fadeSlideIn .3s var(--ease) both}.chip:nth-child(2){animation-delay:.06s}.chip:nth-child(3){animation-delay:.12s}.chip:nth-child(4){animation-delay:.18s}
 .c-tml{animation:fadeSlideIn .4s var(--ease)}
-.tml-table tr{animation:fadeSlideIn .3s var(--ease) both}.tml-table tr:nth-child(2){animation-delay:.04s}.tml-table tr:nth-child(3){animation-delay:.08s}.tml-table tr:nth-child(4){animation-delay:.12s}.tml-table tr:nth-child(5){animation-delay:.16s}
+.tml-table tr{animation:fadeSlideIn .3s var(--ease) both;animation-delay:calc(var(--i,0) * .04s)}
 .preset-btn:active{transform:scale(.95);transition:transform .1s}
 .ann-num{font-size:3.2rem;font-weight:700;color:#fff;letter-spacing:-1.5px;line-height:1}
 .ann-num.e{color:rgba(255,255,255,.35)}
@@ -950,11 +950,11 @@ function renderTimeline(bac, beta, tr){
   document.getElementById('tlContainer').innerHTML = `
     <table class="tml-table">
       <thead><tr><th>${tr.tlTime}</th><th></th><th>${tr.tlBAC}</th></tr></thead>
-      <tbody>${rows.map(r=>{
+      <tbody>${rows.map((r,ri)=>{
         const lvl = r.bac>=1.2?'danger':r.bac>=0.5?'warn':'safe';
         const w   = bac>0?Math.round((r.bac/bac)*100):0;
         const val = r.bac===0?`<span style="color:#34c759">${tr.tlSober}</span>`:fmtBac(r.bac)+' ‰';
-        return `<tr class="${r.now?'tml-now':''}">
+        return `<tr class="${r.now?'tml-now':''}" style="--i:${ri}">
           <td>${r.label}</td>
           <td><div class="bar-wrap"><div class="bar ${lvl}" style="width:${w}px"></div></div></td>
           <td>${val}</td>

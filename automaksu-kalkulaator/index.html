@@ -921,25 +921,26 @@ function updateDots() {
 }
 
 // ── Clear ──────────────────────────────────────────────────────────────────────
+var _prevRegFee=0;
 function updateRegFee(co2, firstYear, isEV, tr) {
   const numEl = document.getElementById('regNum');
   const chipsEl = document.getElementById('regChips');
   if (isEV) {
-    numEl.textContent = eur(0);
+    animateNum(numEl,_prevRegFee,0,eur,400);_prevRegFee=0;
     numEl.classList.remove('e');
     chipsEl.innerHTML = `<span class="reg-chip">${tr.regExempt}</span>`;
     return;
   }
   const hasCO2 = !isNaN(co2) && co2 >= 0;
   if (!hasCO2) {
-    numEl.textContent = '—'; numEl.classList.add('e');
+    numEl.textContent = '—'; numEl.classList.add('e'); _prevRegFee=0;
     chipsEl.innerHTML = '';
     return;
   }
   const co2c = regFeeCO2(co2);
   const af = regFeeAgeFactor(firstYear);
   const fee = co2c * af;
-  numEl.textContent = eur(fee);
+  animateNum(numEl,_prevRegFee,fee,eur,400);_prevRegFee=fee;
   numEl.classList.remove('e');
   const chips = [];
   chips.push(`<span class="reg-chip">${tr.regCO2}: ${eur(co2c)}</span>`);
@@ -953,7 +954,7 @@ function clearResult() {
   document.getElementById('annChips').innerHTML = '';
   document.getElementById('tmlCard').style.display = 'none';
   const rn = document.getElementById('regNum');
-  rn.textContent = '—'; rn.classList.add('e');
+  rn.textContent = '—'; rn.classList.add('e'); _prevRegFee=0;
   document.getElementById('regChips').innerHTML = '';
   updateDots();
 }
