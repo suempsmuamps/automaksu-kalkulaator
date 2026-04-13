@@ -56,10 +56,10 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
 .header-sub{font-size:.82rem;color:var(--label3);margin-top:3px;letter-spacing:.01em}
 .header-controls{display:flex;align-items:center;gap:8px;flex-shrink:0}
 .lang-switcher{display:flex;background:var(--sep);border-radius:10px;padding:3px;gap:2px}
-.lang-btn{background:none;border:none;padding:5px 10px;border-radius:8px;font-size:.76rem;font-weight:600;color:var(--label3);cursor:pointer;font-family:var(--font);transition:all .2s var(--ease);letter-spacing:.02em}
+.lang-btn{background:none;border:2px solid transparent;padding:5px 10px;border-radius:8px;font-size:.76rem;font-weight:600;color:var(--label3);cursor:pointer;font-family:var(--font);transition:all .2s var(--ease);letter-spacing:.02em}
 .lang-btn:hover{color:var(--label2)}
 .lang-btn.active{background:var(--card);color:var(--tint);box-shadow:0 1px 4px rgba(0,0,0,.15)}
-.theme-btn{background:var(--sep);border:none;width:34px;height:34px;border-radius:10px;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;transition:transform .2s var(--ease)}
+.theme-btn{background:var(--sep);border:2px solid transparent;width:34px;height:34px;border-radius:10px;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;transition:transform .2s var(--ease)}
 .theme-btn:hover{transform:scale(1.08)}
 .theme-btn:active{transform:scale(.95)}
 
@@ -1087,7 +1087,7 @@ function toggleFaq(i) {
 .cc-btn:hover{opacity:.85}
 .cc-accept{background:var(--tint);color:var(--bg);border-color:var(--tint)}
 .cc-decline{background:none;color:var(--label3)}
-.cc-reopen{position:fixed;bottom:20px;left:20px;z-index:9990;width:48px;height:48px;border-radius:50%;border:none;background:var(--card);color:var(--label3);box-shadow:0 2px 8px rgba(0,0,0,.12);cursor:pointer;display:none;align-items:center;justify-content:center;transition:transform .2s var(--ease),color .15s}
+.cc-reopen{position:fixed;bottom:20px;left:20px;z-index:9990;width:48px;height:48px;border-radius:50%;border:2px solid transparent;background:var(--card);color:var(--label3);box-shadow:0 2px 8px rgba(0,0,0,.12);cursor:pointer;display:none;align-items:center;justify-content:center;transition:transform .2s var(--ease),color .15s}
 .cc-reopen:hover{transform:scale(1.08);color:var(--label)}
 .cc-reopen.show{display:flex}
 .cc-reopen svg{width:26px;height:26px}
@@ -1185,7 +1185,7 @@ function toggleFaq(i) {
 
 <!-- ── Accessibility Widget ─────────────────────────────────────────────────── -->
 <style>
-.a11y-fab{position:fixed;bottom:20px;right:20px;z-index:10000;width:48px;height:48px;border-radius:50%;border:none;background:var(--card);color:var(--label);box-shadow:0 2px 12px rgba(0,0,0,.18);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .2s var(--ease),box-shadow .2s var(--ease)}
+.a11y-fab{position:fixed;bottom:20px;right:20px;z-index:10000;width:48px;height:48px;border-radius:50%;border:2px solid transparent;background:var(--card);color:var(--label);box-shadow:0 2px 12px rgba(0,0,0,.18);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .2s var(--ease),box-shadow .2s var(--ease)}
 .a11y-fab:hover{transform:scale(1.08);box-shadow:0 4px 20px rgba(0,0,0,.25)}
 .a11y-fab svg{width:26px;height:26px;transition:transform .2s var(--ease)}
 .a11y-fab.open svg.a11y-icon-open{display:none}
