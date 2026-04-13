@@ -51,7 +51,7 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
 .header-icon svg,.info-icon svg{display:block}
 .header-icon svg{width:2rem;height:2rem}
 .info-icon svg{width:1.5rem;height:1.5rem}
-.theme-btn svg{width:1.15rem;height:1.15rem}
+.theme-btn svg{width:1.15rem;height:1.15rem;color:var(--label)}
 .preset-btn svg,.drink-icon svg{width:1.15em;height:1.15em;flex-shrink:0}
 .chip svg{width:.9em;height:.9em;flex-shrink:0}
 .seg-btn svg{width:1em;height:1em;vertical-align:-.12em}
@@ -371,7 +371,7 @@ const ICO={
   beer:_i('<path d="M7 2h10l-1 5c-.3 2-.8 4-1 6-.2 2 0 4 .5 5.5a2 2 0 0 1-1.5 2.5h-4a2 2 0 0 1-1.5-2.5c.5-1.5.7-3.5.5-5.5-.2-2-.7-4-1-6L7 2z"/><path d="M7 5h10"/>'),
   wine:_i('<path d="M6 2h12c0 7-3 12-6 12s-6-5-6-12z"/><path d="M7 6h10"/><path d="M12 14v5"/><path d="M8 19h8"/>'),
   spirits:_i('<path d="M6 2h12l-2 14a2 2 0 0 1-2 1.5h-4A2 2 0 0 1 8 16L6 2z"/><path d="M6 5h12"/><rect x="8" y="19" width="8" height="3" rx="1"/>'),
-  cocktail:_i('<path d="M8 22h8"/><path d="M12 17v5"/><path d="M4 4h16l-8 13z"/><line x1="16" y1="4" x2="19" y2="1"/>'),
+  can:_i('<rect x="7" y="3" width="10" height="18" rx="2"/><path d="M7 6h10"/><path d="M7 18h10"/>'),
   soda:_i('<circle cx="5" cy="5" r="4"/><path d="M7 6h10c0 5-2.5 9-5 9s-5-4-5-9z"/><path d="M8 9h8"/><path d="M12 15v5"/><path d="M9 20h6"/><path d="M14 9l3-5 2-1"/>'),
   bottle:_i('<path d="M10 2h4v4l2 3v11a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2V9l2-3V2z"/>'),
   car:_i('<path d="M7 10l2-4h6l2 4"/><rect x="3" y="10" width="18" height="7" rx="2"/><circle cx="7.5" cy="17.5" r="2.5"/><circle cx="16.5" cy="17.5" r="2.5"/>'),
@@ -393,7 +393,7 @@ const PRESETS = [
   {id:'beer500',  icon:ICO.beer,     ml:500, abv:5.0,  name:{fi:'Olut 500ml',    sv:'Öl 500ml',    en:'Beer 500ml',    ru:'Пиво 500мл',    et:'Õlu 500ml'   }},
   {id:'wine',     icon:ICO.wine,     ml:150, abv:12.0, name:{fi:'Viini 150ml',   sv:'Vin 150ml',   en:'Wine 150ml',    ru:'Вино 150мл',    et:'Vein 150ml'  }},
   {id:'spirits',  icon:ICO.spirits,  ml:40,  abv:40.0, name:{fi:'Viina 40ml',    sv:'Sprit 40ml',  en:'Spirit 40ml',   ru:'Водка 40мл',    et:'Viin 40ml'   }},
-  {id:'cider',    icon:ICO.cocktail, ml:330, abv:4.5,  name:{fi:'Siideri 330ml', sv:'Cider 330ml', en:'Cider 330ml',   ru:'Сидр 330мл',    et:'Siider 330ml'}},
+  {id:'cider',    icon:ICO.can, ml:330, abv:4.5,  name:{fi:'Siideri 330ml', sv:'Cider 330ml', en:'Cider 330ml',   ru:'Сидр 330мл',    et:'Siider 330ml'}},
   {id:'longdrink',icon:ICO.soda,     ml:330, abv:5.5,  name:{fi:'Long drink',    sv:'Long drink',  en:'Long drink',    ru:'Лонгдринк',     et:'Long drink'  }},
 ];
 
