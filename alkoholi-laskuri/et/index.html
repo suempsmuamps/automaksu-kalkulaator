@@ -1125,16 +1125,16 @@ function loadFromURL(){
 
 <!-- ── Accessibility Widget ─────────────────────────────────────────────────── -->
 <style>
-.a11y-fab{position:fixed;bottom:20px;right:20px;z-index:9998;width:48px;height:48px;border-radius:50%;border:none;background:var(--card);color:var(--label);box-shadow:0 2px 12px rgba(0,0,0,.18);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .2s var(--ease),box-shadow .2s var(--ease)}
+.a11y-fab{position:fixed;bottom:20px;right:20px;z-index:10000;width:48px;height:48px;border-radius:50%;border:none;background:var(--card);color:var(--label);box-shadow:0 2px 12px rgba(0,0,0,.18);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .2s var(--ease),box-shadow .2s var(--ease)}
 .a11y-fab:hover{transform:scale(1.08);box-shadow:0 4px 20px rgba(0,0,0,.25)}
-.a11y-fab svg{width:26px;height:26px}
+.a11y-fab svg{width:26px;height:26px;transition:transform .2s var(--ease)}
+.a11y-fab.open svg.a11y-icon-open{display:none}
+.a11y-fab.open svg.a11y-icon-close{display:block}
+.a11y-fab svg.a11y-icon-close{display:none}
 .a11y-panel{position:fixed;bottom:76px;right:20px;z-index:9999;width:280px;max-width:calc(100vw - 40px);background:var(--bg);border:var(--card-border);border-radius:var(--radius);box-shadow:0 4px 24px rgba(0,0,0,.18);opacity:0;transform:translateY(8px) scale(.96);pointer-events:none;transition:opacity .2s var(--ease),transform .2s var(--ease);display:flex;flex-direction:column;overflow:hidden}
 .a11y-panel.open{opacity:1;transform:translateY(0) scale(1);pointer-events:auto}
 .a11y-panel-hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 10px;border-bottom:1px solid var(--sep)}
 .a11y-panel-hdr h2{font-size:1rem;font-weight:700;margin:0;color:var(--label)}
-.a11y-close{background:none;border:none;color:var(--label3);cursor:pointer;padding:4px;border-radius:8px;display:flex;align-items:center;justify-content:center;transition:color .15s}
-.a11y-close:hover{color:var(--label)}
-.a11y-close svg{width:18px;height:18px}
 .a11y-body{padding:12px 16px 16px}
 .a11y-btn{display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;border:1px solid var(--sep);border-radius:12px;background:var(--card);color:var(--label);font-family:var(--font);font-size:.85rem;font-weight:500;cursor:pointer;transition:border-color .15s,background .15s;margin-bottom:6px;text-align:left}
 .a11y-btn:hover{border-color:var(--label3)}
@@ -1157,15 +1157,13 @@ html.a11y-focus-outline *:focus{outline:3px solid #f59e0b!important;outline-offs
 </style>
 
 <button class="a11y-fab" id="a11yFab" aria-label="Saavutettavuusasetukset">
-  <svg class="a11y-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="4.5" r="2"/><path d="M12 7.5v5m0 0l-3.5 5.5m3.5-5.5l3.5 5.5"/><path d="M6 10.5c2-.7 4-1 6-1s4 .3 6 1"/></svg>
+  <svg class="a11y-icon a11y-icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="4.5" r="2"/><path d="M12 7.5v5m0 0l-3.5 5.5m3.5-5.5l3.5 5.5"/><path d="M6 10.5c2-.7 4-1 6-1s4 .3 6 1"/></svg>
+  <svg class="a11y-icon a11y-icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
 </button>
 
 <aside class="a11y-panel" id="a11yPanel" role="dialog" aria-label="Saavutettavuusasetukset">
   <div class="a11y-panel-hdr">
     <h2 id="a11yTitle">Saavutettavuus</h2>
-    <button class="a11y-close" id="a11yClose" aria-label="Sulje">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
-    </button>
   </div>
   <div class="a11y-body" id="a11yBody"></div>
 </aside>
@@ -1234,21 +1232,22 @@ html.a11y-focus-outline *:focus{outline:3px solid #f59e0b!important;outline-offs
     });
   }
 
-  function open(){
-    panel.classList.add('open');
-    fab.style.display = 'none';
-    fab.setAttribute('aria-expanded','true');
-    render();
-  }
-  function close(){
-    panel.classList.remove('open');
-    fab.style.display = '';
-    fab.setAttribute('aria-expanded','false');
+  function togglePanel(){
+    var isOpen = panel.classList.contains('open');
+    if(isOpen){
+      panel.classList.remove('open');
+      fab.classList.remove('open');
+      fab.setAttribute('aria-expanded','false');
+    } else {
+      panel.classList.add('open');
+      fab.classList.add('open');
+      fab.setAttribute('aria-expanded','true');
+      render();
+    }
   }
 
-  fab.addEventListener('click', open);
-  document.getElementById('a11yClose').addEventListener('click', close);
-  document.addEventListener('keydown', e=>{ if(e.key==='Escape' && panel.classList.contains('open')) close(); });
+  fab.addEventListener('click', togglePanel);
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape' && panel.classList.contains('open')) togglePanel(); });
 
   // Observe lang changes
   const origSetLang = window.setLang;
