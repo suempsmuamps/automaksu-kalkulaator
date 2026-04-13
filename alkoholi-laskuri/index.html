@@ -1151,9 +1151,9 @@ function loadFromURL(){
 /* ── Accessibility effect classes ── */
 html.a11y-big-text{font-size:125%}
 html.a11y-readable-font,html.a11y-readable-font *{font-family:Verdana,Geneva,Tahoma,sans-serif!important}
-html.a11y-high-contrast{--bg:#000!important;--card:#111!important;--label:#ffdd00!important;--label2:#ffdd00!important;--label3:#e6c800!important;--sep:#ffdd00!important;--tint:#ffdd00!important;--card-border:2px solid #ffdd00!important}
-html.a11y-high-contrast[data-theme="light"]{--bg:#ffdd00!important;--card:#fff200!important;--label:#000!important;--label2:#000!important;--label3:#222!important;--sep:#000!important;--tint:#000!important;--card-border:2px solid #000!important}
-@media(prefers-color-scheme:light){html.a11y-high-contrast:not([data-theme="dark"]){--bg:#ffdd00!important;--card:#fff200!important;--label:#000!important;--label2:#000!important;--label3:#222!important;--sep:#000!important;--tint:#000!important;--card-border:2px solid #000!important}}
+html.a11y-high-contrast{--bg:#000!important;--card:#000!important;--label:#fff!important;--label2:#fff!important;--label3:#ccc!important;--sep:#fff!important;--tint:#fff!important;--card-border:2px solid #fff!important}
+html.a11y-high-contrast[data-theme="light"]{--bg:#fff!important;--card:#fff!important;--label:#000!important;--label2:#000!important;--label3:#333!important;--sep:#000!important;--tint:#000!important;--card-border:2px solid #000!important}
+@media(prefers-color-scheme:light){html.a11y-high-contrast:not([data-theme="dark"]){--bg:#fff!important;--card:#fff!important;--label:#000!important;--label2:#000!important;--label3:#333!important;--sep:#000!important;--tint:#000!important;--card-border:2px solid #000!important}}
 html.a11y-high-contrast .theme-btn{background:var(--label)!important;color:var(--bg)!important}
 html.a11y-high-contrast .theme-btn svg{color:var(--bg)!important}
 html.a11y-no-motion,html.a11y-no-motion *,html.a11y-no-motion *::before,html.a11y-no-motion *::after{animation-duration:0s!important;animation-delay:0s!important;transition-duration:0s!important}
