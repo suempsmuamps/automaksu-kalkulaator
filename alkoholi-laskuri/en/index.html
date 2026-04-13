@@ -445,7 +445,7 @@ const T = {
     weightLbl:'Paino', drinksLbl:'Nautitut juomat',
     hoursLbl:'Tuntia sitten aloitit', hoursUnit:'tuntia',
     annLbl:'promillea (‰)',
-    chipSober:'Selvin päin', chipWarn:'Rattijuopumus', chipDanger:'Törkeä rattijuopumus', chipEmergency:'Hengenvaarallista! Soita 112',
+    chipSober:'Selvin päin', chipCaution:'Alkoholia veressä', chipWarn:'Rattijuopumus', chipDanger:'Törkeä rattijuopumus', chipEmergency:'Hengenvaarallista! Soita 112',
     tlShow:'Näytä aikataulu', tlHide:'Piilota aikataulu', tlRows:'riviä',
     shareCopied:'Linkki kopioitu!', emergencyText:'Hengenvaarallinen taso!', emergencyCall:'Soita 112',
     chipDriveIn:'Voit ajaa', chipSoberIn:'Selvin päin',
@@ -506,7 +506,7 @@ const T = {
     weightLbl:'Vikt', drinksLbl:'Konsumerade drycker',
     hoursLbl:'Timmar sedan du började', hoursUnit:'timmar',
     annLbl:'promille (‰)',
-    chipSober:'Nykter', chipWarn:'Rattfylleri', chipDanger:'Grovt rattfylleri', chipEmergency:'Livshotande! Ring 112',
+    chipSober:'Nykter', chipCaution:'Alkohol i blodet', chipWarn:'Rattfylleri', chipDanger:'Grovt rattfylleri', chipEmergency:'Livshotande! Ring 112',
     tlShow:'Visa tidslinje', tlHide:'Dölj tidslinje', tlRows:'rader',
     shareCopied:'Länk kopierad!', emergencyText:'Livshotande nivå!', emergencyCall:'Ring 112',
     chipDriveIn:'Kan köra', chipSoberIn:'Nykter',
@@ -567,7 +567,7 @@ const T = {
     weightLbl:'Body weight', drinksLbl:'Drinks consumed',
     hoursLbl:'Hours since first drink', hoursUnit:'hours',
     annLbl:'promille (‰)',
-    chipSober:'Sober', chipWarn:'Drunk driving', chipDanger:'Aggravated DUI', chipEmergency:'Life-threatening! Call 112',
+    chipSober:'Sober', chipCaution:'Alcohol detected', chipWarn:'Drunk driving', chipDanger:'Aggravated DUI', chipEmergency:'Life-threatening! Call 112',
     tlShow:'Show timeline', tlHide:'Hide timeline', tlRows:'rows',
     shareCopied:'Link copied!', emergencyText:'Life-threatening level!', emergencyCall:'Call 112',
     chipDriveIn:'Can drive in', chipSoberIn:'Sober in',
@@ -628,7 +628,7 @@ const T = {
     weightLbl:'Масса тела', drinksLbl:'Выпитые напитки',
     hoursLbl:'Часов назад начали пить', hoursUnit:'часов',
     annLbl:'промилле (‰)',
-    chipSober:'Трезв', chipWarn:'Вождение в нетрезвом виде', chipDanger:'Тяжкое опьянение за рулём', chipEmergency:'Опасно для жизни! Звоните 112',
+    chipSober:'Трезв', chipCaution:'Алкоголь в крови', chipWarn:'Вождение в нетрезвом виде', chipDanger:'Тяжкое опьянение за рулём', chipEmergency:'Опасно для жизни! Звоните 112',
     tlShow:'Показать график', tlHide:'Скрыть график', tlRows:'строк',
     shareCopied:'Ссылка скопирована!', emergencyText:'Опасный для жизни уровень!', emergencyCall:'Звоните 112',
     chipDriveIn:'За руль через', chipSoberIn:'Трезв через',
@@ -687,7 +687,7 @@ const T = {
     weightLbl:'Kehakaal', drinksLbl:'Tarbitud joogid',
     hoursLbl:'Tunde tagasi alustasid', hoursUnit:'tundi',
     annLbl:'promilli (‰)',
-    chipSober:'Kaine', chipWarn:'Joobes juhtimine', chipDanger:'Raske joobes juhtimine', chipEmergency:'Eluohtlik! Helista 112',
+    chipSober:'Kaine', chipCaution:'Alkohol veres', chipWarn:'Joobes juhtimine', chipDanger:'Raske joobes juhtimine', chipEmergency:'Eluohtlik! Helista 112',
     tlShow:'Näita ajagraafikut', tlHide:'Peida ajagraafik', tlRows:'rida',
     shareCopied:'Link kopeeritud!', emergencyText:'Eluohtlik tase!', emergencyCall:'Helista 112',
     chipDriveIn:'Rooli saab', chipSoberIn:'Kaine',
@@ -960,8 +960,8 @@ function calc(){
 
   // Chips
   const chips=[];
-  if(bac<0.5){
-    chips.push(`<span class="chip chip-green">${ICO.check} ${tr.chipSober}</span>`);
+  if(bac<=0){
+    chips.push(`<span class="chip chip-green">${ICO.check} ${tr.chipSober}</span>`);} else if(bac<0.5){chips.push(`<span class="chip chip-orange">${ICO.alert} ${tr.chipCaution}</span>`);
   } else if(bac<1.2){
     chips.push(`<span class="chip chip-orange">${ICO.alert} ${tr.chipWarn}</span>`);
     chips.push(`<span class="chip chip-orange">${ICO.car} ${tr.chipDriveIn}: ${fmtTime(bac/beta)}</span>`);
