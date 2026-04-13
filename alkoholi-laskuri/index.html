@@ -131,6 +131,7 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
   transition:background .35s;position:relative;overflow:hidden;
 }
 .c-ann::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.06) 1px,transparent 1px);background-size:20px 20px;-webkit-mask-image:radial-gradient(ellipse at 70% 30%,#000 10%,transparent 60%);mask-image:radial-gradient(ellipse at 70% 30%,#000 10%,transparent 60%);pointer-events:none}
+.c-ann.st-yellow{background:linear-gradient(135deg,#1a1a00 0%,#2d2d00 40%,#3a3a00 100%)}
 .c-ann.st-warn{background:linear-gradient(135deg,#1a1200 0%,#332200 40%,#4a3000 100%)}
 .c-ann.st-danger{background:linear-gradient(135deg,#1a0000 0%,#3d0a0a 40%,#4a0f0f 100%)}
 .ann-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;padding-right:44px}
@@ -948,7 +949,7 @@ function calc(){
 
   // Ann cell color + pulse
   const cell = document.getElementById('annCell');
-  cell.className = 'c-ann' + (bac>=1.2?' st-danger': bac>=0.5?' st-warn':'');
+  cell.className = 'c-ann' + (bac>=1.2?' st-danger': bac>=0.5?' st-warn': bac>0?' st-yellow':'');
   cell.style.animation='pulse .5s ease';setTimeout(()=>cell.style.animation='',550);
 
   // Contextual number color
@@ -1273,7 +1274,8 @@ html.a11y-high-contrast .req-dot.ok{background:var(--label)!important;box-shadow
 html.a11y-high-contrast .chip-green,html.a11y-high-contrast .chip-orange,html.a11y-high-contrast .chip-red{background:var(--sep)!important;color:var(--label)!important}
 html.a11y-high-contrast .bar.safe,html.a11y-high-contrast .bar.warn,html.a11y-high-contrast .bar.danger{background:var(--label)!important}
 html.a11y-high-contrast .tml-table td{border:2px solid var(--label)!important}
-html.a11y-high-contrast .c-ann,html.a11y-high-contrast .c-ann.st-warn,html.a11y-high-contrast .c-ann.st-danger{background:var(--bg)!important;border:2px solid var(--label)!important}
+html.a11y-high-contrast .c-ann,html.a11y-high-contrast .c-ann.st-yellow{background:linear-gradient(135deg,#1a1a00 0%,#2d2d00 40%,#3a3a00 100%)}
+.c-ann.st-warn,html.a11y-high-contrast .c-ann.st-danger{background:var(--bg)!important;border:2px solid var(--label)!important}
 html.a11y-high-contrast .c-ann::before{display:none!important}
 html.a11y-high-contrast .ann-num{color:var(--label)!important}
 html.a11y-high-contrast .chip{background:var(--bg)!important;color:var(--label)!important;border:2px solid var(--label)!important;backdrop-filter:none!important}
