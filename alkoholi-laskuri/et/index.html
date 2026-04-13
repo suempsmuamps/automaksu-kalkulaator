@@ -48,6 +48,13 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
 .header-inner{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
 .header-title-group{display:flex;align-items:center;gap:12px}
 .header-icon{font-size:2rem;line-height:1}
+.header-icon svg,.info-icon svg{display:block}
+.header-icon svg{width:2rem;height:2rem}
+.info-icon svg{width:1.5rem;height:1.5rem}
+.theme-btn svg{width:1.15rem;height:1.15rem}
+.preset-btn svg,.drink-icon svg{width:1.15em;height:1.15em;flex-shrink:0}
+.chip svg{width:.9em;height:.9em;flex-shrink:0}
+.seg-btn svg{width:1em;height:1em;vertical-align:-.12em}
 .header-title{font-size:1.75rem;font-weight:700;letter-spacing:-.5px}
 .header-sub{font-size:.82rem;color:var(--label3);margin-top:3px;letter-spacing:.01em}
 
@@ -229,14 +236,14 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
   <header class="header">
     <div class="header-inner">
       <div class="header-title-group">
-        <div class="header-icon">🍺</div>
+        <div class="header-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 11h1.5a2.5 2.5 0 0 1 0 5H17"/><path d="M5 9v10a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V9"/><path d="M5 9h12"/><path d="M5 9c0-1 .8-2 2.5-2 1.5 0 1.5 1.2 3.5 1.2S14 6 15.5 6c1 0 1.5.6 1.5 1.2"/><path d="M9 5c0-1.5 1-2.5 2-2.5"/><path d="M12 4c.5-1 1.5-1.5 2.5-1"/></svg></div>
         <div>
           <h1 class="header-title" id="mainTitle">Alkoholi­laskuri</h1>
           <p class="header-sub" id="mainSub">Veren alkoholipitoisuus promilleina</p>
         </div>
       </div>
       <div class="header-controls">
-        <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" title="Toggle dark/light mode">🌙</button>
+        <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" title="Toggle dark/light mode"></button>
         <div class="lang-switcher">
           <button onclick="setLang('fi')" class="lang-btn active" id="btnFI">FI</button>
           <button onclick="setLang('sv')" class="lang-btn" id="btnSV">SV</button>
@@ -335,12 +342,12 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
   <!-- Info -->
   <div class="info-grid">
     <div class="info-card info-card--amber">
-      <div class="info-icon">⚠️</div>
+      <div class="info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
       <div class="info-card-title" id="disclaimerTitle">Huomautus</div>
       <p id="disclaimerText"></p>
     </div>
     <div class="info-card info-card--blue">
-      <div class="info-icon">✉️</div>
+      <div class="info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg></div>
       <div class="info-card-title" id="contactTitle">Ota yhteyttä</div>
       <p id="contactText"></p>
       <a href="mailto:laatorid@gmail.com" class="contact-btn" id="contactBtn">Kirjoita meille</a>
@@ -358,21 +365,43 @@ let gender = 'm';
 let drinks = [];
 let uid    = 0;
 
+// ── SVG Icons (Lucide-style) ──────────────────────────────────────────────────
+const _i=d=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
+const ICO={
+  beer:_i('<path d="M17 11h1.5a2.5 2.5 0 0 1 0 5H17"/><path d="M5 9v10a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V9"/><path d="M5 9h12"/><path d="M5 9c0-1 .8-2 2.5-2 1.5 0 1.5 1.2 3.5 1.2S14 6 15.5 6c1 0 1.5.6 1.5 1.2"/><path d="M9 5c0-1.5 1-2.5 2-2.5"/><path d="M12 4c.5-1 1.5-1.5 2.5-1"/>'),
+  wine:_i('<path d="M8 22h8"/><path d="M12 13v9"/><path d="M7 2h10"/><path d="M7 2c.3 5 2.5 8.5 5 11"/><path d="M17 2c-.3 5-2.5 8.5-5 11"/>'),
+  spirits:_i('<path d="M6 2h12l-2 14a2 2 0 0 1-2 1.5h-4A2 2 0 0 1 8 16L6 2z"/><path d="M6 5h12"/><rect x="8" y="19" width="8" height="3" rx="1"/>'),
+  cocktail:_i('<path d="M8 22h8"/><path d="M12 17v5"/><path d="M4 4h16l-8 13z"/><line x1="16" y1="4" x2="19" y2="1"/>'),
+  soda:_i('<path d="M7 7h10l-1 13a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2L7 7z"/><path d="M8 2h8v5H8z"/><line x1="15" y1="1" x2="15" y2="7"/>'),
+  bottle:_i('<path d="M10 2h4v4l2 3v11a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2V9l2-3V2z"/>'),
+  car:_i('<path d="M7 10l2-4h6l2 4"/><rect x="3" y="10" width="18" height="7" rx="2"/><circle cx="7.5" cy="17.5" r="2.5"/><circle cx="16.5" cy="17.5" r="2.5"/>'),
+  moon:_i('<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>'),
+  sun:_i('<circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>'),
+  male:_i('<circle cx="10" cy="14" r="5"/><path d="M19 5l-5.4 5.4"/><path d="M15 5h4v4"/>'),
+  female:_i('<circle cx="12" cy="9" r="5"/><path d="M12 14v8"/><path d="M9 18h6"/>'),
+  alert:_i('<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>'),
+  mail:_i('<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/>'),
+  check:_i('<path d="M20 6L9 17l-5-5"/>'),
+  ban:_i('<circle cx="12" cy="12" r="10"/><path d="M4.93 4.93l14.14 14.14"/>'),
+  clock:_i('<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>'),
+  plus:_i('<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>'),
+};
+
 // ── Drink presets ──────────────────────────────────────────────────────────────
 const PRESETS = [
-  {id:'beer330',  icon:'🍺', ml:330, abv:5.0,  name:{fi:'Olut 330ml',    sv:'Öl 330ml',    en:'Beer 330ml',    ru:'Пиво 330мл',    et:'Õlu 330ml'   }},
-  {id:'beer500',  icon:'🍺', ml:500, abv:5.0,  name:{fi:'Olut 500ml',    sv:'Öl 500ml',    en:'Beer 500ml',    ru:'Пиво 500мл',    et:'Õlu 500ml'   }},
-  {id:'wine',     icon:'🍷', ml:150, abv:12.0, name:{fi:'Viini 150ml',   sv:'Vin 150ml',   en:'Wine 150ml',    ru:'Вино 150мл',    et:'Vein 150ml'  }},
-  {id:'spirits',  icon:'🥃', ml:40,  abv:40.0, name:{fi:'Viina 40ml',    sv:'Sprit 40ml',  en:'Spirit 40ml',   ru:'Водка 40мл',    et:'Viin 40ml'   }},
-  {id:'cider',    icon:'🍹', ml:330, abv:4.5,  name:{fi:'Siideri 330ml', sv:'Cider 330ml', en:'Cider 330ml',   ru:'Сидр 330мл',    et:'Siider 330ml'}},
-  {id:'longdrink',icon:'🥤', ml:330, abv:5.5,  name:{fi:'Long drink',    sv:'Long drink',  en:'Long drink',    ru:'Лонгдринк',     et:'Long drink'  }},
+  {id:'beer330',  icon:ICO.beer,     ml:330, abv:5.0,  name:{fi:'Olut 330ml',    sv:'Öl 330ml',    en:'Beer 330ml',    ru:'Пиво 330мл',    et:'Õlu 330ml'   }},
+  {id:'beer500',  icon:ICO.beer,     ml:500, abv:5.0,  name:{fi:'Olut 500ml',    sv:'Öl 500ml',    en:'Beer 500ml',    ru:'Пиво 500мл',    et:'Õlu 500ml'   }},
+  {id:'wine',     icon:ICO.wine,     ml:150, abv:12.0, name:{fi:'Viini 150ml',   sv:'Vin 150ml',   en:'Wine 150ml',    ru:'Вино 150мл',    et:'Vein 150ml'  }},
+  {id:'spirits',  icon:ICO.spirits,  ml:40,  abv:40.0, name:{fi:'Viina 40ml',    sv:'Sprit 40ml',  en:'Spirit 40ml',   ru:'Водка 40мл',    et:'Viin 40ml'   }},
+  {id:'cider',    icon:ICO.cocktail, ml:330, abv:4.5,  name:{fi:'Siideri 330ml', sv:'Cider 330ml', en:'Cider 330ml',   ru:'Сидр 330мл',    et:'Siider 330ml'}},
+  {id:'longdrink',icon:ICO.soda,     ml:330, abv:5.5,  name:{fi:'Long drink',    sv:'Long drink',  en:'Long drink',    ru:'Лонгдринк',     et:'Long drink'  }},
 ];
 
 // ── Translations ───────────────────────────────────────────────────────────────
 const T = {
   fi:{
     mainTitle:'Alkoholi\u00ADlaskuri', mainSub:'Veren alkoholipitoisuus promilleina',
-    genderLabel:'SUKUPUOLI', male:'♂ Mies', female:'♀ Nainen',
+    genderLabel:'SUKUPUOLI', male:ICO.male+' Mies', female:ICO.female+' Nainen',
     weightLbl:'Paino', drinksLbl:'Nautitut juomat',
     hoursLbl:'Tuntia sitten aloitit', hoursUnit:'tuntia',
     annLbl:'promillea (‰)',
@@ -431,7 +460,7 @@ const T = {
   },
   sv:{
     mainTitle:'Alkohol\u00ADkalkylator', mainSub:'Blodalkoholhalt i promille',
-    genderLabel:'KÖN', male:'♂ Man', female:'♀ Kvinna',
+    genderLabel:'KÖN', male:ICO.male+' Man', female:ICO.female+' Kvinna',
     weightLbl:'Vikt', drinksLbl:'Konsumerade drycker',
     hoursLbl:'Timmar sedan du började', hoursUnit:'timmar',
     annLbl:'promille (‰)',
@@ -490,7 +519,7 @@ const T = {
   },
   en:{
     mainTitle:'Alcohol Calculator', mainSub:'Blood Alcohol Content (BAC) in promille',
-    genderLabel:'GENDER', male:'♂ Male', female:'♀ Female',
+    genderLabel:'GENDER', male:ICO.male+' Male', female:ICO.female+' Female',
     weightLbl:'Body weight', drinksLbl:'Drinks consumed',
     hoursLbl:'Hours since first drink', hoursUnit:'hours',
     annLbl:'promille (‰)',
@@ -549,7 +578,7 @@ const T = {
   },
   ru:{
     mainTitle:'Калькулятор алкоголя', mainSub:'Содержание алкоголя в крови (промилле)',
-    genderLabel:'ПОЛ', male:'♂ Мужской', female:'♀ Женский',
+    genderLabel:'ПОЛ', male:ICO.male+' Мужской', female:ICO.female+' Женский',
     weightLbl:'Масса тела', drinksLbl:'Выпитые напитки',
     hoursLbl:'Часов назад начали пить', hoursUnit:'часов',
     annLbl:'промилле (‰)',
@@ -606,7 +635,7 @@ const T = {
   },
   et:{
     mainTitle:'Alkoholi\u00ADkalkulaator', mainSub:'Vere alkoholisisaldus promillides',
-    genderLabel:'SUGU', male:'♂ Mees', female:'♀ Naine',
+    genderLabel:'SUGU', male:ICO.male+' Mees', female:ICO.female+' Naine',
     weightLbl:'Kehakaal', drinksLbl:'Tarbitud joogid',
     hoursLbl:'Tunde tagasi alustasid', hoursUnit:'tundi',
     annLbl:'promilli (‰)',
@@ -695,8 +724,8 @@ function applyLang(){
   const s = (id,txt)=>{ const el=document.getElementById(id); if(el) el.textContent=txt; };
   s('mainTitle',  tr.mainTitle);  s('mainSub',    tr.mainSub);
   s('genderLabel',tr.genderLabel);
-  document.getElementById('btnMale').textContent   = tr.male;
-  document.getElementById('btnFemale').textContent = tr.female;
+  document.getElementById('btnMale').innerHTML   = tr.male;
+  document.getElementById('btnFemale').innerHTML = tr.female;
   s('weightLbl',  tr.weightLbl);  s('drinksLbl',  tr.drinksLbl);
   s('hoursLbl',   tr.hoursLbl);   s('hoursUnit',  tr.hoursUnit);
   s('annLbl',     tr.annLbl);
@@ -733,7 +762,7 @@ function renderPresets(){
   const tr = t();
   document.getElementById('drinkPresets').innerHTML =
     PRESETS.map(p=>`<button class="preset-btn" onclick="addPreset('${p.id}')">${p.icon} ${p.name[lang]||p.name.fi}</button>`).join('') +
-    `<button class="preset-btn" onclick="addCustom()">➕ ${tr.addCustom.replace(/^\+\s*/,'')}</button>`;
+    `<button class="preset-btn" onclick="addCustom()">${ICO.plus} ${tr.addCustom.replace(/^\+\s*/,'')}</button>`;
 }
 
 // ── Drink list ─────────────────────────────────────────────────────────────────
@@ -744,7 +773,7 @@ function addPreset(pid){
   renderDrinks(); calc();
 }
 function addCustom(){
-  drinks.push({uid:++uid, icon:'🍶', name:t().addCustom.replace(/^\+\s*/,''), ml:100, abv:5.0, qty:1});
+  drinks.push({uid:++uid, icon:ICO.bottle, name:t().addCustom.replace(/^\+\s*/,''), ml:100, abv:5.0, qty:1});
   renderDrinks(); calc();
 }
 function removeDrink(id){
@@ -857,16 +886,16 @@ function calc(){
   // Chips
   const chips=[];
   if(bac<0.5){
-    chips.push(`<span class="chip chip-green">✓ ${tr.chipSober}</span>`);
+    chips.push(`<span class="chip chip-green">${ICO.check} ${tr.chipSober}</span>`);
   } else if(bac<1.2){
-    chips.push(`<span class="chip chip-orange">⚠ ${tr.chipWarn}</span>`);
-    chips.push(`<span class="chip chip-orange">🚗 ${tr.chipDriveIn}: ${fmtTime(bac/beta)}</span>`);
+    chips.push(`<span class="chip chip-orange">${ICO.alert} ${tr.chipWarn}</span>`);
+    chips.push(`<span class="chip chip-orange">${ICO.car} ${tr.chipDriveIn}: ${fmtTime(bac/beta)}</span>`);
   } else {
-    chips.push(`<span class="chip chip-red">🚫 ${tr.chipDanger}</span>`);
-    chips.push(`<span class="chip chip-orange">🚗 ${tr.chipDriveIn}: ${fmtTime(bac/beta)}</span>`);
+    chips.push(`<span class="chip chip-red">${ICO.ban} ${tr.chipDanger}</span>`);
+    chips.push(`<span class="chip chip-orange">${ICO.car} ${tr.chipDriveIn}: ${fmtTime(bac/beta)}</span>`);
   }
   if(bac>0){
-    chips.push(`<span class="chip">⏱ ${tr.chipSoberIn}: ${fmtTime(bac/beta)}</span>`);
+    chips.push(`<span class="chip">${ICO.clock} ${tr.chipSoberIn}: ${fmtTime(bac/beta)}</span>`);
   }
   chips.push(`<span class="chip">${totalG.toFixed(1)}g EtOH</span>`);
   document.getElementById('annChips').innerHTML = chips.join('');
@@ -920,7 +949,7 @@ function isDark(){
 }
 function applyTheme(dark){
   document.documentElement.setAttribute('data-theme', dark?'dark':'light');
-  document.getElementById('themeBtn').textContent = dark?'☀️':'🌙';
+  document.getElementById('themeBtn').innerHTML = dark?ICO.sun:ICO.moon;
 }
 function toggleTheme(){
   const nowDark = document.documentElement.getAttribute('data-theme')==='dark';
@@ -954,7 +983,7 @@ function loadFromURL(){
     p.get('d').split(',').forEach(s=>{
       const parts=s.split(':');
       if(parts[0]==='c'){
-        drinks.push({uid:++uid,icon:'🍶',name:t().addCustom.replace(/^\+\s*/,''),qty:parseInt(parts[1])||1,ml:parseFloat(parts[2])||100,abv:parseFloat(parts[3])||5});
+        drinks.push({uid:++uid,icon:ICO.bottle,name:t().addCustom.replace(/^\+\s*/,''),qty:parseInt(parts[1])||1,ml:parseFloat(parts[2])||100,abv:parseFloat(parts[3])||5});
       } else {
         const preset=PRESETS.find(x=>x.id===parts[0]);
         if(preset) drinks.push({uid:++uid,icon:preset.icon,name:preset.name[lang]||preset.name.fi,ml:preset.ml,abv:preset.abv,qty:parseInt(parts[1])||1});

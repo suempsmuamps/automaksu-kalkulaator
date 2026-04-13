@@ -48,6 +48,10 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
 .header-inner{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
 .header-title-group{display:flex;align-items:center;gap:14px}
 .header-icon{font-size:2rem;line-height:1;filter:drop-shadow(0 2px 8px rgba(0,0,0,.2))}
+.header-icon svg,.info-icon svg{display:block}
+.header-icon svg{width:2rem;height:2rem}
+.info-icon svg{width:1.5rem;height:1.5rem}
+.theme-btn svg{width:1.15rem;height:1.15rem}
 .header-title{font-size:1.85rem;font-weight:700;letter-spacing:-.6px}
 .header-sub{font-size:.82rem;color:var(--label3);margin-top:3px;letter-spacing:.01em}
 .header-controls{display:flex;align-items:center;gap:8px;flex-shrink:0}
@@ -223,14 +227,14 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
   <header class="header">
     <div class="header-inner">
       <div class="header-title-group">
-        <div class="header-icon">🚗</div>
+        <div class="header-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10l2-4h6l2 4"/><rect x="3" y="10" width="18" height="7" rx="2"/><circle cx="7.5" cy="17.5" r="2.5"/><circle cx="16.5" cy="17.5" r="2.5"/></svg></div>
         <div>
           <h1 class="header-title" id="pgTitle">Automaksu­kalkulaator</h1>
           <p class="header-sub" id="pgSub">Mootorsõidukimaks 2025 · M1 kategooria</p>
         </div>
       </div>
       <div class="header-controls">
-        <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">🌙</button>
+        <button class="theme-btn" id="themeBtn" onclick="toggleTheme()"></button>
         <div class="lang-switcher">
           <button class="lang-btn" id="btnET" onclick="setLang('et')">ET</button>
           <button class="lang-btn" id="btnEN" onclick="setLang('en')">EN</button>
@@ -267,7 +271,7 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
           <option value="ice">Bensiin / Diisel</option>
           <option value="mhev">Hübriid</option>
           <option value="phev">PHEV</option>
-          <option value="ev">⚡ Elekter</option>
+          <option value="ev">Elekter</option>
         </select>
       </div>
     </div>
@@ -377,12 +381,12 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
   <!-- Info -->
   <div class="info-grid">
     <div class="info-card info-card--amber">
-      <div class="info-icon">🛡️</div>
+      <div class="info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
       <div class="info-card-title" id="disclaimerTitle">Teadaanne</div>
       <p id="disclaimerText"></p>
     </div>
     <div class="info-card info-card--blue">
-      <div class="info-icon">✉️</div>
+      <div class="info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg></div>
       <div class="info-card-title" id="contactTitle">Võta ühendust</div>
       <p id="contactText"></p>
       <a href="mailto:laatorid@gmail.com" class="contact-btn" id="contactBtn">Kirjuta meile</a>
@@ -393,6 +397,18 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
 
 </div>
 <script>
+// ── SVG Icons (Lucide-style) ──────────────────────────────────────────────────
+const _i=d=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
+const ICO={
+  car:_i('<path d="M7 10l2-4h6l2 4"/><rect x="3" y="10" width="18" height="7" rx="2"/><circle cx="7.5" cy="17.5" r="2.5"/><circle cx="16.5" cy="17.5" r="2.5"/>'),
+  moon:_i('<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>'),
+  sun:_i('<circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>'),
+  alert:_i('<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>'),
+  shield:_i('<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>'),
+  mail:_i('<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/>'),
+  zap:_i('<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>'),
+};
+
 // ── State ──────────────────────────────────────────────────────────────────────
 let lang = 'et';
 let fuel = 'ice'; // ice | mhev | phev | ev
@@ -404,7 +420,7 @@ const T = {
     pgTitle:'Automaksu\u00ADkalkulaator', pgSub:'Mootorsõidukimaks 2025',
     vtypeLbl:'Sõiduki kategooria', displLbl:'Mootori töömaht',
     fuelLbl:'Kütuse tüüp',
-    fuel_ice:'Bensiin / Diisel', fuel_mhev:'Hübriid', fuel_phev:'PHEV', fuel_ev:'⚡ Elekter',
+    fuel_ice:'Bensiin / Diisel', fuel_mhev:'Hübriid', fuel_phev:'PHEV', fuel_ev:'Elekter',
     co2Lbl:'CO₂ heide', powerLbl:'Mootori võimsus',
     yearLbl:'Esmane registreerimine', massLbl:'Täismass',
     annLbl:'AASTAMAKS', tmlLbl:'MAKSEGRAAFIK',
@@ -470,7 +486,7 @@ const T = {
     pgTitle:'Car Tax Calculator', pgSub:'Motor vehicle tax 2025',
     vtypeLbl:'Vehicle category', displLbl:'Engine displacement',
     fuelLbl:'Fuel type',
-    fuel_ice:'Petrol / Diesel', fuel_mhev:'Hybrid', fuel_phev:'PHEV', fuel_ev:'⚡ Electric',
+    fuel_ice:'Petrol / Diesel', fuel_mhev:'Hybrid', fuel_phev:'PHEV', fuel_ev:'Electric',
     co2Lbl:'CO₂ emissions', powerLbl:'Engine power',
     yearLbl:'First registration', massLbl:'Gross mass',
     annLbl:'ANNUAL TAX', tmlLbl:'PAYMENT SCHEDULE',
@@ -534,7 +550,7 @@ const T = {
     pgTitle:'Калькулятор автоналога', pgSub:'Налог на ТС 2025',
     vtypeLbl:'Категория ТС', displLbl:'Объём двигателя',
     fuelLbl:'Тип топлива',
-    fuel_ice:'Бензин / Дизель', fuel_mhev:'Гибрид', fuel_phev:'PHEV', fuel_ev:'⚡ Электро',
+    fuel_ice:'Бензин / Дизель', fuel_mhev:'Гибрид', fuel_phev:'PHEV', fuel_ev:'Электро',
     co2Lbl:'Выбросы CO₂', powerLbl:'Мощность двигателя',
     yearLbl:'Первая регистрация', massLbl:'Полная масса',
     annLbl:'ГОДОВОЙ НАЛОГ', tmlLbl:'ГРАФИК ПЛАТЕЖЕЙ',
@@ -594,7 +610,7 @@ const T = {
     pgTitle:'Autovero\u00ADlaskuri', pgSub:'Moottoriajoneuvovero 2025',
     vtypeLbl:'Ajoneuvoluokka', displLbl:'Moottorin tilavuus',
     fuelLbl:'Polttoainetyyppi',
-    fuel_ice:'Bensiini / Diesel', fuel_mhev:'Hybridi', fuel_phev:'PHEV', fuel_ev:'⚡ Sähkö',
+    fuel_ice:'Bensiini / Diesel', fuel_mhev:'Hybridi', fuel_phev:'PHEV', fuel_ev:'Sähkö',
     co2Lbl:'CO₂-päästöt', powerLbl:'Moottorin teho',
     yearLbl:'Ensimmäinen rekisteröinti', massLbl:'Kokonaismassa',
     annLbl:'VUOSIVERO', tmlLbl:'MAKSUAIKATAULU',
@@ -727,7 +743,7 @@ function isDark() {
 }
 function applyTheme(dark) {
   document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
-  document.getElementById('themeBtn').textContent = dark ? '☀️' : '🌙';
+  document.getElementById('themeBtn').innerHTML = dark ? ICO.sun : ICO.moon;
 }
 function toggleTheme() {
   const nowDark = document.documentElement.getAttribute('data-theme') === 'dark';
