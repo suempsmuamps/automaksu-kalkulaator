@@ -145,7 +145,7 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
 .c-tml{animation:fadeSlideIn .4s var(--ease)}
 .tml-table tr{animation:fadeSlideIn .3s var(--ease) both;animation-delay:calc(var(--i,0) * .04s)}
 .preset-btn:active{transform:scale(.95);transition:transform .1s}
-.reset-calc-btn{width:100%;padding:10px;border:1px solid var(--sep);border-radius:10px;background:none;color:var(--label3);font-family:var(--font);font-size:.84rem;font-weight:500;cursor:pointer;transition:opacity .15s;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:8px}
+.reset-calc-btn{padding:8px 16px;border:none;border-radius:10px;background:none;color:var(--label3);font-family:var(--font);font-size:.82rem;font-weight:500;cursor:pointer;transition:opacity .15s;display:flex;align-items:center;gap:6px;margin:12px auto 32px}
 .reset-calc-btn:hover{opacity:.85}
 .reset-calc-btn svg{width:16px;height:16px}
 @keyframes pulse{0%{transform:scale(1)}30%{transform:scale(1.005)}100%{transform:scale(1)}}
@@ -342,7 +342,6 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
       </div>
     </div>
 
-    <button class="reset-calc-btn" id="resetBtn" onclick="resetCalc()"></button>
 
   </section>
 
@@ -365,6 +364,7 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
   </div><!-- /bento -->
 
   </div><!-- /main-grid -->
+  <button class="reset-calc-btn" id="resetBtn" onclick="resetCalc()"></button>
 
   <!-- How-to -->
   <section class="section-card section-bare">

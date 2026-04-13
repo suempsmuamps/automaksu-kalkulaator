@@ -104,7 +104,7 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
 .preset-btn:hover{opacity:.85}
 .preset-btn{display:flex;align-items:center;gap:5px;background:var(--bg);border:2px solid transparent;border-radius:20px;padding:7px 13px;font-size:.85rem;font-weight:500;color:var(--label);cursor:pointer;font-family:var(--font);transition:.15s;white-space:nowrap;-webkit-tap-highlight-color:transparent}
 .preset-btn:active{transform:scale(.95);opacity:.8}
-.reset-calc-btn{width:100%;padding:10px;border:1px solid var(--sep);border-radius:10px;background:none;color:var(--label3);font-family:var(--font);font-size:.84rem;font-weight:500;cursor:pointer;transition:opacity .15s;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:8px}
+.reset-calc-btn{padding:8px 16px;border:none;border-radius:10px;background:none;color:var(--label3);font-family:var(--font);font-size:.82rem;font-weight:500;cursor:pointer;transition:opacity .15s;display:flex;align-items:center;gap:6px;margin:12px auto 32px}
 .reset-calc-btn:hover{opacity:.85}
 .reset-calc-btn svg{width:16px;height:16px}
 .drinks-list{display:flex;flex-direction:column;gap:6px}
@@ -335,7 +335,6 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
       </div>
     </div>
 
-    <button class="reset-calc-btn" id="resetBtn" onclick="resetCalc()"></button>
 
   </section>
 
@@ -358,6 +357,7 @@ body{background:var(--bg);font-family:var(--font);color:var(--label);-webkit-fon
   </div><!-- /bento -->
 
   </div><!-- /main-grid -->
+  <button class="reset-calc-btn" id="resetBtn" onclick="resetCalc()"></button>
 
   <!-- How-to -->
   <section class="section-card section-bare">
