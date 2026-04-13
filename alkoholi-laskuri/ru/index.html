@@ -1027,6 +1027,10 @@ function loadFromURL(){
 .cc-btn:hover{opacity:.85}
 .cc-accept{background:var(--tint);color:var(--bg);border-color:var(--tint)}
 .cc-decline{background:none;color:var(--label3)}
+.cc-reopen{position:fixed;bottom:20px;left:20px;z-index:9990;width:36px;height:36px;border-radius:50%;border:none;background:var(--card);color:var(--label3);box-shadow:0 2px 8px rgba(0,0,0,.12);cursor:pointer;display:none;align-items:center;justify-content:center;transition:transform .2s var(--ease),color .15s}
+.cc-reopen:hover{transform:scale(1.08);color:var(--label)}
+.cc-reopen.show{display:flex}
+.cc-reopen svg{width:18px;height:18px}
 </style>
 
 <div class="cc-banner" id="ccBanner">
@@ -1036,6 +1040,10 @@ function loadFromURL(){
     <button class="cc-btn cc-accept" id="ccAccept"></button>
   </div>
 </div>
+
+<button class="cc-reopen" id="ccReopen" aria-label="Cookie settings">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="8" cy="9" r="1.5" fill="currentColor" stroke="none"/><circle cx="15" cy="13" r="1" fill="currentColor" stroke="none"/><circle cx="10" cy="15" r="1.2" fill="currentColor" stroke="none"/><circle cx="15" cy="8" r=".8" fill="currentColor" stroke="none"/></svg>
+</button>
 
 <script>
 (function(){
@@ -1062,25 +1070,42 @@ function loadFromURL(){
   }
 
   var banner = document.getElementById('ccBanner');
+  var reopen = document.getElementById('ccReopen');
   var consent = localStorage.getItem('cookie-consent');
 
-  if(consent === 'accepted'){
-    loadGTM();
-  } else if(consent !== 'declined'){
+  function showBanner(){
     document.getElementById('ccText').textContent = ct('text');
     document.getElementById('ccAccept').textContent = ct('accept');
     document.getElementById('ccDecline').textContent = ct('decline');
     banner.classList.add('show');
+    reopen.classList.remove('show');
+  }
+
+  if(consent === 'accepted'){
+    loadGTM();
+    reopen.classList.add('show');
+  } else if(consent === 'declined'){
+    reopen.classList.add('show');
+  } else {
+    showBanner();
   }
 
   document.getElementById('ccAccept').addEventListener('click', function(){
     localStorage.setItem('cookie-consent','accepted');
     banner.classList.remove('show');
+    reopen.classList.add('show');
     loadGTM();
   });
   document.getElementById('ccDecline').addEventListener('click', function(){
     localStorage.setItem('cookie-consent','declined');
     banner.classList.remove('show');
+    reopen.classList.add('show');
+  });
+  reopen.addEventListener('click', function(){
+    localStorage.removeItem('cookie-consent');
+    var gtm = document.getElementById('gtm-script');
+    if(gtm) gtm.remove();
+    showBanner();
   });
 
   // Update text on lang change
@@ -1088,9 +1113,11 @@ function loadFromURL(){
   if(origSetLang2){
     window.setLang = function(){
       origSetLang2.apply(this, arguments);
-      document.getElementById('ccText').textContent = ct('text');
-      document.getElementById('ccAccept').textContent = ct('accept');
-      document.getElementById('ccDecline').textContent = ct('decline');
+      if(banner.classList.contains('show')){
+        document.getElementById('ccText').textContent = ct('text');
+        document.getElementById('ccAccept').textContent = ct('accept');
+        document.getElementById('ccDecline').textContent = ct('decline');
+      }
     };
   }
 })();
