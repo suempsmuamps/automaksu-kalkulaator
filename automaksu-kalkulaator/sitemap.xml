@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://automaksu-kalkulaator.ee/</loc>
+    <xhtml:link rel="alternate" hreflang="et" href="https://automaksu-kalkulaator.ee/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://automaksu-kalkulaator.ee/en/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://automaksu-kalkulaator.ee/ru/"/>
+    <xhtml:link rel="alternate" hreflang="fi" href="https://automaksu-kalkulaator.ee/fi/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://automaksu-kalkulaator.ee/"/>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://automaksu-kalkulaator.ee/en/</loc>
+    <xhtml:link rel="alternate" hreflang="et" href="https://automaksu-kalkulaator.ee/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://automaksu-kalkulaator.ee/en/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://automaksu-kalkulaator.ee/ru/"/>
+    <xhtml:link rel="alternate" hreflang="fi" href="https://automaksu-kalkulaator.ee/fi/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://automaksu-kalkulaator.ee/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://automaksu-kalkulaator.ee/ru/</loc>
+    <xhtml:link rel="alternate" hreflang="et" href="https://automaksu-kalkulaator.ee/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://automaksu-kalkulaator.ee/en/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://automaksu-kalkulaator.ee/ru/"/>
+    <xhtml:link rel="alternate" hreflang="fi" href="https://automaksu-kalkulaator.ee/fi/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://automaksu-kalkulaator.ee/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://automaksu-kalkulaator.ee/fi/</loc>
+    <xhtml:link rel="alternate" hreflang="et" href="https://automaksu-kalkulaator.ee/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://automaksu-kalkulaator.ee/en/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://automaksu-kalkulaator.ee/ru/"/>
+    <xhtml:link rel="alternate" hreflang="fi" href="https://automaksu-kalkulaator.ee/fi/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://automaksu-kalkulaator.ee/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+</urlset>
