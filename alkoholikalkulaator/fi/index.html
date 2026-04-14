@@ -740,13 +740,17 @@ function applyLang(){
   s('contactBtn', tr.contactBtn);
   document.getElementById('resetBtn').innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>' + tr.resetBtn;
   s('otherTitle', tr.otherTitle);
+  var carI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10l2-4h6l2 4"/><rect x="3" y="10" width="18" height="7" rx="2"/><circle cx="7.5" cy="17.5" r="2.5"/><circle cx="16.5" cy="17.5" r="2.5"/></svg>';
+  var walI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 10h20"/><path d="M16 14h2"/></svg>';
+  var pctI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>';
+  var extI=' <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;opacity:.5"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>';
   var otherLinks = {
-    et:[{url:'https://automaksu-kalkulaator.ee',name:'Automaksukalkulaator'}],
-    en:[{url:'https://automaksu-kalkulaator.ee/en',name:'Car Tax Calculator'}],
-    fi:[{url:'https://automaksu-kalkulaator.ee/fi',name:'Autoverolaskuri'}],
-    ru:[{url:'https://automaksu-kalkulaator.ee/ru',name:'Калькулятор автоналога'}]
+    et:[{url:'https://automaksu-kalkulaator.ee',name:'Automaksukalkulaator',i:carI},{url:'https://brutonetokalkulaator.ee',name:'Palgakalkulaator',i:walI},{url:'https://kmkalkulaator.ee',name:'Käibemaksukalkulaator',i:pctI}],
+    en:[{url:'https://automaksu-kalkulaator.ee/en',name:'Car Tax Calculator',i:carI},{url:'https://brutonetokalkulaator.ee/en',name:'Salary Calculator',i:walI},{url:'https://kmkalkulaator.ee/en',name:'VAT Calculator',i:pctI}],
+    fi:[{url:'https://automaksu-kalkulaator.ee/fi',name:'Autoverolaskuri',i:carI},{url:'https://brutonetokalkulaator.ee',name:'Palkkalaskuri',i:walI},{url:'https://kmkalkulaator.ee',name:'ALV-laskuri',i:pctI}],
+    ru:[{url:'https://automaksu-kalkulaator.ee/ru',name:'Калькулятор автоналога',i:carI},{url:'https://brutonetokalkulaator.ee/ru',name:'Калькулятор зарплаты',i:walI},{url:'https://kmkalkulaator.ee/ru',name:'Калькулятор НДС',i:pctI}]
   };
-  document.getElementById('otherCalcs').innerHTML = (otherLinks[lang]||otherLinks.et).map(function(l){return '<a href="'+l.url+'" target="_blank" rel="noopener">'+'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10l2-4h6l2 4"/><rect x="3" y="10" width="18" height="7" rx="2"/><circle cx="7.5" cy="17.5" r="2.5"/><circle cx="16.5" cy="17.5" r="2.5"/></svg> '+l.name+' <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;opacity:.5"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a>';}).join('');
+  document.getElementById('otherCalcs').innerHTML = (otherLinks[lang]||otherLinks.et).map(function(l){return '<a href="'+l.url+'" target="_blank" rel="noopener">'+l.i+' '+l.name+extI+'</a>';}).join('');
   s('footerText', '© ' + new Date().getFullYear() + '. ' + tr.footer);
 
   // How-steps

@@ -843,13 +843,17 @@ function applyLang() {
   s('contactTitle', tr.contactTitle); s('contactText', tr.contactText); s('contactBtn', tr.contactBtn);
   document.getElementById('resetBtn').innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>' + tr.resetBtn;
   s('otherTitle', tr.otherTitle);
+  var drkI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12c0 7-3 12-6 12s-6-5-6-12z"/><path d="M12 14v5"/><path d="M8 19h8"/></svg>';
+  var walI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 10h20"/><path d="M16 14h2"/></svg>';
+  var pctI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>';
+  var extI=' <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;opacity:.5"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>';
   var otherLinks = {
-    et:[{url:'https://alkoholikalkulaator.ee',name:'Alkoholikalkulaator'}],
-    en:[{url:'https://alkoholikalkulaator.ee/en',name:'Alcohol Calculator'}],
-    fi:[{url:'https://alkoholikalkulaator.ee/fi',name:'Alkoholilaskuri'}],
-    ru:[{url:'https://alkoholikalkulaator.ee/ru',name:'Калькулятор алкоголя'}]
+    et:[{url:'https://alkoholikalkulaator.ee',name:'Alkoholikalkulaator',i:drkI},{url:'https://brutonetokalkulaator.ee',name:'Palgakalkulaator',i:walI},{url:'https://kmkalkulaator.ee',name:'Käibemaksukalkulaator',i:pctI}],
+    en:[{url:'https://alkoholikalkulaator.ee/en',name:'Alcohol Calculator',i:drkI},{url:'https://brutonetokalkulaator.ee/en',name:'Salary Calculator',i:walI},{url:'https://kmkalkulaator.ee/en',name:'VAT Calculator',i:pctI}],
+    fi:[{url:'https://alkoholikalkulaator.ee/fi',name:'Alkoholilaskuri',i:drkI},{url:'https://brutonetokalkulaator.ee',name:'Palkkalaskuri',i:walI},{url:'https://kmkalkulaator.ee',name:'ALV-laskuri',i:pctI}],
+    ru:[{url:'https://alkoholikalkulaator.ee/ru',name:'Калькулятор алкоголя',i:drkI},{url:'https://brutonetokalkulaator.ee/ru',name:'Калькулятор зарплаты',i:walI},{url:'https://kmkalkulaator.ee/ru',name:'Калькулятор НДС',i:pctI}]
   };
-  document.getElementById('otherCalcs').innerHTML = (otherLinks[lang]||otherLinks.et).map(function(l){return '<a href="'+l.url+'" target="_blank" rel="noopener">'+'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12c0 7-3 12-6 12s-6-5-6-12z"/><path d="M12 14v5"/><path d="M8 19h8"/></svg> '+l.name+' <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;opacity:.5"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a>';}).join('');
+  document.getElementById('otherCalcs').innerHTML = (otherLinks[lang]||otherLinks.et).map(function(l){return '<a href="'+l.url+'" target="_blank" rel="noopener">'+l.i+' '+l.name+extI+'</a>';}).join('');
   s('footerText', '© ' + new Date().getFullYear() + '. ' + tr.footer);
   // Fuel select
   const fs = document.getElementById('iFuel');
