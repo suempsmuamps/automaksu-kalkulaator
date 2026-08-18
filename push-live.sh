@@ -28,8 +28,9 @@ Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>"
 
 # Deploy to Cloudflare Pages
 export CLOUDFLARE_API_TOKEN=$(cat ~/.cloudflare-token)
-npx wrangler pages deploy alkoholikalkulaator --project-name=alkoholikalkulaator --branch=main --commit-dirty=true
-npx wrangler pages deploy alkoholi-laskuri --project-name=alkoholi-laskuri --branch=main --commit-dirty=true
+npx wrangler@3 pages deploy alkoholikalkulaator --project-name=alkoholikalkulaator --branch=main --commit-dirty=true
+npx wrangler@3 pages deploy alkoholi-laskuri --project-name=alkoholi-laskuri --branch=main --commit-dirty=true
+npx wrangler@3 pages deploy victoriae --project-name=victoriae --branch=main --commit-dirty=true
 
 echo ""
 echo "✓ All live!"
